@@ -1,5 +1,5 @@
 <ExtensionList>
-    <Extension Id="svg.code.viewer">
+    <Extension Id="svg.code.viewer.panel">
         <HostList>
             <Host Name="PHXS" Port="3035" />
             <Host Name="PHSP" Port="3035" />
