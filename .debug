@@ -1,11 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <ExtensionList>
-    <!-- 1 -->
-    <Extension Id="SvgCodeViewer">
+    <Extension Id="svg.code.viewer">
         <HostList>
-            <!-- 2 -->
-            <Host Name="PHXS" Port="8088" />
-            <Host Name="PHSP" Port="8088" />
-            <Host Name="ILST" Port="8088" />
+            <Host Name="PHXS" Port="3035" />
+            <Host Name="PHSP" Port="3035" />
+            <Host Name="ILST" Port="6065" />
         </HostList>
     </Extension>
 </ExtensionList>    
