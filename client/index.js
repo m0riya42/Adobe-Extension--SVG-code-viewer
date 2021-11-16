@@ -7,5 +7,7 @@ openButton.addEventListener("click", openDoc);
 
 /* 3) Write a helper function to pass instructions to the ExtendScript side. */
 function openDoc() {
+    console.log("I can't believe you clicked!");
+    alert('hi')
     csInterface.evalScript("openDocument()");
 }
