@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- 1 -->
-<ExtensionManifest ExtensionBundleId="svg.code.viewer" ExtensionBundleVersion="1.0.0" Version="4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<ExtensionManifest ExtensionBundleId="svg.code.viewer" ExtensionBundleVersion="1.0.0" Version="6.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
    <!-- 2 -->
    <Author>
 		Moriya Pedael
@@ -13,9 +13,9 @@
       <HostList>
          <!-- <Host Name="PHSP" Version="20" />
          <Host Name="PHXS" Version="20" /> -->
-         <Host Name="PHXS" Version="[14.0,21.9]" />
-         <Host Name="PHSP" Version="[14.0,21.9]" />
-         <Host Name="ILST" Version="[17.0,21.9]" />
+         <!-- <Host Name="PHXS" Version="[14.0,21.9]" /> -->
+         <!-- <Host Name="PHSP" Version="[14.0,21.9]" /> -->
+         <Host Name="ILST" Version="[19.0,99.9]" />
       </HostList>
 
       <LocaleList>
@@ -23,7 +23,7 @@
       </LocaleList>
       <RequiredRuntimeList>
          <!-- 4 -->
-         <RequiredRuntime Name="CSXS" Version="4.0" />
+         <RequiredRuntime Name="CSXS" Version="6.0" />
          <!-- <RequiredRuntime Name="CSXS" Version="4.0" /> -->
       </RequiredRuntimeList>
    </ExecutionEnvironment>

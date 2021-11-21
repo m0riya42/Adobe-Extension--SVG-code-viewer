@@ -6,6 +6,36 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Svg Code Viewer</title>
+    <!-- <script type="text/javascript" src="CSInterface.js"></script> -->
+    <!-- <link rel="stylesheet" data-name="vs/editor/editor.main" href="./Imports/MonkiEditor/editor/editor.main.css" /> -->
+
+    <!--Code Mirror-->
+
+    <link rel="stylesheet" href="../node_modules/codemirror/lib/codemirror.css">
+    <link rel="stylesheet" href="../node_modules/codemirror/theme/monokai.css">
+    <!-- <script type="module" src="../node_modules/codemirror/src/codemirror.js"> </script> -->
+
+    <script type="text/javascript" src="../node_modules/codemirror/lib/codemirror.js"> </script>
+    <script type="text/javascript" src="../node_modules/codemirror/mode/htmlmixed/htmlmixed.js"> </script>
+    <script type="text/javascript" src="../node_modules/codemirror/mode/xml/xml.js"> </script>
+    <script type="text/javascript" src="../node_modules/codemirror/mode/javascript/javascript.js"> </script>
+    <script type="text/javascript" src="../node_modules/codemirror/mode/css/css.js"> </script>
+    <script type="text/javascript" src="../node_modules/codemirror/keymap/sublime.js"></script>
+
+    <script type="text/javascript" src="../node_modules/codemirror/addon/display/fullscreen.js"></script>
+    <script type="text/javascript" src="../node_modules/codemirror/addon/hint/show-hint.js"></script>
+    <script type="text/javascript" src="../node_modules/codemirror/addon/hint/css-hint.js"></script>
+    <!-- <script type="text/javascript" src="../node_modules/codemirror/addon/hint/javascript.js"></script>
+    <script type="text/javascript" src="../node_modules/codemirror/addon/hint/html-hint.js"></script>
+    <script type="text/javascript" src="../node_modules/codemirror/addon/hint/xml-hint.js"></script>
+    <script type="text/javascript" src="../node_modules/codemirror/addon/edit/closebrackets.js"></script>
+    <script type="text/javascript" src="../node_modules/codemirror/addon/edit/closetag.js"></script>
+    <script type="text/javascript" src="../node_modules/codemirror/addon/edit/matchtags.js"></script>
+    <script type="text/javascript" src="../node_modules/codemirror/addon/comment/comment.js"></script> -->
+
+    <!-- <script type="text/javascript" src="./includeJavaScript.php"></script> -->
+
+
 </head>
 
 <body>
@@ -14,12 +44,28 @@
 
     <!-- 2) A button -->
     <button id="open-button">Open</button>
-    <script>if (typeof module === 'object') { window.module = module; module = undefined; }</script>
-    <script>if (typeof exports === 'object') { window.exports = exports; exports = undefined; }</script>
+
+    <div id="container" style="width: 800px; height: 600px; border: 1px solid grey"></div>
+
+    <!-- OR ANY OTHER AMD LOADER HERE INSTEAD OF loader.js -->
+    <!-- <script>
+        window.CEP_node_require = window.require;
+        // window.require = undefined;
+    </script> -->
+
+    <!--ES6 Add Ons-->
+    <!-- <script type="text/javascript" src="../node_modules/core-js/index.js"></script> -->
+    <!--    -->
+    <!-- <script
+        src="https://polyfill.io/v3/polyfill.min.js?features=es2015,es2016,es2017,es2018,es2019,es5,es6,es7,Intl,blissfuljs,default&flags=gated"></script> -->
+
+    <!-- <script src="./Imports/MonkiEditor/loader.js"></script> -->
+    <!-- <script src="./Imports/MonkiEditor/buildLoader.js"></script> -->
+
+
+
     <script type="text/javascript" src="index.js"></script>
-    <script type="text/javascript" src="CSInterface.js"></script>
-    <script>if (window.module) module = window.module;</script>
-    <script>if (window.exports) exports = window.exports;</script>
+
 </body>
 
 
