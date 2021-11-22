@@ -48,7 +48,15 @@ module.exports = {
                             enforce: 'pre',
                             esModule: false,
                         }
-                    }
+                    },
+                    // {
+                    //     loader: 'babel-loader',
+                    //     options: {
+                    //         presets: ['@babel/preset-env'],
+                    //         plugins: ['@babel/plugin-proposal-object-rest-spread']
+                    //     }
+                    // }
+
                 ]
             },
             {
