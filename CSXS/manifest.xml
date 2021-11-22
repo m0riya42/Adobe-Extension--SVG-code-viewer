@@ -32,7 +32,7 @@
          <DispatchInfo>
             <Resources>
                <!-- 5 -->
-               <MainPath>./client/index.html</MainPath>
+               <MainPath>./client/build/index.html</MainPath>
                <ScriptPath>./host/index.jsx</ScriptPath>
                <CEFCommandLine />
             </Resources>
