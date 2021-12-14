@@ -11,6 +11,7 @@ module.exports = {
         new CopyWebpackPlugin({
             patterns: [
                 { from: 'client/src/index.html' },
+
             ]
         })
         // new HtmlWebpackPlugin({

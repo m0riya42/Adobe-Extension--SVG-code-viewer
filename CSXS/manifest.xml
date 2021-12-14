@@ -58,13 +58,13 @@
                </Geometry>
                <Icons>
 
-                  <Icon Type="Normal">./images/Icon.png</Icon>
+                  <Icon Type="Normal">./assests/images/Icon.png</Icon>
 
-                  <Icon Type="RollOver">./images/Icon.png</Icon>
+                  <Icon Type="RollOver">./assests/images/Icon.png</Icon>
 
-                  <Icon Type="DarkNormal">./images/IconDark.png</Icon>
+                  <Icon Type="DarkNormal">./assests/images/IconDark.png</Icon>
 
-                  <Icon Type="DarkRollOver">./images/IconDark.png</Icon>
+                  <Icon Type="DarkRollOver">./assests/images/IconDark.png</Icon>
 
                </Icons>
             </UI>

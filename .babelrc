@@ -1,4 +1,32 @@
-// .babelrc
+// {
+//   "presets": [
+//     [
+//       "@babel/preset-env",
+//       {
+//         // "useBuiltIns": "entry",
+//         "targets": {
+//           "chrome": "41"
+//         }
+//       }
+//     ]
+//   ]
+// }
+// {
+//   "targets": {
+//     "chrome": "41"
+//     // "ie": "11"
+//   }
+// }
+
+// {
+//   "presets": ["@babel/preset-env", "@babel/preset-react"],
+
+//   "plugins": ["react-hot-loader/babel", "transform-object-rest-spread"]
+// }
+
 {
-  "presets": ["env"]
+  "presets": ["@babel/preset-env"],
+  "targets": {
+    "chrome": "41"
+  }
 }
