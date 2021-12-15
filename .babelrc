@@ -25,8 +25,16 @@
 // }
 
 {
-  "presets": ["@babel/preset-env"],
-  "targets": {
-    "chrome": "41"
-  }
+  "presets": [
+    [
+      "env",
+      {
+        "targets": {
+          "chrome": "41"
+        },
+        "useBuiltIns": "usage"
+      }
+    ]
+  ],
+  "compact": false
 }

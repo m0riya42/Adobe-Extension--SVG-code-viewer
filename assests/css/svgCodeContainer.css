@@ -9,7 +9,7 @@
   /* font-family: sans-serif; */
 }
 .cm-s-svgCodeContainer div.CodeMirror-selected {
-  background: #49483e;
+  background: rgba(243, 241, 225, 0.2);
 }
 .cm-s-svgCodeContainer .CodeMirror-line::selection,
 .cm-s-svgCodeContainer .CodeMirror-line > span::selection,
@@ -35,14 +35,14 @@
   color: #d0d0d0;
   display: flex;
   justify-content: center;
-  font-family: sans-serif;
+  /* font-family: sans-serif; */
 }
 .cm-s-svgCodeContainer .CodeMirror-cursor {
   border-left: 1px solid #f8f8f0;
 }
 
 .cm-s-svgCodeContainer span.cm-comment {
-  color: #e0dfd6;
+  color: #979794;
 }
 .cm-s-svgCodeContainer span.cm-atom {
   color: #ae81ff;
@@ -58,7 +58,7 @@
   color: #bc9262;
 }
 .cm-s-svgCodeContainer span.cm-comment.cm-tag {
-  color: #bc6283;
+  color: #912c51;
 }
 .cm-s-svgCodeContainer span.cm-comment.cm-type {
   color: #5998a6;
@@ -69,7 +69,7 @@
   color: #a6e22e;
 }
 .cm-s-svgCodeContainer span.cm-keyword {
-  color: #f92672;
+  color: #ac2f5d;
 }
 .cm-s-svgCodeContainer span.cm-builtin {
   color: #66d9ef;
@@ -95,7 +95,7 @@
   color: #f8f8f2;
 }
 .cm-s-svgCodeContainer span.cm-tag {
-  color: #f92672;
+  color: #e71f62;
 }
 .cm-s-svgCodeContainer span.cm-header {
   color: #ae81ff;

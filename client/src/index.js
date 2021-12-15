@@ -27,7 +27,7 @@ const exampleSvg = `<!-- Generator: Adobe Illustrator 19.0.0, SVG Export Plug-In
 
 importCodeMirrorAddOns().then(res => {
     console.log(CodeMirror.keyMap)
-    const editor = CodeMirror(document.getElementById('container'), {
+    const editor = CodeMirror(document.getElementById('codeMirrorContainer'), {
         lineNumbers: true,
         // tabSize: 2,
         // value: '<svg id="">dfdf</svg>',

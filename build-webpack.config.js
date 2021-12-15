@@ -55,11 +55,13 @@ module.exports = {
                     {
                         loader: 'babel-loader',
                         options: {
+                            compact: false,
                             exclude: /(node_modules|bower_components)/,
-                            // babelrc: false,
+                            babelrc: false,
                             presets: [
                                 // ["es2015", {
                                 // ["@babel/env", {
+                                // ["env", {
                                 ['@babel/preset-env', {
                                     "targets": {
                                         "chrome": "41"
