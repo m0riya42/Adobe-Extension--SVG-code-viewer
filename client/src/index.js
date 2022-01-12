@@ -105,3 +105,25 @@ import('./assests/js/CSInterface').then(() => {
 // console.log(myPromise)
 
 // myPromise.then(res => alert(res))
+
+
+
+// /**
+//  * @param {number[]} nums
+//  * @return {number}
+//  */
+// var removeDuplicates = function (nums) {
+//     let iterator = nums.length - 1;
+//     for (let index = iterator; index > 0; index--) {
+//         if (nums[index] === nums[index - 1]) {
+//             for (let i = index; i <= iterator; i++) {
+//                 nums[i] = nums[i + 1];
+//             }
+//             iterator--;
+//         }
+//     }
+
+//     return iterator + 1;
+// };
+
+

@@ -6,15 +6,32 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Svg Code Viewer</title>
-    <!-- <script type="text/javascript" src="svgCodeViewer.bundle.js"></script> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="text/javascript" src="../../assests/js/fontAwesome-all.js"></script>
+    <script type="text/javascript" src="../../assests/js/CSInterface.js"></script>
+    <script type="text/javascript" src="./cs_host_adapter-2.0.js"></script>
     <link rel="stylesheet" href="../../assests/css/stylesheet.css" />
-    <!-- <link rel="stylesheet" href="../../assests/css/svgCodeContainer.css" /> -->
-    <!-- <link rel="stylesheet" href="./assests/css/stylesheet.css" /> -->
-    <!-- <link rel="stylesheet" href="./" -->
-    <!-- <script src="https://use.fontawesome.com/releases/v5.15.1/js/all.js" crossorigin="anonymous"></script> -->
+    <link rel="stylesheet" href="../../assests/css/svgCodeContainer.css" />
 
-    <script defer src="svgCodeViewer.bundle.js"></script>
+
+
+    <!--Code Mirror-->
+
+    <link rel="stylesheet" href="../../node_modules/codemirror/lib/codemirror.css">
+    <link rel="stylesheet" href="../../node_modules/codemirror/theme/monokai.css">
+    <!-- <script type="module" src="../node_modules/codemirror/src/codemirror.js"> </script> -->
+
+    <script type="text/javascript" src="../../node_modules/codemirror/lib/codemirror.js"> </script>
+    <script type="text/javascript" src="../../node_modules/codemirror/mode/htmlmixed/htmlmixed.js"> </script>
+    <script type="text/javascript" src="../../node_modules/codemirror/mode/xml/xml.js"> </script>
+    <script type="text/javascript" src="../../node_modules/codemirror/mode/javascript/javascript.js"> </script>
+    <script type="text/javascript" src="../../node_modules/codemirror/mode/css/css.js"> </script>
+    <script type="text/javascript" src="../../node_modules/codemirror/keymap/sublime.js"></script>
+
+    <script type="text/javascript" src="../../node_modules/codemirror/addon/display/fullscreen.js"></script>
+    <script type="text/javascript" src="../../node_modules/codemirror/addon/hint/show-hint.js"></script>
+    <script type="text/javascript" src="../../node_modules/codemirror/addon/hint/css-hint.js"></script>
+    <!-- <script defer src="svgCodeViewer.bundle.js"></script> -->
 </head>
 
 <body>
@@ -44,10 +61,10 @@
 
 
                     <!--Export As File-->
-                    <div class="exportAsFile">
+                    <!-- <div class="exportAsFile"> -->
 
-                        <!--Select Folder-->
-                        <fieldset class="fieldsetSection fieldsetSectionExport">
+                    <!--Select Folder-->
+                    <!-- <fieldset class="fieldsetSection fieldsetSectionExport">
                             <legend class="legendSection">Output Folder</legend>
                             <div style="display: flex; align-items: center;">
                                 <button id="selectFolderButton" title="Select Folder">
@@ -57,22 +74,22 @@
 
                             </div>
 
-                        </fieldset>
+                        </fieldset> -->
 
-                        <!--File Name-->
-                        <fieldset class="fieldsetSection fieldsetSectionExport">
+                    <!--File Name-->
+                    <!-- <fieldset class="fieldsetSection fieldsetSectionExport">
                             <legend class="legendSection">File Name</legend>
                             <div style="display: flex; align-items: center;">
                                 <input type="text" style="margin-top: 10px;" />
                             </div>
 
-                        </fieldset>
+                        </fieldset> -->
 
-                        <!--Export Button-->
-                        <button style="height: 82px;margin-bottom: -5px; width: 50px;" title="Export SVG File">
+                    <!--Export Button-->
+                    <!-- <button style="height: 82px;margin-bottom: -5px; width: 50px;" title="Export SVG File">
                             <i class="fas fa-file-export fa-2x"></i>
                         </button>
-                    </div>
+                    </div> -->
 
                 </div>
 
@@ -85,6 +102,8 @@
         <!-- 1) Simple HTML UI elements to get us started -->
 
     </div>
+    <script type="text/javascript" src="./index2.js"></script>
+
 </body>
 
 </html>
