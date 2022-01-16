@@ -1,4 +1,23 @@
-#include "json2.js";
+//@target illustrator
+// #include "json2.js";
+
+
+alert('printed fro, index.jsx');
+
+
+function openDocument() {
+    var fileRef = new File("~/Downloads/myFile.jpg");
+    var docRef = app.open(fileRef);
+}
+
+
+function getSelection() {
+    try {
+        if (selection) {
+            return selection;
+        }
+    }
+}
 
 // var a= {a:'hi', b: 'bye'}
 // DEBUG = 1;
@@ -73,16 +92,8 @@
 //   var docRef = app.open(fileRef);
 // }
 
-function coptYoClipboard() {
-  // var fileRef = new File("~/Downloads/Adobe SVG Filters.svg");
-  // var docRef = app.open(fileRef);
-  app.copy();
-}
-
-function returnSelection() {
-  try{
-  if (selection) {
-      return selection;
-  }
-  }
-}
+// function coptYoClipboard() {
+//     // var fileRef = new File("~/Downloads/Adobe SVG Filters.svg");
+//     // var docRef = app.open(fileRef);
+//     app.copy();
+// }

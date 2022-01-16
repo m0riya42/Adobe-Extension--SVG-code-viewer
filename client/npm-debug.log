@@ -1,0 +1,56 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'D:\\תוכנות\\תוכנות שמותקנות\\NodeJS\\\\node.exe',
+1 verbose cli   'D:\\תוכנות\\תוכנות שמותקנות\\NodeJS\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'i',
+1 verbose cli   'codemirror' ]
+2 info using npm@1.2.14
+3 info using node@v0.8.22
+4 verbose node symlink D:\תוכנות\תוכנות שמותקנות\NodeJS\\node.exe
+5 verbose read json C:\Users\moriy\AppData\Roaming\Adobe\CEP\extensions\SvgCodeViewer\client\package.json
+6 verbose read json C:\Users\moriy\AppData\Roaming\Adobe\CEP\extensions\SvgCodeViewer\client\package.json
+7 verbose cache add [ 'codemirror', null ]
+8 verbose cache add name=undefined spec="codemirror" args=["codemirror",null]
+9 verbose parsed url { pathname: 'codemirror',
+9 verbose parsed url   path: 'codemirror',
+9 verbose parsed url   href: 'codemirror' }
+10 silly lockFile 9cbe5c44-codemirror codemirror
+11 verbose lock codemirror C:\Users\moriy\AppData\Roaming\npm-cache\9cbe5c44-codemirror.lock
+12 silly lockFile 9cbe5c44-codemirror codemirror
+13 silly lockFile 9cbe5c44-codemirror codemirror
+14 verbose addNamed [ 'codemirror', '' ]
+15 verbose addNamed [ null, '' ]
+16 silly lockFile 7e6247ab-codemirror codemirror@
+17 verbose lock codemirror@ C:\Users\moriy\AppData\Roaming\npm-cache\7e6247ab-codemirror.lock
+18 silly addNameRange { name: 'codemirror', range: '', hasData: false }
+19 verbose url raw codemirror
+20 verbose url resolving [ 'https://registry.npmjs.org/', './codemirror' ]
+21 verbose url resolved https://registry.npmjs.org/codemirror
+22 info trying registry request attempt 1 at 21:50:39
+23 http GET https://registry.npmjs.org/codemirror
+24 info retry will retry, error on last attempt: Error: 26948:error:1407742E:SSL routines:SSL23_GET_SERVER_HELLO:tlsv1 alert protocol version:openssl\ssl\s23_clnt.c:658:
+25 info trying registry request attempt 2 at 21:50:50
+26 http GET https://registry.npmjs.org/codemirror
+27 info retry will retry, error on last attempt: Error: 26948:error:1407742E:SSL routines:SSL23_GET_SERVER_HELLO:tlsv1 alert protocol version:openssl\ssl\s23_clnt.c:658:
+28 info trying registry request attempt 3 at 21:51:50
+29 http GET https://registry.npmjs.org/codemirror
+30 silly lockFile 7e6247ab-codemirror codemirror@
+31 silly lockFile 7e6247ab-codemirror codemirror@
+32 error Error: 26948:error:1407742E:SSL routines:SSL23_GET_SERVER_HELLO:tlsv1 alert protocol version:openssl\ssl\s23_clnt.c:658:
+32 error
+32 error     at CleartextStream._puller (tls.js:667:24)
+32 error     at CleartextStream.CryptoStream._pull (tls.js:601:19)
+32 error     at SecurePair.cycle (tls.js:891:20)
+32 error     at EncryptedStream.CryptoStream.write (tls.js:285:13)
+32 error     at Socket.ondata (stream.js:38:26)
+32 error     at Socket.EventEmitter.emit (events.js:96:17)
+32 error     at TCP.onread (net.js:397:14)
+33 error If you need help, you may report this log at:
+33 error     <http://github.com/isaacs/npm/issues>
+33 error or email it to:
+33 error     <npm-@googlegroups.com>
+34 error System Windows_NT 6.2.9200
+35 error command "D:\\תוכנות\\תוכנות שמותקנות\\NodeJS\\\\node.exe" "D:\\תוכנות\\תוכנות שמותקנות\\NodeJS\\node_modules\\npm\\bin\\npm-cli.js" "i" "codemirror"
+36 error cwd C:\Users\moriy\AppData\Roaming\Adobe\CEP\extensions\SvgCodeViewer\client
+37 error node -v v0.8.22
+38 error npm -v 1.2.14
+39 verbose exit [ 1, true ]

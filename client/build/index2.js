@@ -6,7 +6,18 @@
 /************************************************/
 var __SELECTED__ITEM__ = null;
 var exampleSvg = '';
+var url = require('url');
+var http = require('http');
+/* 1) Create an instance of CSInterface. */
 var csInterface = new CSInterface();
+// var localServer = cep_node.require(__dirname + '/server/main.js')();
+// window.csInterface= csInterface;
+// window.$=$;
+
+
+
+
+
 // csInterface.addEventListener("DevToolsConsoleEvent", function (event) {
 //     console.log(event.data);
 // });
@@ -31,6 +42,13 @@ var editor = CodeMirror(document.getElementById('codeMirrorContainer'), {
     autoCloseBrackets: true,
     extraKeys: { "Ctrl-Space": "autocomplete" }
 });
+
+
+/* 2) Use a CEP method to open the server extension. */
+csInterface.requestOpenExtension("com.my.localserver", "");
+// csinterface.addEventListener('com.my.localserver.ServerStarted', function (evt) {
+//     console.log(evt);
+// });
 
 
 // csInterface.addEventListener("documentAfterActivate", onDocActivatedChanged);
@@ -158,6 +176,41 @@ var copyToClipboard = function copyToClipboard() {
 };
 
 
+
+function connectTheServer() {
+    csInterface.evalScript("openDocument()", function (res) {
+        console.log('done');
+    });
+    csInterface.evalScript("getSelection()", function callbackFun(res) {
+        console.log(res)
+        // alert('selection object printed')
+    });
+
+    http.get("http://localhost:3200/import", function (res) {
+        res.setEncoding('utf8');
+        res.on('data', function (body) {
+            console.log(body);
+        });
+        alert("Got response: " + res.statusCode);
+        console.log(res);
+    }).on('error', function (e) {
+        console.log("Got error: " + e.message);
+    });
+
+
+    // var requestURL = 'http://localhost:3200/import';
+    // var request = new XMLHttpRequest();
+    // request.open('GET', requestURL);
+    // // request.responseType = 'json';
+    // request.send();
+    // if (request.response) {
+
+    //     alert("the response is: " + request.response);
+    //     console.log(request.response);
+    // }
+    // else alert("no response")
+}
+
 function getAppSelection() {
     csInterface.evalScript("returnSelection()", function callbackFun(res) {
 
@@ -170,12 +223,14 @@ function getAppSelection() {
         // console.log(res)
     });
 }
-setInterval(getAppSelection, 5000)
+// setInterval(getAppSelection, 5000)
 
 var exportSVG = function exportSVG() {
     var value = editor.getValue();
 };
-document.getElementById('copyToClipboardButton').addEventListener('click', copyToClipboard);
+document.getElementById('copyToClipboardButton').addEventListener('click',
+    connectTheServer);
+// copyToClipboard);
 
 // })
 

@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- 1 -->
-<ExtensionManifest ExtensionBundleId="svg.code.viewer" ExtensionBundleVersion="1.0.0" Version="6.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<ExtensionManifest ExtensionBundleId="svg.code.viewer" ExtensionBundleVersion="1.0.1" Version="6.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
    <!-- 2 -->
    <Author>
 		Moriya Pedael
 	</Author>
    <ExtensionList>
       <Extension Id="svg.code.viewer.panel" Version="1.0.0" />
+      <Extension Id="com.my.localserver" Version="1.0.0" />
    </ExtensionList>
    <ExecutionEnvironment>
       <!-- 3 -->
@@ -28,13 +29,17 @@
       </RequiredRuntimeList>
    </ExecutionEnvironment>
    <DispatchInfoList>
+      <!-- <ExtensionList> -->
+
       <Extension Id="svg.code.viewer.panel">
          <DispatchInfo>
             <Resources>
                <!-- 5 -->
+               <CEFCommandLine>
+                  <parameter>--enable-nodejs</parameter>
+               </CEFCommandLine>
                <MainPath>./client/build/index.html</MainPath>
                <ScriptPath>./host/index.jsx</ScriptPath>
-               <CEFCommandLine />
             </Resources>
             <Lifecycle>
                <AutoVisible>true</AutoVisible>
@@ -70,5 +75,34 @@
             </UI>
          </DispatchInfo>
       </Extension>
+
+      <Extension Id="com.my.localserver">
+         <DispatchInfo>
+            <Resources>
+               <CEFCommandLine>
+                  <parameter>--enable-nodejs</parameter>
+               </CEFCommandLine>
+               <MainPath>./server/localServer.html</MainPath>
+               <ScriptPath>./host/index.jsx</ScriptPath>
+            </Resources>
+            <Lifecycle>
+               <AutoVisible>false</AutoVisible>
+            </Lifecycle>
+
+            <UI>
+               <Type>Custom</Type>
+               <Geometry>
+                  <Size>
+                     <Height>600</Height>
+                     <Width>600</Width>
+                  </Size>
+               </Geometry>
+            </UI>
+
+         </DispatchInfo>
+      </Extension>
+
+      <!-- </ExtensionList> -->
+
    </DispatchInfoList>
-</ExtensionManifest>
+</ExtensionManifest> 
