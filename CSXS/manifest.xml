@@ -38,7 +38,7 @@
                <CEFCommandLine>
                   <parameter>--enable-nodejs</parameter>
                </CEFCommandLine>
-               <MainPath>./client/build/index.html</MainPath>
+               <MainPath>./client/index.html</MainPath>
                <ScriptPath>./host/clientIndex.jsx</ScriptPath>
             </Resources>
             <Lifecycle>

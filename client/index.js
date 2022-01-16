@@ -4,6 +4,8 @@
 /************************************************/
 /*                 Code Editor                  */
 /************************************************/
+// var s = require('../assests/js/requireCodeMIrror');//--import all code mirror 
+// console.log(s)
 var __SELECTED__ITEM__ = null;
 var exampleSvg = '';
 var url = require('url');
@@ -79,4 +81,8 @@ document.getElementById('copyToClipboardButton').addEventListener('click',
 // copyToClipboard);
 
 // })
+
+
+
+// require('require-all');
 
