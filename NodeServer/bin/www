@@ -7,6 +7,21 @@
 var app = require('../app');
 var debug = require('debug')('nodeserver:server');
 var http = require('http');
+var onSocketIOConnection = require("../onSocketIOConnection.js");
+var colors = require('colors');
+
+colors.setTheme({
+  silly: 'rainbow',
+  input: 'grey',
+  verbose: 'cyan',
+  prompt: 'grey',
+  info: 'green',
+  data: 'grey',
+  help: 'cyan',
+  warn: 'yellow',
+  debug: 'blue',
+  error: 'red'
+});
 
 /**
  * Get port from environment and store in Express.
@@ -36,68 +51,15 @@ server.on('listening', onListening);
  */
 
 const io = require('socket.io')(server, {
-  allowEIO3: true, // false by default
+  allowEIO3: true, // false by default //allow connect to old version of socket io
   cors: { origin: "*" }
 });
 
 // module.exports= io;
 
 io.on('connection', (socket) => { /* socket object may be used to send specific messages to the new connected client */
-  // const CONNECTED_USERS = [];
-
-
-  //TODO: Check who is socket and according to that:
-  console.log('socket io is connected');//, socket);
-  io.emit("toExtension", "hello from server");
-  // setupSelectedInterval(socket);
-
-  // socket.on("interval", ({ from, to, msg, date, uId }) => {
-  //   console.log('interval socket');
-  // ChatMSG.CREATE([from, to, msg, date, uId])
-  // socket.to(to).emit("private message", {
-  //   message, date,
-  //   from, to
-  // });
-  socket.on('toExtension', function (obj) {
-    // csInterface.evalScript(command);
-    console.log(obj.text)
-    console.log(obj.file)
-    // io.emit("b", "hello again from server");
-    //try typing app.activeDocument.close() in the browser
-  });
-
-
-
-  socket.on("try", x => {
-    console.log(x);
-    io.emit("hello again");
-  })
-
-  socket.on("b", x => {
-    console.log(x)
-  })
-  // })
-  // socket.on("delete_msg", ({ }) => {
-  //   console.log('delete_msg');
-  //   io.emit("delete_msg");
-  // })
-  // })
+  onSocketIOConnection.connectSocket(socket, io);
 });
-
-
-const setupSelectedInterval = (socket) => {
-  let time = 0;
-  setInterval(() => {
-    io.emit("interval", { data: 'hello' });
-    console.log(++time)
-  }, 5000);
-}
-
-
-
-
-
-
 
 
 

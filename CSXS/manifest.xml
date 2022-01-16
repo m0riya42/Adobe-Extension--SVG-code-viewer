@@ -39,7 +39,7 @@
                   <parameter>--enable-nodejs</parameter>
                </CEFCommandLine>
                <MainPath>./client/build/index.html</MainPath>
-               <ScriptPath>./host/index.jsx</ScriptPath>
+               <ScriptPath>./host/clientIndex.jsx</ScriptPath>
             </Resources>
             <Lifecycle>
                <AutoVisible>true</AutoVisible>
@@ -83,7 +83,7 @@
                   <parameter>--enable-nodejs</parameter>
                </CEFCommandLine>
                <MainPath>./server/localServer.html</MainPath>
-               <ScriptPath>./host/index.jsx</ScriptPath>
+               <ScriptPath>./host/serverIndex.jsx</ScriptPath>
             </Resources>
             <Lifecycle>
                <AutoVisible>false</AutoVisible>

@@ -4,203 +4,30 @@
 <head>
 	<meta charset="utf-8">
 	<title>Server Main View</title>
-	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.slim.js"></script> -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.slim.js"></script>
-
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script type="text/javascript" src="../assests/js/fontAwesome-all.js"></script>
 	<script type="text/javascript" src="../assests/js/CSInterface.js"></script>
-	<!-- <script type="text/javascript" src="./cs_host_adapter-2.0.js"></script> -->
 	<!-- <script type="text/javascript">window.nodeRequire=window.require && window.require=undefined</script> -->
+	<!-- <script type="text/javascript" src="./localServerMain.js" /> -->
 	<script>
 
-
-		// var $ = window.$;
-		// var csInterface = window.csInterface;
-		var csInterface = new CSInterface();
-		var net = require('net');
-		var url = require('url');
-		var http = require('http');
-		var fs = require('fs');
-		// var io = require('socket.io').listen(5200);
-
-		// try {
-
-		var socket = io.connect('http://127.0.0.1:5200');
-
-		// socket.on("try", function (x) {
-		// 	console.log(x);
-		// 	io.emit("b", "hello again");
-		// })
-
-		socket.on('toExtension', function (command) {
-			// csInterface.evalScript(command);
-			console.log(command)
-			socket.emit('toExtension', { text: 'hello from client' })
-			//try typing app.activeDocument.close() in the browser
-		});
-		socket.on('b', function (command) {
-			// csInterface.evalScript(command);
-			console.log(command)
-			// io.emit('toExtension', 'hello from client')
-			//try typing app.activeDocument.close() in the browser
-		});
-
-		// http.get("http://localhost:5200/import", function (res) {
-		// 	res.setEncoding('utf8');
-		// 	res.on('data', function (body) {
-		// 		console.log(body);
-		// 	});
-		// 	alert("Got response: " + res.statusCode);
-		// 	console.log(res);
-		// }).on('error', function (e) {
-		// 	console.log("Got error: " + e.message);
-		// });
-
-		// }
-		// catch (e) {
-		// 	console.log('failed to connect  to socket io')
-		// }
-		// socket.emit("try", "hello");
-
-
-
-		// console.log("before")
-		// // var io = require('socket.io-client')
-		// console.log("between")
-		// // var io = require('socket.io-client')
-		// var ENDPOINT = 'http://127.0.0.1:5200'
-		// var socket = io.connect(ENDPOINT);//, { autoConnect: false });
-		// console.log("after")
-		// socket.onAny((event, ...args) => {
-		//     console.log(event, args)
-		// })
-		// socket.on('connect', function (socket) {
-		// 	console.log('Connected CLIENT!');
-		// })
-
-
-
-
-		// socket.on("co")
-		// socket.emit
-
-		// io.sockets.on('connection', function (socket) {
-		// 	// sockets.push(socket)
-		// 	socket.on('interval', function (data) {
-		// 		// for (var i = 0; i < sockets.length; i++) {
-		// 		// 	sockets[i].emit('toExtension', data);
-		// 		// }
-		// 	});
-		// });
-
-		// var sockets = [];
-		/* This script uses cep_node to start the Node.js server located at '/server/main.js' */
-
-		if (typeof (require) !== 'undefined') {
-
-			console.log("Node.js is enabled");
-			// var localServer = require('./main')();
-			// console.log(localServer)
-		} else {
-
-			console.log("Node.js is disabled");
-
-		}
-
-		var proxy = http.createServer(function (req, res) {
-			res.writeHead(200, { 'Content-Type': 'text/plain' });
-
-			if (req.url === '/import') {
-				res.write('ok');
-
-
-
-				console.log(csInterface);
-				csInterface.evalScript("getSelection()", function callbackFun(res) {
-					socket.emit('toExtension', { text: 'hello from client', file: res })
-					console.log(res)
-					// alert('selection object printed')
-				});
-
-				csInterface.evalScript("openDocument()", function (res) {
-					console.log('done');
-				});
-				// csInterface.evalScript("returnSelection()", function (res) {
-				// 	console.log(res)
-				// 	// console.log(command)
-				// });
+		var checkNodeConnection = function () {
+			if (typeof (require) !== 'undefined') {
+				console.log("Node.js is enabled");
+			} else {
+				console.log("Node.js is disabled");
 			}
-			console.log(req.url)
-			console.log(req)
-			res.end();
-			// response.writeHeader(200, { "Content-Type": "text/html" });
-			// response.write(html);
-			// response.end();
-		});
-		//.listen(3200);
+		}
+		var csInterface = new CSInterface();
+		console.log('before')
+		var createHttpServer = require('./assests/httpServer');
+		var createSocketIOConnection = require('./assests/socketIO');
+		createSocketIOConnection(csInterface);
+		console.log('after')
 
-		proxy.on('connect', function (req, cltSocket, head) {
-			// connect to an origin server
-			console.log("connected")
-			// var srvUrl = url.parse('http://' + req.url);
-			// var srvSocket = net.connect(srvUrl.port, srvUrl.hostname, function () {
-			// 	cltSocket.write('HTTP/1.1 200 Connection Established\r\n' +
-			// 		'Proxy-agent: Node-Proxy\r\n' +
-			// 		'\r\n');
-			// 	srvSocket.write(head);
-			// 	srvSocket.pipe(cltSocket);
-			// 	cltSocket.pipe(srvSocket);
-			// });
-		});
-
-		// now that proxy is running
-		proxy.listen(3200, '127.0.0.1', function () {
-
-			console.log('listenning on 3200')
-			// make a request to a tunneling proxy
-			// var options = {
-			// 	port: 3200,
-			// 	hostname: '127.0.0.1',
-			// 	method: 'CONNECT',
-			// 	path: 'www.google.com:80'
-			// };
-
-			// var req = http.request(options);
-			// req.end();
-
-			// req.on('connect', function (res, socket, head) {
-			// 	console.log('got connected!');
-
-			// 	// make a request over an HTTP tunnel
-			// 	socket.write('GET / HTTP/1.1\r\n' +
-			// 		'Host: www.google.com:80\r\n' +
-			// 		'Connection: close\r\n' +
-			// 		'\r\n');
-			// 	socket.on('data', function (chunk) {
-			// 		console.log(chunk.toString());
-			// 	});
-			// 	socket.on('end', function () {
-			// 		proxy.close();
-			// 	});
-			// });
-		});
-		// http.get("/import",function(res){
-		// 	console.log('in import : port 3200');
-		// })
-
-		// var localServer = cep_node.require(__dirname + '/server/main.js')();
-		//console.log(lo)
 	</script>
-
-	<title>Import Example App</title>
+	<title>Server APP</title>
 </head>
-
-<!-- <body enable-nodejs>
-	<!-- <iframe id="someID" class="someClass" > -->
-
-
-<!-- </iframe> -->
-</body> -->
 
 </html>

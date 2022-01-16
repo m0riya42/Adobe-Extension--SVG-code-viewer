@@ -8,6 +8,8 @@ alert('printed fro, index.jsx');
 function openDocument() {
     var fileRef = new File("~/Downloads/myFile.jpg");
     var docRef = app.open(fileRef);
+
+    return "done"
 }
 
 
@@ -16,6 +18,8 @@ function getSelection() {
         if (selection) {
             return selection;
         }
+    } catch (e) {
+        alert('no selection')
     }
 }
 
