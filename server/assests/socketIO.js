@@ -1,6 +1,8 @@
 function initFunction(csInterface) {
+    console.log('here')
     var socket = io.connect('http://127.0.0.1:5200'); //Connect to Extern Server
     onSockets(socket, csInterface);
+    console.log('here')
 }
 
 function onSockets(socket, csInterface) {
@@ -21,14 +23,5 @@ function onSockets(socket, csInterface) {
 
 
 
-
-// socket.on('toExtension', function (command) {
-//     // csInterface.evalScript(command);
-//     console.log(command)
-//     socket.emit('toExtension', { text: 'hello from client' })
-// });
-// socket.on('b', function (command) {
-//     console.log(command)
-// });
-
-module.exports = initFunction;
+module.exports.initSocketIO = initFunction;
+// module.exports.evalScript = evalScript;//, emitSocket };

@@ -4,6 +4,13 @@
 /************************************************/
 /*                 Code Editor                  */
 /************************************************/
+
+Array.prototype.toString = function () {
+    console.log(this.join(', '));
+}
+var b = ["a", "b", "c", "d"];
+
+console.log(b)
 // var s = require('../assests/js/requireCodeMIrror');//--import all code mirror 
 // console.log(s)
 var __SELECTED__ITEM__ = null;
@@ -14,6 +21,16 @@ var http = require('http');
 var csInterface = new CSInterface();
 
 
+
+//connect to socketIO
+
+// var socket = io.connect('http://localhost:8080');
+
+// socket.on('toExtension', function (command) {
+//     console.log('connect')
+// csInterface.evalScript(command);
+//try typing app.activeDocument.close() in the browser
+// });
 
 
 // csInterface.addEventListener("DevToolsConsoleEvent", function (event) {
@@ -83,6 +100,38 @@ document.getElementById('copyToClipboardButton').addEventListener('click',
 // })
 
 
+/************************************************************** */
+//AIEventAdapter--- >Not working
+/************************************************************** */
 
+
+// AIEventAdapter.getInstance().addEventListener(
+//     AIEvent.ART_SELECTION_CHANGED,
+//     function (eve) {
+//         alert(eve.type + " invoked.");
+//         console.log(eve)
+//     }
+// )
+// AIEventAdapter.getInstance().addEventListener(
+//     AIEvent.CURRENT_FONT_CHANGED,
+//     function (eve) {
+//         alert(eve.type + " invoked.");
+//         console.log(eve)
+//     }
+// )
+// AIEventAdapter.getInstance().addEventListener(
+//     AIEvent.DOCUMENT_NEW,
+//     function (eve) {
+//         alert(eve.type + " invoked.");
+//         console.log(eve)
+//     }
+// )
+// AIEventAdapter.getInstance().addEventListener(
+//     AIEvent.LAYER_DELETION,
+//     function (eve) {
+//         alert(eve.type + " invoked.");
+//         console.log(eve)
+//     }
+// )
 // require('require-all');
 

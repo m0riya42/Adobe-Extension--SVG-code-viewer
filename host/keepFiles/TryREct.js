@@ -130,4 +130,16 @@
         top: -20.4591836929321,
         left: 43.5,
     },
-],
+];
+
+
+
+    CMYKColor.prototype.print = function () {
+        var flag = false, str = "{";
+        for (var property in this) {
+             str += flag ? ", " + property + ": " + this[property] : property + ": " + this[property]; 
+             flag = true; 
+            } 
+            str += "}";
+            return str;
+        }

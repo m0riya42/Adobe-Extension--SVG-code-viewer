@@ -21,11 +21,83 @@
 		}
 		var csInterface = new CSInterface();
 		console.log('before')
-		var createHttpServer = require('./assests/httpServer');
-		var createSocketIOConnection = require('./assests/socketIO');
-		createSocketIOConnection(csInterface);
-		console.log('after')
+		// var createSocketIOConnection = require('./assests/socketIO');
+		// createSocketIOConnection.initSocketIO(csInterface);
+		// var callbackFunctions = { createServer: createSocketIOConnection.evalScript };
+		// var createHttpServer = require('./assests/httpServer')(callbackFunctions);
 
+
+
+		/**********************************************************************/
+		/*                           TRail								     */
+		/**********************************************************************/
+
+		var net = require('net');
+		var url = require('url');
+		var http = require('http');
+		var fs = require('fs');
+		var socket = io.connect('http://127.0.0.1:5200'); //Connect to Extern Server
+
+
+
+		// }
+
+
+
+
+		// onSockets(socket, csInterface);
+		console.log('here')
+		// }
+
+		// function onSockets(socket, csInterface) {
+		socket.on("handshake", function (res) {
+			console.log(res.text)
+			socket.emit('ack-handshake', { text: 'hello from client', cep: window.__adobe_cep__ })
+		})
+
+		// socket.on("getSelected", function (res) {
+		// 	csInterface.evalScript("getSelection()", function (selectedObj) {
+		// 		console.log(selectedObj);
+		// 		socket.emit('getSelected-ans', { text: 'hello from client' })
+		// 	});
+		// 	// console.log(command)
+		// 	// });
+		// })
+
+
+		var proxy = http.createServer(function onCreateServer(req, res) {
+
+			res.writeHead(200, { 'Content-Type': 'text/plain' });
+
+			if (req.url === '/import') {
+				res.write('ok');
+				csInterface.evalScript("getSelection()", function (selectedObj) {
+					console.log(selectedObj);
+					socket.emit('trial-get-selection', { text: 'hello from client', file: selectedObj })
+				});
+
+			}
+			console.log(req.url)
+			console.log(req)
+			res.end();
+
+		});
+
+
+
+		proxy.on('connect', function (req, cltSocket, head) {
+			// connect to an origin server
+			console.log("html is connected")
+		});
+
+		// now that proxy is running
+		proxy.listen(3200, '127.0.0.1', function () {
+
+			console.log('listenning on 3200')
+		});
+
+
+		// }
 	</script>
 	<title>Server APP</title>
 </head>

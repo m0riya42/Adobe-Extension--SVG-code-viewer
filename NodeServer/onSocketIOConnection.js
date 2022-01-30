@@ -1,3 +1,9 @@
+// let clip = require('clipboardy/index');
+// console.log("clip")
+
+// import clipboard from 'clipboardy';
+
+
 let lastSelectedObj, lastSelectedDocument;
 const updateSelectedObject = (obj) => {
     lastSelectedObj = obj.selectedObj;
@@ -27,11 +33,15 @@ function onSocketIOConnection(socket, io) {
     io.emit("handshake", { text: "hello from server" });
 
     socket.on("ack-handshake", obj => {
-        setupSelectedInterval(io);
+        console.log('ack handshake')
+
+        console.log(`window-cep: ${Object.keys(obj.cep)}`.verbose)
+        // for (var key in obj.cep) {
+        //     console.log(key)
+        // }
+        // setupSelectedInterval(io);
 
     })
-
-
     socket.on('getSelected-ans', obj => {
 
         // if (lastSelectedObj) {
@@ -51,6 +61,11 @@ function onSocketIOConnection(socket, io) {
 
             // }
         }
+    })
+
+
+    socket.on('trial-get-selection', obj => {
+        console.log(obj.file);
     })
 
     // io.emit('selectionRequest')
