@@ -49,6 +49,12 @@ app.use(function (err, req, res, next) {
   // res.end();
 });
 
+
+const getSysFonts = require('get-system-fonts');
+// const files = getSysFonts().then(res => res.reduce((acc,curr)=>{
+//   // acc.includes(curr)
+// },[]) console.log(res.length)); //{ additionalFolders: ['C:\\Windows\\Fonts\\'] }
+
 module.exports = app;
 
 

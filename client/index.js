@@ -95,6 +95,8 @@ var exportSVG = function exportSVG() {
 };
 document.getElementById('copyToClipboardButton').addEventListener('click',
     connectTheServer);
+document.getElementById('CLEAR').addEventListener('click',
+    function () { editor.setValue('') });
 // copyToClipboard);
 
 // })
