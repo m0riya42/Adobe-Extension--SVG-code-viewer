@@ -113,7 +113,7 @@ const middleLine = (coord1, coord2) => [(coord1[0] + coord2[0]) / 2, (coord1[1] 
  * @return {Boolean} 
  */
 const areGradientsVertical = (m1, m2) => {
-    console.log(m1, m2, m1 * m2)
+    // console.log(m1, m2, m1 * m2)
     let accurate = `${m1 * m2}`.split('.'); //[1].substring(0,9);
     if (m1 * m2 === -1 || accurate[0] === '-1' && accurate[1].substring(0, 9) === '000000000' || accurate[0] === '-0' && accurate[1].substring(0, 9) === '999999999') return true;
     return false
@@ -159,8 +159,8 @@ const isCirclePathPoints = (pathPoints) => {
 
     const distanceBetweenPaths = (path_1, path_2) => {
 
-        console.log(distance(path_1.leftDirection, path_1.anchor), distance(path_2.anchor, path_2.rightDirection),
-            distance(path_1.rightDirection, path_1.anchor), distance(path_2.anchor, path_2.leftDirection))
+        // console.log(distance(path_1.leftDirection, path_1.anchor), distance(path_2.anchor, path_2.rightDirection),
+        //     distance(path_1.rightDirection, path_1.anchor), distance(path_2.anchor, path_2.leftDirection))
         return distance(path_1.leftDirection, path_1.anchor) === distance(path_2.anchor, path_2.rightDirection) &&
             distance(path_1.rightDirection, path_1.anchor) === distance(path_2.anchor, path_2.leftDirection)
     }

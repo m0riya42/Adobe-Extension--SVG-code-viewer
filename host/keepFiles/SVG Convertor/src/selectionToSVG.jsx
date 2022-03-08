@@ -21,6 +21,89 @@ function getCircularShapeParms(shapePathPoints, minTL) {
     return retValue;
 }
 
+
+
+function isMirror({
+    anchor,
+    leftDirection,
+    rightDirection
+}) {
+    return ((anchor[0] - leftDirection[0] === rightDirection[0] - anchor[0]) && (anchor[1] - leftDirection[1] === rightDirection[1] - anchor[1]));
+}
+
+
+function calculatePathCode(shapeCoordinates, minTL, isClosed) {
+    const normal = (x) => normalCoordinate(x, minTL);
+
+    const pointInfo = shapeCoordinates.map((el, index, array) => {
+        return {
+            isCornerPoint: areTripleArraysEqual.apply(null, Object.values(el)),
+            isMirrorPoint: isMirror(el),
+            anchor: normal(el.anchor),
+            leftDirection: normal(el.leftDirection),
+            rightDirection: normal(el.rightDirection),
+        }
+    });
+
+
+    const M_Function = (anchor) => `M${anchor} `;
+    const L_Function = (anchor) => `L${anchor} `;
+    const S_Function = (leftDirection, anchor) => `S${leftDirection} ${anchor} `;
+    // const s_Function =(dx_leftDirection, dx_anchor)=> 
+    const C_Function = (rightDirection, leftDirection, anchor) => `C${rightDirection} ${leftDirection} ${anchor} `;
+    // const Q_Function =()=> 
+    // const T_Function =()=> 
+    const pathLine = pointInfo.reduce((acc, curr, currIndex, array) => {
+
+        if (acc === '') { //Start of function
+            acc += M_Function(curr.anchor);
+        }
+
+        if (currIndex !== array.length - 1) { //Not the last point
+
+            if (curr.isCornerPoint) {
+                //if curr.right === next.left----> Q curr.right next.anchor 
+
+                //if Next point is Corner
+                if (array[currIndex + 1].isCornerPoint) { //Corner point to Corner point
+                    acc += L_Function(array[currIndex + 1].anchor);
+                } else { //Corner Point to smooth point
+                    acc += S_Function(array[currIndex + 1].leftDirection, array[currIndex + 1].anchor);
+                }
+            } else { //Smooth point
+                if (curr.isMirrorPoint) {
+                    acc += S_Function(array[currIndex + 1].leftDirection, array[currIndex + 1].anchor);
+                } else {
+                    acc += C_Function(curr.rightDirection, array[currIndex + 1].leftDirection, array[currIndex + 1].anchor);
+                }
+            }
+        } else { //the last path point
+
+            if (isClosed) {
+                if (curr.isCornerPoint && array[0].isCornerPoint) {
+                    acc += "Z";
+                } else {
+                    //for line use Z other use another C or S or Q  or T
+                    acc += C_Function(curr.rightDirection, array[0].leftDirection, array[0].anchor) + 'Z';
+                }
+            }
+
+        }
+        return acc;
+
+    }, '')
+
+    return `<path id="" d="${pathLine}" />`;
+}
+
+function getPointsForPols(shapeCoordinates, minTL) {
+    const anchorsArray = shapeCoordinates.map(el => el.anchor);
+    return anchorsArray.reduce((acc, anchor) => {
+        const normal = normalCoordinate(anchor, minTL);
+        acc += normal[0] + ", " + normal[1] + " ";
+        return acc
+    }, '');
+}
 /**
  * Counting the Shape total points 
  * @param {Array} pathsPointsArray array of shape points
@@ -52,7 +135,7 @@ function checkPointType(pathsPointsArray) {
             leftDirection,
             rightDirection
         });
-        console.log(acc);
+        // console.log(acc);
 
         return acc;
     }, {
@@ -81,7 +164,7 @@ function getShapeObject(selectedItem, minTL, maxBR) {
     const isLine = (pointType) => pointType.corners === 2;
     const isRectangle = (pointType) => pointType.corners === 4 && isVerticalWrapper(pointType.shapeCoordinates.map(point => point.anchor)) //&& isRectCoordinates(pointType.anchorPoints); //& check for the angle (for square also check the length of the edges)
     const pointType = checkPointType(selectedItem.selectedPathPoints);
-    const style = 'fill:#88C540;' //get style from ADOBE Function
+    const style = 'fill:#88C540; stroke: black; ' //get style from ADOBE Function
     //{corners, smooths, totalPoints}
 
     if (!selectedItem.closed) {
@@ -91,14 +174,21 @@ function getShapeObject(selectedItem, minTL, maxBR) {
 
             if (isLine(pointType)) { //Line
 
+                debugger
+                const [path1, path2] = pointType.shapeCoordinates;
+                const coord1 = normalCoordinate(path1.anchor, minTL),
+                    coord2 = normalCoordinate(path2.anchor, minTL);
+
+                return `<line x1="${coord1[0]}" y1="${coord1[1]}" x2="${coord2[0]}" y2="${coord2[1]}"  style="${style}" />`
 
             } else { //Polyline
-
-
+                const points = getPointsForPols(pointType.shapeCoordinates, minTL)
+                return `<polyline points="${points}" style="${style}" />`
             }
 
         } else { //Path (one point is a path)
 
+            return calculatePathCode(pointType.shapeCoordinates, minTL, false);
         }
 
     } else {
@@ -107,20 +197,26 @@ function getShapeObject(selectedItem, minTL, maxBR) {
 
                 //topeLeft position, height , width
                 const [path1, path2, path3, path4] = pointType.shapeCoordinates;
-                debugger
+                const ShapeTopLeft = selectedItem.geometricBounds.slice(0, 2);
+
                 let height = distance(path2.anchor, path3.anchor),
                     width = distance(path1.anchor, path2.anchor),
-                    topLeft = normalCoordinate(path3.anchor, minTL); //take from the shape geometric bounds
+                    topLeft = normalCoordinate(ShapeTopLeft, minTL),
+                    [x, y] = topLeft;
 
-                // const height
+                // const [x, y] = topLeft;
+
+
 
                 //x,y of the rectangle (top left placement) if x=0 y=0 not have to add
                 //add x,y
-                return `<rect id="XMLID_16_" style="${style}" width="${toFixedNumber(width, 2)}" height="${toFixedNumber(height, 2)}"/>`
+                return `<rect id="XMLID_16_" x="${x}" y="${y}" style="${style}" width="${toFixedNumber(width, 2)}" height="${toFixedNumber(height, 2)}" />`
 
             } else { //Polygon
 
+                const points = getPointsForPols(pointType.shapeCoordinates, minTL)
 
+                return ` <polygon points="${points}" style="${style}" />`
             }
 
         } else {
@@ -133,12 +229,13 @@ function getShapeObject(selectedItem, minTL, maxBR) {
                     ry = shapeElems.wRadius;
 
                 if (shapeElems.shapeType === "Circle") {
-                    return `<circle id="XMLID_15_" style="${style}"  cx="${cx}" cy="${cy}" r="${r}"/>`
+                    return `<circle id ="XMLID_15_" style="${style}" cx="${cx}" cy="${cy}" r="${r}" /> `
                 }
-                return `<ellipse  id="XMLID_15_" style="${style}" cx="${cx}" cy="${cy}" rx="${rx}" ry="${ry}" />`
+                return ` <ellipse id = "XMLID_15_" style = "${style}" cx="${cx}" cy="${cy}" rx="${rx}" ry="${ry}" /> `
             } else { //Path
 
 
+                return calculatePathCode(pointType.shapeCoordinates, minTL, true);
             }
         }
 
@@ -262,9 +359,46 @@ function convertSelectionToSVG(selection) { //}width, height) {
         return acc
     }, '')
 
-    //accurate width & height
-    const svg = `<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="svgCodeViewer Server" width="${width}px" height="${height}px" viewBox="0 0 ${width} ${height}" xml:space="preserve"> ${insideShapes} </svg>`
+    const generator = "<!-- Generator: IDE for SVG 1.0.0  -->\n"; // +add link to github
+    const svg = `${generator}<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="svgCodeViewerServer" width="${width}px" height="${height}px" viewBox="0 0 ${width} ${height}" xml:space="preserve" > ${insideShapes} </svg>`
 
 
     return svg
 }
+
+
+
+
+/*<!--<path d="M0 52.5 C30 -17.5 55 -17.5 85 52.5 C 115 122.5 140 122.5 170 52.5" />-->
+<path d="M0 52.5 C30 -17.5 55 -17.5 85 52.5 S 140 122.5 170 52.5" />
+
+
+A
+anchor: 0 52.5        ----->10 80
+left: 0 52.5
+right: 30 -17.5 ?
+
+
+B
+anchor: 85 52.5       ---->95 80
+left: 55 -17.5           ----> 40 10
+right: 115 122.5
+
+C
+anchor: 170 52.5
+left: 140 122.5
+right: 170 52.5       ----> 65 10
+
+
+השתקפות מראה?
+(55,-17.5)
+85-55= 30 
+52.5+17.5= 70
+
+( 115,122.5)
+115-85= 30
+122.5-52.5= 70
+
+IF MIRROR--> 
+CURVE:
+C (A right, B left, B anchor) C (B right, C left , C anchor) || C (A right, B left, B anchor) S ( C left, C anchor);*/
