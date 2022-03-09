@@ -47,6 +47,27 @@ function getEnumNumber(enumPath) {
             LEFTDIRECTION: 3,
             RIGHTDIRECTION: 4,
             LEFTRIGHTPOINT: 5
+        },
+        ViewType = {
+            TRACINGVIEWVECTORTRACINGRESULT: 0,
+            TRACINGVIEWVECTOROUTLINESWITHTRACING: 1,
+            TRACINGVIEWVECTOROUTLINES: 2,
+            TRACINGVIEWVECTORWITHTRANSPARENTIMAGE: 3,
+            TRACINGVIEWIMAGE: 4,
+        },
+        TracingModeType = {
+            TRACINGMODECOLOR: 0,
+            TRACINGMODEGRAY: 1,
+            TRACINGMODEBLACKANDWHITE: 2
+
+        },
+        TracingColorType = {
+            TRACINGLIMITEDCOLOR: 0,
+            TRACINGFULLCOLOR: 1
+        },
+        TracingMethodType = {
+            TRACINGMETHODABUTTING: 0,
+            TRACINGMETHODOVERLAPPING: 1
         };
     var path = enumPath.split('.');
     switch (path[0]) {
@@ -68,6 +89,15 @@ function getEnumNumber(enumPath) {
 
         case 'PathPointSelection':
             return PathPointSelection[path[1]];
+
+        case 'ViewType':
+            return ViewType[path[1]];
+        case 'TracingModeType':
+            return TracingModeType[path[1]];
+        case 'TracingColorType':
+            return TracingColorType[path[1]];
+        case 'TracingMethodType':
+            return TracingMethodType[path[1]];
 
     }
 
@@ -100,7 +130,7 @@ function isFunction(obj) {
 }
 
 function isDefine(obj) {
-    return obj !== null || obj !== undefined;
+    return obj !== null && obj !== undefined;
 }
 
 function isAdobeObject(obj) {
@@ -119,6 +149,7 @@ function isKeysNumbers(obj) {
 function isParent(key) {
     return key === "parent"
 }
+
 
 
 /**
@@ -146,37 +177,47 @@ function objectToString(obj) {
 
             for (var key in obj) {
                 if (!isParent(key)) {
-                    if (isObject(obj[key])) { // added ' && key!=="parent' ----> in order to Prevent Infinite loop
+                    try {
+                        if (isObject(obj[key]) && isDefine(obj[key])) { // added ' && key!=="parent' ----> in order to Prevent Infinite loop
 
-                        //if the object representing an array of values:
-                        line = !isArray(obj) ? '"' + key + '"' + ": " : "";
-                        if (isArray(obj[key]) && isKeysNumbers(obj[key])) {
-                            line = line + "[" + obj[key] + "],";
-                        } else {
-                            line = line + objectToString(obj[key], ""); // Recursion
-                            subObjTab = "";
+                            //if the object representing an array of values:
+                            line = !isArray(obj) ? '"' + key + '"' + ": " : "";
+                            if (isArray(obj[key]) && isKeysNumbers(obj[key])) {
+                                line = line + "[" + obj[key] + "],";
+                            } else {
+                                // if (isDefine(obj[key])) {
+                                line = line + objectToString(obj[key], ""); // Recursion
+                                //   subObjTab = "";
+                                // }
+                            }
+
+                            log += line;
+                            continue;
                         }
 
+                        if (isString(obj[key])) {
+                            line = '"' + key + '"' + ': "' + obj[key] + '",';
+                            log += line;
+                            continue;
+                        }
+
+                        if (isFunction(obj[key])) {
+                            value = obj[key].toString(); //.trim();
+                            line = '"' + key + '"' + ': "' + value + '",';
+                            log += line;
+                            continue;
+                        }
+
+
+                        if (obj[key] !== undefined)
+                            line = '"' + key + '"' + ": " + obj[key] + ",";
+                        else
+                            line = '"' + key + '"' + ": " + null + ",";
+
                         log += line;
-                        continue;
-                    }
 
-                    if (isString(obj[key])) {
-                        line = '"' + key + '"' + ': "' + obj[key] + '",';
-                        log += line;
-                        continue;
-                    }
+                    } catch (e) {}
 
-                    if (isFunction(obj[key])) {
-                        value = obj[key].toString();
-                        line = '"' + key + '"' + ': "' + value + '",';
-                        log += line;
-                        continue;
-                    }
-
-
-                    line = '"' + key + '"' + ": " + obj[key] + ",";
-                    log += line;
                 } else {
                     //right now only string, later maybe fix it:
                     line = '"' + key + '"' + ': "' + obj[key] + '",';
