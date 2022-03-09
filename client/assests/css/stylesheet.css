@@ -226,7 +226,7 @@ table {
 body {
   font-size: 1em;
   line-height: 1.5;
-  /* background: #494949; */
+  background: #494949;
   font-family: "Helvetica Neue", Helvetica, Arial, serif;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
   color: #fff;
@@ -294,6 +294,7 @@ input[type="text"] {
 }
 .codeContainer {
   height: "70%";
+  /* width: "80px"; */
   /* display: flex;
   align-content: center;
   justify-content: center;
@@ -601,6 +602,11 @@ button:hover {
 .fieldsetSection {
   border: 1.5px solid #2f2f2f;
   border-radius: 4px;
+  min-width: 85%;
+  max-width: 85%;
+  /* display: inline-block; */
+  /* overflow: auto; */
+  /* padding: 14px; */
 
   /* padding: 14px; */
 }

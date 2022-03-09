@@ -1,8 +1,8 @@
-var io = require('socket.io').listen(8080);
-
+var io = require('socket.io').listen(6420);
+console.log('server is on')
 io.sockets.on('connection', function (socket) {
     // sockets.push(socket)
-    console.log('port 8080')
+    console.log('port 6420')
     io.emit('toExtension', 'hi');
     socket.on('toExtension', function (data) {
         console.log('from website')

@@ -1,47 +1,22 @@
 'use strict';
 
+// var codeMIrrorImports = require('../assests/js/requireCodeMIrror');//--import all code mirror 
+
+Array.prototype.toString = function () {
+    console.log(this.join(', '));
+}
+
 
 /************************************************/
 /*                 Code Editor                  */
 /************************************************/
 
-Array.prototype.toString = function () {
-    console.log(this.join(', '));
-}
-var b = ["a", "b", "c", "d"];
 
-console.log(b)
-// var s = require('../assests/js/requireCodeMIrror');//--import all code mirror 
-// console.log(s)
-var __SELECTED__ITEM__ = null;
-var exampleSvg = '';
-var url = require('url');
-var http = require('http');
-/* 1) Create an instance of CSInterface. */
-var csInterface = new CSInterface();
-
-
-
-//connect to socketIO
-
-// var socket = io.connect('http://localhost:8080');
-
-// socket.on('toExtension', function (command) {
-//     console.log('connect')
-// csInterface.evalScript(command);
-//try typing app.activeDocument.close() in the browser
-// });
-
-
-// csInterface.addEventListener("DevToolsConsoleEvent", function (event) {
-//     console.log(event.data);
-// });
 
 var editor = CodeMirror(document.getElementById('codeMirrorContainer'), {
     lineNumbers: true,
     // tabSize: 2,
-    // value: '<svg id="">dfdf</svg>',
-    value: exampleSvg,
+    value: '',
     mode: 'htmlmixed',
     keyMap: "sublime",
     htmlMode: true,
@@ -59,8 +34,69 @@ var editor = CodeMirror(document.getElementById('codeMirrorContainer'), {
 });
 
 
-/* 2) Use a CEP method to open the server extension. */
-csInterface.requestOpenExtension("com.my.localserver", "");
+
+function updateEditorView(svgCode) {
+    editor.setValue(svgCode)
+
+}
+function exportSVG() {
+    var value = editor.getValue();
+};
+
+
+/************************************************/
+/*             Adobe Activities                 */
+/************************************************/
+
+var csInterface = new CSInterface();
+csInterface.requestOpenExtension("com.my.localserver", "");// Use a CEP method to open the server extension.
+
+
+
+/************************************************/
+/*             Connect To Server                */
+/************************************************/
+
+
+
+var http = require('http');
+
+
+var proxy = http.createServer(function onCreateServer(req, res) {
+    res.writeHead(200, { 'Content-Type': 'text/plain' });
+
+    if (req.url === '/selectedToClient') {
+        res.write('ok');
+        var body = "";
+
+        req.on('data', function (data) {
+            body += data;
+
+            // Too much POST data, kill the connection!
+            // 1e6 === 1 * Math.pow(10, 6) === 1 * 1000000 ~~~ 1MB
+            if (body.length > 1e6)
+                request.connection.destroy();
+        });
+
+        req.on('end', function () {
+            console.log(body);
+            updateEditorView(body);
+        });
+
+    }
+    res.end();
+});
+
+
+proxy.on('connect', function (req, cltSocket, head) {
+    // connect to an origin server
+    console.log("html is connected")
+});
+
+// now that proxy is running
+proxy.listen(6432, '127.0.0.1', function () {
+    console.log('listenning on 6432')
+});
 
 
 
@@ -77,37 +113,26 @@ function connectTheServer() {
     });
 }
 
-function getAppSelection() {
-    csInterface.evalScript("returnSelection()", function callbackFun(res) {
 
-        if (__SELECTED__ITEM__ !== res) {
-            // alert('selection object changed')
-            console.log('OLD ITEM: ', JSON.stringify(__SELECTED__ITEM__));
-            __SELECTED__ITEM__ = res;
-            console.log('NEW ITEM: ', JSON.stringify(__SELECTED__ITEM__));
-        }
-        // console.log(res)
-    });
-}
 
-var exportSVG = function exportSVG() {
-    var value = editor.getValue();
-};
-document.getElementById('copyToClipboardButton').addEventListener('click',
-    connectTheServer);
-document.getElementById('CLEAR').addEventListener('click',
-    function () {
+/************************************************/
+/*               Deleted Buttons                */
+/************************************************/
 
-        csInterface.evalScript("getSelection()", function (selectedObj) {
-            console.log(selectedObj);
-            // socket.emit('trial-get-selection', { text: 'hello from client', file: selectedObj })
-            editor.setValue('')
-        });
-        // console.log(p);
-    });
-// copyToClipboard);
 
-// })
+
+// document.getElementById('copyToClipboardButton').addEventListener('click',
+//     connectTheServer);
+// document.getElementById('CLEAR').addEventListener('click',
+//     function () {
+
+//         csInterface.evalScript("getSelection()", function (selectedObj) {
+//             console.log(selectedObj);
+//             // socket.emit('trial-get-selection', { text: 'hello from client', file: selectedObj })
+//             editor.setValue('')
+//         });
+//     });
+
 
 
 /************************************************************** */
