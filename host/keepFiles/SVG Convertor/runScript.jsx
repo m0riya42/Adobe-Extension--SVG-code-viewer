@@ -1810,3 +1810,63 @@ const airplanePath = [
 ];
 console.log('airplane path');
 console.log(calculatePathCode(airplanePath, [222.884029965368, -443.568928234123], true));
+
+
+
+
+
+
+string = `[{closed: true,area: 129383.5859375,length: 1442.85711669922,guides: false,filled: true,fillColor: {cyan: 0,magenta: 0,yellow: 0,black: 0,typename: "CMYKColor",},fillOverprint: false,stroked: true,strokeColor: {cyan: 0,magenta: 0,yellow: 0,black: 100,typename: "CMYKColor",},strokeOverprint: false,strokeWidth: 1,strokeDashes: [],strokeDashOffset: 0,strokeCap: StrokeCap.BUTTENDCAP,strokeJoin: StrokeJoin.MITERENDJOIN,strokeMiterLimit: 10,clipping: false,evenodd: false,resolution: 800,selectedPathPoints: [{anchor: [463.285714285714,-511.775510204081],leftDirection: [463.285714285714,-511.775510204081],rightDirection: [463.285714285714,-511.775510204081],pointType: PointType.CORNER,selected: PathPointSelection.ANCHORPOINT,typename: "PathPoint",parent: "[PathItem ]",},{anchor: [129.61224489796,-511.775510204081],leftDirection: [129.61224489796,-511.775510204081],rightDirection: [129.61224489796,-511.775510204081],pointType: PointType.CORNER,selected: PathPointSelection.ANCHORPOINT,typename: "PathPoint",parent: "[PathItem ]",},{anchor: [129.61224489796,-124.020408163266],leftDirection: [129.61224489796,-124.020408163266],rightDirection: [129.61224489796,-124.020408163266],pointType: PointType.CORNER,selected: PathPointSelection.ANCHORPOINT,typename: "PathPoint",parent: "[PathItem ]",},{anchor: [463.285714285714,-124.020408163266],leftDirection: [463.285714285714,-124.020408163266],rightDirection: [463.285714285714,-124.020408163266],pointType: PointType.CORNER,selected: PathPointSelection.ANCHORPOINT,typename: "PathPoint",parent: "[PathItem ]",},],polarity: PolarityValues.POSITIVE,typename: "PathItem",uRL: "",note: "",layer: {visible: true,locked: false,printable: true,hasSelectedArtwork: true,preview: true,dimPlacedImages: false,color: {red: 78.6926070038911,green: 127.501945525292,blue: 255,typename: "RGBColor",},name: "Layer 1",opacity: 100,zOrderPosition: 1,absoluteZOrderPosition: 2,sliced: false,blendingMode: BlendModes.NORMAL,isIsolated: false,artworkKnockout: KnockoutState.INHERITED,typename: "Layer",parent: "[Document Untitled-1]",},locked: false,hidden: false,selected: true,position: [129.61224489796,-124.020408163266],width: 333.673469387754,height: 387.755102040815,geometricBounds: [129.61224489796,-124.020408163266,463.285714285714,-511.775510204081],visibleBounds: [129.11224489796,-123.520408163266,463.785714285714,-512.275510204081],controlBounds: [129.11224489796,-123.520408163266,463.785714285714,-512.275510204081],name: "",blendingMode: BlendModes.NORMAL,opacity: 100,isIsolated: false,artworkKnockout: KnockoutState.DISABLED,zOrderPosition: 1,absoluteZOrderPosition: 1,editable: true,sliced: false,top: -123.520408163266,left: 129.11224489796,},],`;
+
+// function adobeStringToObject(adobeString) {
+//     const obj = [];
+
+//     function arrayObject(string, object) {
+
+
+// return 
+//     }
+
+//     switch (adobeString[0]) {
+//         case '[':
+//             arrayObject(adobeString.slice(1), obj)
+//             break;
+//         case ']':
+//             break;
+//         case '{':
+//             break;
+//         case '}':
+//             break;
+
+//     }
+
+// }
+
+[{
+    "closed": true,
+    "area": 129383.5859375,
+    "length": 1442.85711669922,
+    "guides": false,
+    "filled": true,
+    "fillColor": {
+        "cyan": 0,
+        "magenta": 0,
+        "yellow": 0,
+        "black": 0,
+        "typename": "CMYKColor"
+    },
+    "fillOverprint": false,
+    "stroked": true,
+    "strokeColor": {
+        "cyan": 0,
+        "magenta": 0,
+        "yellow": 0,
+        "black": 100,
+        "typename": "CMYKColor"
+    },
+    "strokeOverprint": false,
+    "strokeWidth": 1,
+    "strokeDashes": [],
+    "strokeDashOffset": 0,
+    "strokeJoin": StrokeJoin.MITERENDJOIN,
+}]

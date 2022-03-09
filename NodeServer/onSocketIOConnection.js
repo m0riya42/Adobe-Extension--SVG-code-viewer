@@ -2,9 +2,10 @@
 // console.log("clip")
 
 // import clipboard from 'clipboardy';
+var convertToSVG = require("./tryConvertor.js");
 
 
-let lastSelectedObj, lastSelectedDocument;
+let lastSelectedObj, selectedObj, lastSelectedDocument;
 const updateSelectedObject = (obj) => {
     lastSelectedObj = obj.selectedObj;
     lastSelectedDocument = obj.selectedDoc;
@@ -44,9 +45,10 @@ function onSocketIOConnection(socket, io) {
     })
     socket.on('getSelected-ans', obj => {
 
+        selectedObj = JSON.parse(obj.selectedObj);
         // if (lastSelectedObj) {
 
-        if (lastSelectedObj !== obj.selectedObj) {
+        if (lastSelectedObj !== selectedObj) {
             //TODO: change view on client--- send SVG file to client.
             // Pay Attention to the difference between being NULL and having an object to show.
 
@@ -65,7 +67,8 @@ function onSocketIOConnection(socket, io) {
 
 
     socket.on('trial-get-selection', obj => {
-        console.log(obj.file);
+        console.log(convertToSVG(JSON.parse(obj.file)).error);
+        // console.log(JSON.parse(obj.file).toString().error);
     })
 
     // io.emit('selectionRequest')

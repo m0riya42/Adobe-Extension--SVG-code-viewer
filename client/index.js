@@ -96,7 +96,15 @@ var exportSVG = function exportSVG() {
 document.getElementById('copyToClipboardButton').addEventListener('click',
     connectTheServer);
 document.getElementById('CLEAR').addEventListener('click',
-    function () { editor.setValue('') });
+    function () {
+
+        csInterface.evalScript("getSelection()", function (selectedObj) {
+            console.log(selectedObj);
+            // socket.emit('trial-get-selection', { text: 'hello from client', file: selectedObj })
+            editor.setValue('')
+        });
+        // console.log(p);
+    });
 // copyToClipboard);
 
 // })
