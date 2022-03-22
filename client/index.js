@@ -11,6 +11,53 @@ Array.prototype.toString = function () {
 /*                 Code Editor                  */
 /************************************************/
 
+// ==UserScript==
+// @icon         https://hackmd.io/favicon.png
+// @name         VSCode shortcuts in CodeMirror
+// @namespace    http://github.com/cliffxzx
+// @version      0.1
+// @description  Using VSCode shortcuts in CodeMirror (like HackMD, CodiMd etc ...)
+// @author       Cliff Chen
+// @match        *://*/*
+// @grant        none
+// ==/UserScript==
+
+// 'use strict';
+// (function() {
+//     // https://greasyfork.org/he/scripts/422202-vscode-shortcuts-in-codemirror/code
+//   if (typeof window.CodeMirror === 'function') {
+var Pos = CodeMirror.Pos;
+
+function duplicateLines(cm, down) {
+    var funDown = down !== undefined ? down : false;
+    cm.operation(function () {
+        // debugger;
+        var selectionRange = cm.listSelections();
+        var rangeCount = selectionRange.length;
+        for (var i = 0; i < rangeCount; i++) {
+            var range = cm.listSelections()[i];
+            var text = '';
+            var start = Math.min(range.head.line, range.anchor.line);
+            var end = Math.max(range.head.line, range.anchor.line);
+
+            for (var j = start; j <= end; ++j) {
+                text += cm.getLine(j) + "\n";
+            }
+
+            if (funDown) {
+                var rangeLineCount = end - start + 1;
+                cm.replaceRange(text, Pos(end + 1, 0));
+                selectionRange[i].head.line += rangeLineCount;
+                selectionRange[i].anchor.line += rangeLineCount;
+            } else {
+                cm.replaceRange(text, Pos(start, 0));
+            }
+
+        }
+        cm.setSelections(selectionRange);
+        cm.scrollIntoView();
+    });
+}
 
 
 var editor = CodeMirror(document.getElementById('codeMirrorContainer'), {
@@ -30,14 +77,51 @@ var editor = CodeMirror(document.getElementById('codeMirrorContainer'), {
     autocorrect: true,
     // autocapitalize: true,
     autoCloseBrackets: true,
-    extraKeys: { "Ctrl-Space": "autocomplete" }
+    autoCloseTags: true,
+    // extraKeys: { "Ctrl-Space": "autocomplete" },
+    matchtags: true,
+    lineWrapping: true,
+    extraKeys: {
+        "Ctrl-Q": function (cm) { cm.foldCode(cm.getCursor()); }, "Alt-Z": function () {
+            // document.querySelector(".CodeMirror-wrap pre.CodeMirror-line").classList.toggle('code-mirror-altZ-toggle')
+            console.log('alt-z')
+        }, "Ctrl-K Ctrl-0": function () { console.log('fold all') },
+    },
+    foldGutter: true,
+    gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"]
+
+
+});
+editor.foldCode(CodeMirror.Pos(0, 0));
+editor.foldCode(CodeMirror.Pos(21, 0));
+document.querySelector(".CodeMirror-wrap pre.CodeMirror-line").classList.add('.code-mirror-altZ');
+editor.addKeyMap({
+    "Alt-Up": "swapLineUp",
+    "Alt-Down": "swapLineDown",
+    "Shift-Cmd-Alt-Up": "addCursorToPrevLine",
+    "Shift-Cmd-Alt-Down": "addCursorToNextLine",
+    "Cmd-K Cmd-0": "foldAll",
+    "Shift-Alt-Up": function (cm) { duplicateLines(cm) },
+    "Shift-Alt-Down": function (cm) { duplicateLines(cm, true) },
 });
 
 
+function onChangeHandler(editor) {
+    // console.log(editor.getValue())
+    insertSvgInHtmlPage(editor.getValue());
+
+}
+editor.on("change", onChangeHandler);
+window.editor = editor
 
 function updateEditorView(svgCode) {
     editor.setValue(svgCode)
 
+}
+
+
+function insertSvgInHtmlPage(svgCode) {
+    document.getElementById('insertSvg').innerHTML = svgCode;
 }
 function exportSVG() {
     var value = editor.getValue();
@@ -50,8 +134,28 @@ function exportSVG() {
 
 var csInterface = new CSInterface();
 csInterface.requestOpenExtension("com.my.localserver", "");// Use a CEP method to open the server extension.
+var keyEvents = [{
+    "keyCode": 90,
+    "ctrlKey": true,
+    "altKey": false,
+    "shiftKey": false,
+    "metaKey": false
+}, {
+    "keyCode": 75,
+    "ctrlKey": true,
+    "altKey": false,
+    "shiftKey": false,
+    "metaKey": false
+}];
+// var keyEvents = [];
+// csInterface.registerKeyEventsInterest(JSON.stringify(keyEvents));
+console.log(window.__adobe_cep__)
+// console.log(JSON.stringify(window.__adobe_cep__));
+// csInterface.addEventListener('keydown', function (e) {
+//     alert("keydown detected");
+//     console.log(e);
 
-
+// });
 
 /************************************************/
 /*             Connect To Server                */

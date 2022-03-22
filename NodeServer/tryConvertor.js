@@ -402,7 +402,7 @@ function getShapeObject(selectedItem, minTL, maxBR) {
                 if (shapeElems.shapeType === "Circle") {
                     return `<circle id ="XMLID_15_" style="${style}" cx="${cx}" cy="${cy}" r="${r}" /> `
                 }
-                return ` <ellipse id = "XMLID_15_" style = "${style}" cx="${cx}" cy="${cy}" rx="${rx}" ry="${ry}" /> `
+                return `<ellipse id = "XMLID_15_" style = "${style}" cx="${cx}" cy="${cy}" rx="${rx}" ry="${ry}" /> `
             } else { //Path
 
 
@@ -531,7 +531,7 @@ function convertSelectionToSVG(selection) { //}width, height) {
     }, '')
 
     const generator = "<!-- Generator: IDE for SVG 1.0.0  -->\n"; // +add link to github
-    const svg = `${generator}<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="svgCodeViewerServer" width="${width}px" height="${height}px" viewBox="0 0 ${width} ${height}" xml:space="preserve" > ${insideShapes} </svg>`
+    const svg = `${generator}<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="svgCodeViewerServer" width="${width}px" height="${height}px" viewBox="0 0 ${width} ${height}" xml:space="preserve" >${insideShapes}\n</svg>`
 
 
     return svg

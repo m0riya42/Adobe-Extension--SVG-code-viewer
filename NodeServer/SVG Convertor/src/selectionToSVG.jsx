@@ -1,3 +1,21 @@
+var {
+    isCirclePathPoints,
+    isVerticalWrapper,
+    areGradientsVertical,
+    middleLine,
+    areGradientsAlignsToPage,
+    isDefined,
+    isInfinity,
+    normalCoordinate,
+    vectorGradient,
+    distance,
+    areTripleArraysEqual,
+    areArraysValuesEqual,
+    removeArrayItem,
+    toFixedNumber,
+    calcAngleDegrees
+} = require('./utils.jsx');
+
 function getCircularShapeParms(shapePathPoints, minTL) {
     // [{anchor, leftDirection,rightDirection},{anchor, leftDirection,rightDirection},{anchor, leftDirection,rightDirection},{anchor, leftDirection,rightDirection}]
     const retValue = {};
@@ -16,6 +34,8 @@ function getCircularShapeParms(shapePathPoints, minTL) {
         retValue.shapeType = "Ellipse";
         retValue.hRadius = toFixedNumber(height / 2, 2);
         retValue.wRadius = toFixedNumber(width / 2, 2);
+
+
     }
 
     return retValue;
@@ -30,7 +50,6 @@ function isMirror({
 }) {
     return ((anchor[0] - leftDirection[0] === rightDirection[0] - anchor[0]) && (anchor[1] - leftDirection[1] === rightDirection[1] - anchor[1]));
 }
-
 
 function calculatePathCode(shapeCoordinates, minTL, isClosed) {
     const normal = (x) => normalCoordinate(x, minTL);
@@ -147,6 +166,125 @@ function checkPointType(pathsPointsArray) {
 }
 
 
+
+function getShapeRotation(shapePoints, center, radiusY) {
+    const isSameAsRadiusY = (normalPoint) => {
+        const d = distance([0, 0], normalPoint);
+        return toFixedNumber(d, 2) === radiusY || +d.toFixed() === radiusY
+    }
+    const topPoint = [center[0], center[1] - radiusY];
+    const {
+        isAlign,
+        shapeNormallizedPoints,
+        rotatedTopPoint
+    } = shapePoints.reduce((acc, curr) => {
+        const normalPoint = normalCoordinate(curr, center);
+        // const normal = normalCoordinate(curr.anchor, minTL);
+        acc.shapeNormallizedPoints.push(normalPoint);
+        console.log('normal point: ' + normalPoint);
+
+        if (areArraysValuesEqual(topPoint, curr))
+            acc.isAlign = true;
+
+        if ((normalPoint[1] > 0) && isSameAsRadiusY(normalPoint)) {
+            acc.rotatedTopPoint.point = normalPoint;
+            // acc.rotatedTopPoint.rotateDeg = (normalPoint[0] > 0) ? (90 - calcAngleDegrees.apply(null, normalPoint)) : (calcAngleDegrees.apply(null, normalPoint) - 90);
+            acc.rotatedTopPoint.rotateDeg = (90 - calcAngleDegrees.apply(null, normalPoint));
+            console.log((normalPoint[0] > 0), (90 - calcAngleDegrees.apply(null, normalPoint)), (calcAngleDegrees.apply(null, normalPoint) - 90));
+
+        }
+
+        return acc;
+
+
+
+        //    if ((normalEl[1] > 0) && toFixedNumber(distance([0, 0], normalEl), 2) === ry) {
+        // console.log('the right point'.error);
+        // console.log(toFixedNumber(distance([0, 0], normalEl), 2), ry);
+
+
+        // if (normalEl[0] > 0)
+        //     console.log(90 - calcAngleDegrees.apply(null, normalEl))
+        // else console.log(calcAngleDegrees.apply(null, normalEl) - 90)
+    }, {
+        isAlign: false,
+        shapeNormallizedPoints: [],
+        rotatedTopPoint: {
+            point: null,
+            rotateDeg: null
+        }
+    });
+
+    console.log('is Align: ' + isAlign)
+
+    if (!isAlign && !isDefined(rotatedTopPoint.rotateDeg)) {
+        debugger
+    }
+    return [isAlign, rotatedTopPoint.rotateDeg];
+    //if( (+,+) || (-,+)==> d(point)==rY)
+
+
+
+    // const getAngle = (coord1, coord2, center) => {
+
+    //     const normalCoord1 = normalCoordinate(coord1, center),
+    //         normalCoord2 = normalCoordinate(coord2, center),
+    //         [x1, y1] = normalCoord1,
+    //         [x2, y2] = normalCoord2;
+    //     // return Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI
+
+    //     // function radians_to_degrees(radians) {
+    //     //     var pi = Math.PI;
+    //     //     return radians * (180 / pi);
+    //     // }
+    //     // const d = distance(normalCoord1, normalCoord2),
+    //     //     pow = Math.pow(d, 2);
+    //     // return radians_to_degrees(Math.cos(pow))
+    // }
+
+    //After Normliize from center of the Ellipse: We are Searching for Y>0
+    //If X>0   (+,+)
+
+    //             /| (+x,+y)
+    //            / |
+    //      rY   /  | y
+    //          /   |
+    //  (0,0)  /____|
+    //           x
+    // 90- calcAngleDegrees()
+
+    //If X<0  (-,+)
+
+    //         |\ (-x, +y)
+    //         | \ 
+    //      y  |  \rY
+    //         |   \
+    //         |____\ (0,0)
+    //            x
+
+    //calcAngleDegrees)()-90
+
+    // console.log(`normal Head of Ellipse: ${normalCoordinate([cx, cy - ry], [cx, cy])}`.silly);
+    // selectedItem.selectedPathPoints.map(el => {
+    //     const normalEl = normalCoordinate(normalCoordinate(el.anchor, minTL), [cx, cy]);
+    //     console.log('normal point: ' + normalEl);
+
+    //     //if( (+,+) || (-,+)==> d(point)==rY)
+    //     if ((normalEl[1] > 0) && toFixedNumber(distance([0, 0], normalEl), 2) === ry) {
+    //         console.log('the right point'.error);
+    //         console.log(toFixedNumber(distance([0, 0], normalEl), 2), ry);
+
+
+    //         if (normalEl[0] > 0)
+    //             console.log(90 - calcAngleDegrees.apply(null, normalEl))
+    //         else console.log(calcAngleDegrees.apply(null, normalEl) - 90)
+    //         //`transform="rotate(${rotateDeg} ${cx} ${cy})"`
+    //     }
+    //     // console.log(getAngle(normalEl, [cx, cy - ry], [cx, cy]));
+    // })
+
+    // }
+}
 /**
  * Gets the SVG Code of selected shape
  * @param {object} selectedItem
@@ -216,7 +354,7 @@ function getShapeObject(selectedItem, minTL, maxBR) {
 
                 const points = getPointsForPols(pointType.shapeCoordinates, minTL)
 
-                return ` <polygon points="${points}" style="${style}" />`
+                return `<polygon points="${points}" style="${style}" />`
             }
 
         } else {
@@ -231,7 +369,19 @@ function getShapeObject(selectedItem, minTL, maxBR) {
                 if (shapeElems.shapeType === "Circle") {
                     return `<circle id ="XMLID_15_" style="${style}" cx="${cx}" cy="${cy}" r="${r}" /> `
                 }
-                return ` <ellipse id = "XMLID_15_" style = "${style}" cx="${cx}" cy="${cy}" rx="${rx}" ry="${ry}" /> `
+
+                console.log('*****************************')
+                console.log('Ellipse:')
+                console.log('Center: ' + [cx, cy]);
+                console.log('Head of Ellipse: ' + [cx, cy - ry]);
+                //selectedItem.selectedPathPoints
+
+                const [isAlign, rotateDeg] = getShapeRotation(pointType.shapeCoordinates.map(el => normalCoordinate(el.anchor, minTL)), shapeElems.center, ry)
+
+                // selectedItem.selectedPathPoints.map(el => console.log('point: ' + normalCoordinate(el.anchor, minTL)))
+                //   const [path1, path2, path3, path4] = shapePathPoints;
+                console.log('*****************************')
+                return `<ellipse id = "XMLID_15_" style = "${style}" cx="${cx}" cy="${cy}" rx="${rx}" ry="${ry}" transform="rotate(${rotateDeg} ${cx} ${cy})" /> `
             } else { //Path
 
 
@@ -360,12 +510,13 @@ function convertSelectionToSVG(selection) { //}width, height) {
     }, '')
 
     const generator = "<!-- Generator: IDE for SVG 1.0.0  -->\n"; // +add link to github
-    const svg = `${generator}<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="svgCodeViewerServer" width="${width}px" height="${height}px" viewBox="0 0 ${width} ${height}" xml:space="preserve" > ${insideShapes} </svg>`
+    const svg = `${generator}<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="svgCodeViewerServer" width="${width}px" height="${height}px" viewBox="0 0 ${width} ${height}" xml:space="preserve" >${insideShapes}\n</svg>`
 
 
     return svg
 }
 
+module.exports = convertSelectionToSVG;
 
 
 

@@ -168,3 +168,29 @@ const isCirclePathPoints = (pathPoints) => {
     return distanceBetweenPaths(path1, path3) && distanceBetweenPaths(path2, path4) && isVerticalWrapper(pathPoints.map(point => point.anchor), "Circular");
     // return distanceBetweenPaths(path1, path3) && distanceBetweenPaths(path2, path4) && isVertical(pathPoints.map(point => point.anchor));
 }
+
+
+
+function calcAngleDegrees(x, y) {
+    return Math.atan2(y, x) * 180 / Math.PI;
+}
+
+
+
+module.exports = {
+    isCirclePathPoints,
+    isVerticalWrapper,
+    areGradientsVertical,
+    middleLine,
+    areGradientsAlignsToPage,
+    isDefined,
+    isInfinity,
+    normalCoordinate,
+    vectorGradient,
+    distance,
+    areTripleArraysEqual,
+    areArraysValuesEqual,
+    removeArrayItem,
+    toFixedNumber,
+    calcAngleDegrees
+}

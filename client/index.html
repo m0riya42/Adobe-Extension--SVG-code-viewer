@@ -11,6 +11,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <!--check 16/01 17:43-->
     <script type="text/javascript" src="./assests/js/fontAwesome-all.js"></script>
+    <!-- <script type="text/javascript" src="../assests/js/CSInterface_v11.js"></script> -->
     <script type="text/javascript" src="../assests/js/CSInterface.js"></script>
     <!--until here-->
     <script type="text/javascript" src="../assests/js/cs_host_adapter-2.0.js"></script>
@@ -35,6 +36,18 @@
     <script type="text/javascript" src="./node_modules/codemirror/addon/display/fullscreen.js"></script>
     <script type="text/javascript" src="./node_modules/codemirror/addon/hint/show-hint.js"></script>
     <script type="text/javascript" src="./node_modules/codemirror/addon/hint/css-hint.js"></script>
+
+    <script type="text/javascript" src="./node_modules/codemirror/addon/edit/closetag.js"></script>
+    <script type="text/javascript" src="./node_modules/codemirror/addon/edit/closebrackets.js"></script>
+    <script type="text/javascript" src="./node_modules/codemirror/addon/edit/matchtags.js"></script>
+
+
+    <script type="text/javascript" src="./node_modules/codemirror/addon/fold/foldcode.js"></script>
+    <script type="text/javascript" src="./node_modules/codemirror/addon/fold/indent-fold.js"></script>
+    <!-- <script type="text/javascript" src="./node_modules/codemirror/addon/fold/comment-fold.js"></script> -->
+    <script type="text/javascript" src="./node_modules/codemirror/addon/fold/xml-fold.js"></script>
+    <script type="text/javascript" src="./node_modules/codemirror/addon/fold/foldgutter.js"></script>
+    <script type="text/javascript" src="./node_modules/codemirror/addon/fold/markdown-fold.js"></script>
     <!-- <script defer src="svgCodeViewer.bundle.js"></script> -->
 
     <!--Socket IO-->
@@ -51,6 +64,8 @@
             </fieldset>
         </section>
 
+        <div id="insertSvg" style=""></div>
+        <!-- height:500px; width:700px; -->
         <!-- <hr style="height: 0px; width: 98%; border: 0.2px solid #515151;"> -->
 
         <!-- <section class="assestsContainer">

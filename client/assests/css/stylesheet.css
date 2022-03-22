@@ -680,3 +680,16 @@ button:hover {
 /* Mobile Portrait Size to Mobile Landscape Size (devices and browsers) */
 @media only screen and (max-width: 479px) {
 }
+
+/********************************************************/
+/*                      Alt+Z                           */
+/********************************************************/
+
+.code-mirror-altZ {
+  /* word-wrap: break-word; */
+  white-space: pre !important;
+  /* word-break: normal; */
+}
+.code-mirror-altZ-toggle {
+  white-space: pre-line !important;
+}
