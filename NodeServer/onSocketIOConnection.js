@@ -18,7 +18,7 @@ const updateSelectedObject = (isSelectionExist) => {
     SELECTED_OBJECT = isSelectionExist ? JSON.parse(SELECTED_STRING) : {};
 
     // if (JSON.parse(SELECTED_STRING).length > 1)
-    //     console.log(JSON.parse(SELECTED_STRING));
+    // console.log(JSON.parse(SELECTED_STRING));
 }
 
 const changeViewOnClientSide = (io, isSelectionExist) => {
