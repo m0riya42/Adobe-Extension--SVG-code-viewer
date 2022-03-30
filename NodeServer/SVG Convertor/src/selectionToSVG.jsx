@@ -237,7 +237,11 @@ function renderClosedShape({
     minTL
 }) {
     const isCircularShape = (shapePathPointsInfo) => shapePathPointsInfo.totalPoints === shapePathPointsInfo.smooths && shapePathPointsInfo.totalPoints === 4 && isCirclePathPoints(shapePathPointsInfo.documentShapeCoordinates);
-    const isRectangle = (shapePathPointsInfo) => shapePathPointsInfo.corners === 4 && isVerticalWrapper(shapePathPointsInfo.shapeCoordinates.map(point => point.anchor)) //&& isRectCoordinates(shapePathPointsInfo.anchorPoints); //& check for the angle (for square also check the length of the edges)
+    // const isRectangle = (shapePathPointsInfo) => shapePathPointsInfo.corners === 4 && isVerticalWrapper(shapePathPointsInfo.documentShapeCoordinates.map(point => point.anchor)) //&& isRectCoordinates(shapePathPointsInfo.anchorPoints); //& check for the angle (for square also check the length of the edges)
+    const isRectangle = (shapePathPointsInfo) => {
+        console.log(isVerticalWrapper(shapePathPointsInfo.documentShapeCoordinates.map(point => point.anchor)))
+        return shapePathPointsInfo.corners === 4 && isVerticalWrapper(shapePathPointsInfo.documentShapeCoordinates.map(point => point.anchor))
+    } //&& isRectCoordinates(shapePathPointsInfo.anchorPoints); //& check for the angle (for square also check the length of the edges)
 
 
     if (isAllCorners) {

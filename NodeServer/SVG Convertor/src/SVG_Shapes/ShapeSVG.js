@@ -17,12 +17,14 @@ var {
     areArraysValuesEqual,
     removeArrayItem,
     toFixedNumber,
-    calcAngleDegrees
+    calcAngleDegrees,
 } = require('../utils.jsx');
+var { uid } = require('uid');
+
 const EMPTY_SHAPE = 'ShapeSVG';
 class ShapeSVG {
     constructor(shapeItem, shapePathPointsInfo) {
-        this.id = null;
+        this.id = `"${uid(6)}"`;
         this.style = null;
         this.shapeItem = shapeItem;
         this.shapePathPointsInfo = shapePathPointsInfo;
@@ -199,6 +201,24 @@ class ShapeSVG {
                 rotateDeg: null
             }
         });
+
+
+        //REctangle?
+
+        if (this.shapeType === "Rectangle") {
+
+            console.log('is Align: ' + isAlign)
+            if (!isAlign && !isDefined(rotatedTopPoint.rotateDeg)) {
+                debugger
+                console.log('rotateDeg is NOT DEFINED'.error);
+                const normalPoint = middleLine(shapeNormallizedPoints[0], shapeNormallizedPoints[1]);
+                console.log(normalPoint);
+                rotatedTopPoint.rotateDeg = toFixedNumber((90 - calcAngleDegrees.apply(null, normalPoint)), 2);
+                console.log(rotatedTopPoint.rotateDeg);
+            }
+        }
+
+
 
         console.log(isAlign)
         if (isAlign)

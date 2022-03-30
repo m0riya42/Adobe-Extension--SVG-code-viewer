@@ -142,6 +142,8 @@ const isVerticalWrapper = ([coord1, coord2, coord3, coord4], shapeType = "Rectan
     m3 = vectorGradient(coord3, coord4);
     m4 = vectorGradient(coord4, coord1);
 
+    console.log(m1, m2, m3, m4)
+    console.log(areGradientsAlignsToPage(m1, m2), areGradientsAlignsToPage(m3, m4))
     return (areGradientsAlignsToPage(m1, m2) && areGradientsAlignsToPage(m3, m4) || areGradientsVertical(m1, m2) && areGradientsVertical(m3, m4))
 }
 
@@ -192,5 +194,6 @@ module.exports = {
     areArraysValuesEqual,
     removeArrayItem,
     toFixedNumber,
-    calcAngleDegrees
+    calcAngleDegrees,
+
 }
