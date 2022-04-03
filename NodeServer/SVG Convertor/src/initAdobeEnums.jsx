@@ -7,11 +7,13 @@ const StrokeCap = {
     ROUNDENDCAP: 2,
     PROJECTINGENDCAP: 3
 }
+
 const StrokeJoin = {
     MITERENDJOIN: 1,
     ROUNDENDJOIN: 2,
     BEVELENDJOIN: 3
 }
+
 const PolarityValues = {
     NEGATIVE: -1,
     POSITIVE: 1

@@ -1,5 +1,6 @@
 var {
-    calculateCircularParams
+    calculateCircularParams,
+    AdobeColorItemToString
 } = require('./svgShape_utils.js')
 
 var {
@@ -10,6 +11,7 @@ var {
     calcAngleDegrees,
 } = require('../utils.jsx');
 var { uid } = require('uid');
+const StyleSVG = require('./StyleSVG.js');
 
 const EMPTY_SHAPE = 'ShapeSVG';
 class ShapeSVG {
@@ -35,8 +37,8 @@ class ShapeSVG {
     /*************************************************/
 
     generateShapeStyle = () => {
-        //TODO: use style from Adobe Function
-        this.style = `"fill:#88C540; stroke: black;" `
+        //TODO: add Marker(arrows) and Classes (def- style)
+        this.style = new StyleSVG(this.shapeItem).generateStyle();
     }
 
     generatePointsForPols = () => {
@@ -126,7 +128,6 @@ class ShapeSVG {
 
 
     }
-
 
 
 }

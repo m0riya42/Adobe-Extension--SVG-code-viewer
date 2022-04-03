@@ -327,6 +327,9 @@ function convertSelectionToSVG(selection) { //}width, height) {
         return acc
     }, '')
 
+    //TODO: refactor so if there is DEF/ STYLE CLASS/ add to the code
+
+
     const generator = "<!-- Generator: IDE for SVG 1.0.0  -->\n"; // +add link to github
     const svg = `${generator}<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="svgCodeViewerServer" width="${width}px" height="${height}px" viewBox="0 0 ${width} ${height}" xml:space="preserve" >${insideShapes}\n</svg>`
 
