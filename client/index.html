@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Svg Code Viewer</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.slim.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!--check 16/01 17:43-->
+    <script type="text/javascript" src="./assests/js/fontAwesome-all.js"></script>
+    <!-- <script type="text/javascript" src="../assests/js/CSInterface_v11.js"></script> -->
+    <script type="text/javascript" src="../assests/js/CSInterface.js"></script>
+    <!--until here-->
+    <script type="text/javascript" src="../assests/js/cs_host_adapter-2.0.js"></script>
+    <link rel="stylesheet" href="./assests/css/stylesheet.css" />
+    <link rel="stylesheet" href="./assests/css/svgCodeContainer.css" />
+
+
+
+    <!--Code Mirror-->
+
+    <link rel="stylesheet" href="./node_modules/codemirror/lib/codemirror.css">
+    <link rel="stylesheet" href="./node_modules/codemirror/theme/monokai.css">
+    <!-- <script type="module" sr./node_modules/codemirror/src/codemirror.js"> </script> -->
+
+    <script type="text/javascript" src="./node_modules/codemirror/lib/codemirror.js"> </script>
+    <script type="text/javascript" src="./node_modules/codemirror/mode/htmlmixed/htmlmixed.js"> </script>
+    <script type="text/javascript" src="./node_modules/codemirror/mode/xml/xml.js"> </script>
+    <script type="text/javascript" src="./node_modules/codemirror/mode/javascript/javascript.js"> </script>
+    <script type="text/javascript" src="./node_modules/codemirror/mode/css/css.js"> </script>
+    <script type="text/javascript" src="./node_modules/codemirror/keymap/sublime.js"></script>
+
+    <script type="text/javascript" src="./node_modules/codemirror/addon/display/fullscreen.js"></script>
+    <script type="text/javascript" src="./node_modules/codemirror/addon/hint/show-hint.js"></script>
+    <script type="text/javascript" src="./node_modules/codemirror/addon/hint/css-hint.js"></script>
+
+    <script type="text/javascript" src="./node_modules/codemirror/addon/edit/closetag.js"></script>
+    <script type="text/javascript" src="./node_modules/codemirror/addon/edit/closebrackets.js"></script>
+    <script type="text/javascript" src="./node_modules/codemirror/addon/edit/matchtags.js"></script>
+
+
+    <script type="text/javascript" src="./node_modules/codemirror/addon/fold/foldcode.js"></script>
+    <script type="text/javascript" src="./node_modules/codemirror/addon/fold/indent-fold.js"></script>
+    <!-- <script type="text/javascript" src="./node_modules/codemirror/addon/fold/comment-fold.js"></script> -->
+    <script type="text/javascript" src="./node_modules/codemirror/addon/fold/xml-fold.js"></script>
+    <script type="text/javascript" src="./node_modules/codemirror/addon/fold/foldgutter.js"></script>
+    <script type="text/javascript" src="./node_modules/codemirror/addon/fold/markdown-fold.js"></script>
+    <!-- <script defer src="svgCodeViewer.bundle.js"></script> -->
+
+    <!--Socket IO-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.slim.js"></script>
+
+</head>
+
+<body>
+    <div class="panelContainer">
+        <section class="codeContainer">
+            <fieldset class="fieldsetSection">
+                <legend class="legendSection">SVG Code</legend>
+                <div id="codeMirrorContainer" style="width: 98%;"></div>
+            </fieldset>
+        </section>
+
+        <div id="insertSvg" style=""></div>
+        <!-- height:500px; width:700px; -->
+        <!-- <hr style="height: 0px; width: 98%; border: 0.2px solid #515151;"> -->
+
+        <!-- <section class="assestsContainer">
+            <fieldset class="fieldsetSection exportSvgFieldset">
+                <legend class="legendSection">Export SVG</legend>
+
+                <div style="display:flex; align-items: center; justify-content: space-between;">
+
+                    <button id="CLEAR" title="CLEAR CODE" style="height: 82px;margin-bottom: -5px; width: 50px;">
+                        <i class="fas fa-minus-circle fa-2x"></i>
+                    </button>
+                    <button id="copyToClipboardButton" title="Copy to Clipboard"
+                        style="height: 82px;margin-bottom: -5px; width: 50px;">
+                        <i class="fas fa-clipboard fa-2x"></i>
+                    </button>
+                
+
+                </div>
+
+            </fieldset>
+
+
+
+        </section> -->
+
+
+    </div>
+    <script type="text/javascript" src="./index.js"></script>
+
+</body>
+
+</html>

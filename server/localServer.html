@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>Server Main View</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script type="text/javascript" src="../assests/js/fontAwesome-all.js"></script>
+	<script type="text/javascript" src="../assests/js/CSInterface.js"></script>
+
+	<!--Socket IO-->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.slim.js"></script>
+
+	<script>
+
+		var checkNodeConnection = function () {
+			if (typeof (require) !== 'undefined') {
+				console.log("Node.js is enabled");
+			} else {
+				console.log("Node.js is disabled");
+			}
+		}
+		var csInterface = new CSInterface();
+
+		// var createSocketIOConnection = require('./assests/socketIO');
+		// var createSocketIOServer = require('./assests/socketIO-server.js');
+		// createSocketIOConnection.initSocketIO(csInterface);
+		// var callbackFunctions = { createServer: createSocketIOConnection.evalScript };
+		// var createHttpServer = require('./assests/httpServer')(callbackFunctions);
+
+
+		/**********************************************************************/
+		/*                    Connect to NodeServer 		         	     */
+		/**********************************************************************/
+
+		var socket = io.connect('http://127.0.0.1:5200');
+
+		socket.on("handshake", function (res) {
+			console.log(res.text)
+			socket.emit('ack-handshake', { text: 'hello from client' })
+		})
+
+		socket.on("getSelected", function (res) {
+			csInterface.evalScript("getSelection()", function (selectedObj) {
+				console.log(selectedObj);
+				socket.emit('getSelected-ans', { selectedString: selectedObj });
+			});
+		})
+
+
+		socket.on("selectedToClient", function (svgCode) {
+			sendSvgToClient(svgCode);
+		})
+
+
+		/**********************************************************************/
+		/*                    Connect to Client 		         	     */
+		/**********************************************************************/
+		var http = require('http');
+
+		function sendSvgToClient(svgCode) {
+
+			// var postData = svgCode.toString();
+
+			var options = {
+				port: 6432,
+				path: "/selectedToClient",
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					// 'Content-Length': Buffer.byteLength(postData).toString()
+				}
+			};
+
+			var req = http.request(options, function (res) {
+				// console.log('STATUS: ${res.statusCode}');
+				// console.log('HEADERS: ${JSON.stringify(res.headers)}');
+				res.setEncoding('utf8');
+				res.on('data', function (chunk) {
+					// console.log('BODY: ${chunk}');
+				});
+				res.on('end', function () {
+					// console.log('No more data in response.');
+				});
+			});
+
+			req.on('error', function (e) {
+				console.error('problem with request: ${e.message}');
+			});
+
+			// Write data to request body
+			// console.log(svgCode)
+			req.write(svgCode);
+			req.end();
+			// http.post("http://localhost:6432/selectedToClient", svgCode, function (res) {
+			// 	res.setEncoding('utf8');
+			// 	res.on('data', function (body) {
+			// 		console.log(body);
+			// 	});
+			// 	alert("Got response: " + res.statusCode);
+			// 	console.log(res);
+			// }).on('error', function (e) {
+			// 	console.log("Got error: " + e.message);
+			// });
+		}
+
+
+	</script>
+	<title>Server APP</title>
+</head>
+
+</html>

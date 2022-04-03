@@ -6,4 +6,11 @@
             <Host Name="ILST" Port="6065" />
         </HostList>
     </Extension>
+    <Extension Id="com.my.localserver">
+        <HostList>
+            <!-- <Host Name="PHXS" Port="3035" />
+            <Host Name="PHSP" Port="3035" /> -->
+            <Host Name="ILST" Port="3030" />
+        </HostList>
+    </Extension>
 </ExtensionList>    
