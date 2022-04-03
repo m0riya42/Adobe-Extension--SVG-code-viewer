@@ -1,19 +1,6 @@
 var {
-    isCirclePathPoints,
-    isVerticalWrapper,
-    areGradientsVertical,
-    middleLine,
-    areGradientsAlignsToPage,
-    isDefined,
-    isInfinity,
-    normalCoordinate,
-    vectorGradient,
-    distance,
-    areTripleArraysEqual,
-    areArraysValuesEqual,
-    removeArrayItem,
     toFixedNumber,
-    calcAngleDegrees
+    isEllipseAlignToPage
 } = require('../utils.jsx');
 
 var ShapeSVG = require('./ShapeSVG');
@@ -30,7 +17,10 @@ class EllipseSVG extends ShapeSVG {
         this.generateCircularShapeParams();
         this.hRadius = toFixedNumber(this.height / 2, 2);
         this.wRadius = toFixedNumber(this.width / 2, 2);
-        this.generateShapeRotation();
+        const shapeCoordinates = this.shapePathPointsInfo.shapeCoordinates.map(el => el.anchor);
+        this.isAlign = isEllipseAlignToPage(shapeCoordinates);
+        console.log('************', this.isAlign)
+        !this.isAlign && this.generateShapeRotation();
         // console.log(this.height, this.width)
     }
 
@@ -39,13 +29,14 @@ class EllipseSVG extends ShapeSVG {
             cy = this.center[1],
             rx = this.wRadius,
             ry = this.hRadius,
-            rotation = this.rotation;
+            rotation = this.rotation ?? 0;
 
         // TODO: //get Super Return Values;
         const baseInfo = this.generateSVG_BaseInfo();
         let ellipseValues = `cx="${cx}" cy="${cy}" rx="${rx}" ry="${ry}"`
 
-        if (rotation !== 0)
+        // if (!this.isAlign)
+        if ((rotation !== 0) && (rotation % 180 !== 0))
             ellipseValues += ` transform="rotate(${rotation} ${cx} ${cy})"`
 
         return `<ellipse ${baseInfo} ${ellipseValues}/> `

@@ -1,19 +1,5 @@
 var {
-    isCirclePathPoints,
-    isVerticalWrapper,
-    areGradientsVertical,
-    middleLine,
-    areGradientsAlignsToPage,
-    isDefined,
-    isInfinity,
-    normalCoordinate,
-    vectorGradient,
-    distance,
     areTripleArraysEqual,
-    areArraysValuesEqual,
-    removeArrayItem,
-    toFixedNumber,
-    calcAngleDegrees
 } = require('../utils.jsx');
 
 var ShapeSVG = require('./ShapeSVG');
@@ -26,7 +12,7 @@ class PathSVG extends ShapeSVG {
     }
 
     initPath = () => {
-        this.shapeType = "Polyline";
+        this.shapeType = "Path";
         this.pathLine = this.generatePathLine(this.shapeItem.closed);
 
     }

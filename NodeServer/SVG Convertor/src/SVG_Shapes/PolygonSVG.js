@@ -1,19 +1,4 @@
 var {
-    isCirclePathPoints,
-    isVerticalWrapper,
-    areGradientsVertical,
-    middleLine,
-    areGradientsAlignsToPage,
-    isDefined,
-    isInfinity,
-    normalCoordinate,
-    vectorGradient,
-    distance,
-    areTripleArraysEqual,
-    areArraysValuesEqual,
-    removeArrayItem,
-    toFixedNumber,
-    calcAngleDegrees
 } = require('../utils.jsx');
 
 var ShapeSVG = require('./ShapeSVG');
@@ -26,7 +11,7 @@ class PolygonSVG extends ShapeSVG {
     }
 
     initPolygon = () => {
-        this.shapeType = "Polyline";
+        this.shapeType = "Polygon";
         this.points = this.generatePointsForPols();
     }
 

@@ -1,19 +1,9 @@
 var {
-    isCirclePathPoints,
-    isVerticalWrapper,
-    areGradientsVertical,
     middleLine,
-    areGradientsAlignsToPage,
-    isDefined,
-    isInfinity,
     normalCoordinate,
-    vectorGradient,
     distance,
-    areTripleArraysEqual,
-    areArraysValuesEqual,
-    removeArrayItem,
     toFixedNumber,
-    calcAngleDegrees
+    isRectangleAlignToPage
 } = require('../utils.jsx');
 
 var ShapeSVG = require('./ShapeSVG');
@@ -40,21 +30,28 @@ class RectangleSVG extends ShapeSVG {
     }
 
     generateRectRotation = () => {
-        const [path1, , path3] = this.shapePathPointsInfo.shapeCoordinates.map(el => el.anchor);
+        const shapeCoordinates = this.shapePathPointsInfo.shapeCoordinates.map(el => el.anchor);
+        const [path1, , path3] = shapeCoordinates;
         this.center = middleLine(path1, path3);
-        console.log('rect center: ' + this.center)
         this.hRadius = 0.5 * this.height;
-        this.generateShapeRotation();
+        this.x_transform = toFixedNumber(((this.bottomRight[0]) - this.width) / 2, 2);
+        this.y_transform = toFixedNumber(((this.bottomRight[1]) - this.height) / 2, 2);
+        //maybe?
+        this.isAlign = isRectangleAlignToPage(shapeCoordinates);
+        console.log('*************************', this.isAlign)
+        !this.isAlign && this.generateShapeRotation();
+
+
     }
 
     generateSVG = () => {
         const [x, y] = this.topLeft,
             height = this.height,
             width = this.width,
-            rotation = this.rotation;
-        // const geo_center = middleLine(this.topLeft, this.bottomRight),
-        const x_transform = toFixedNumber(((this.bottomRight[0]) - width) / 2,2),
-            y_transform = toFixedNumber(((this.bottomRight[1]) - height) / 2,2);
+            rotation = this.rotation ?? 0,
+            center = this.center,
+            x_transform = this.x_transform,
+            y_transform = this.y_transform;
 
 
         // TODO: //get Super Return Values;
@@ -65,7 +62,7 @@ class RectangleSVG extends ShapeSVG {
             rectangleValues += ` x="${x}" y="${y}"`;
 
         if ((rotation !== 0) && (rotation % 180 !== 0))
-            rectangleValues += ` transform="rotate(${rotation} ${this.center[0]} ${this.center[1]}) translate(${x_transform} ${y_transform})"`
+            rectangleValues += ` transform="rotate(${rotation} ${center[0]} ${center[1]}) translate(${x_transform} ${y_transform})"`
 
         return `<rect ${baseInfo} ${rectangleValues}/> `
 

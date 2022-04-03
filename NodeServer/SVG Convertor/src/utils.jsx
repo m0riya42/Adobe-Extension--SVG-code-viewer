@@ -128,24 +128,48 @@ const areGradientsVertical = (m1, m2) => {
  * In Rectangle the check is  between all the 4 lines
  * @return {Boolean} 
  */
-const isVerticalWrapper = ([coord1, coord2, coord3, coord4], shapeType = "Rectangle") => {
+const isVerticalWrapper = (shapeCoordinates, shapeType = "Rectangle") => {
 
-    let m1, m2, m3, m4;
     if (shapeType === "Circular") {
-        m1 = vectorGradient(coord1, coord3);
-        m2 = vectorGradient(coord2, coord4);
-
+        const [m1, m2] = getCircularGradients(shapeCoordinates)
         return (areGradientsAlignsToPage(m1, m2) || areGradientsVertical(m1, m2))
     }
-    m1 = vectorGradient(coord1, coord2);
-    m2 = vectorGradient(coord2, coord3);
-    m3 = vectorGradient(coord3, coord4);
-    m4 = vectorGradient(coord4, coord1);
-
-    console.log(m1, m2, m3, m4)
-    console.log(areGradientsAlignsToPage(m1, m2), areGradientsAlignsToPage(m3, m4))
-    return (areGradientsAlignsToPage(m1, m2) && areGradientsAlignsToPage(m3, m4) || areGradientsVertical(m1, m2) && areGradientsVertical(m3, m4))
+    //Rectangle
+    const [m1, m2, m3, m4] = getRectangleGradients(shapeCoordinates);
+    return (isRectangleAlignToPage(shapeCoordinates) || areGradientsVertical(m1, m2) && areGradientsVertical(m3, m4))
 }
+
+
+
+const isEllipseAlignToPage = (shapeCoordinates) => {
+    const [m1, m2, m3, m4] = getCircularGradients(shapeCoordinates);
+    return areGradientsAlignsToPage(m1, m2);
+
+}
+const isRectangleAlignToPage = (shapeCoordinates) => {
+    const [m1, m2, m3, m4] = getRectangleGradients(shapeCoordinates);
+    return areGradientsAlignsToPage(m1, m2) && areGradientsAlignsToPage(m3, m4);
+
+}
+
+
+const getCircularGradients = ([coord1, coord2, coord3, coord4]) => {
+    const m1 = vectorGradient(coord1, coord3),
+        m2 = vectorGradient(coord2, coord4);
+    return [m1, m2];
+
+}
+const getRectangleGradients = ([coord1, coord2, coord3, coord4]) => {
+    const m1 = vectorGradient(coord1, coord2),
+        m2 = vectorGradient(coord2, coord3),
+        m3 = vectorGradient(coord3, coord4),
+        m4 = vectorGradient(coord4, coord1);
+
+    return [m1, m2, m3, m4];
+
+}
+
+
 
 
 
@@ -195,5 +219,7 @@ module.exports = {
     removeArrayItem,
     toFixedNumber,
     calcAngleDegrees,
+    isRectangleAlignToPage,
+    isEllipseAlignToPage
 
 }
