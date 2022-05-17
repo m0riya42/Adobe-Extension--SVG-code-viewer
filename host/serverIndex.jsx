@@ -74,6 +74,112 @@ function getEnumNumber(enumPath) {
         TracingMethodType = {
             TRACINGMETHODABUTTING: 0,
             TRACINGMETHODOVERLAPPING: 1,
+        },
+        TextAntialias = {
+            NONE: 1,
+            SHARP: 2,
+            CRISP: 3,
+            STRONG: 4
+        },
+        TextOrientation = {
+            HORIZONTAL: 0,
+            VERTICAL: 1,
+        },
+        AutoKernType = {
+            NOAUTOKERN: 0,
+            AUTO: 1,
+            OPTICAL: 2,
+            METRICSROMANONLY: 3,
+        },
+        FontCapsOption = {
+            NORMALCAPS: 0,
+            SMALLCAPS: 1,
+            ALLCAPS: 2,
+            ALLSMALLCAPS: 3,
+        },
+        FontBaselineOption = {
+            NORMALBASELINE: 0,
+            SUPERSCRIPT: 1,
+            SUBSCRIPT: 2,
+        },
+        FontOpenTypePositionOption = {
+            OPENTYPEDEFAULT: 0,
+            OPENTYPESUPERSCRIPT: 1,
+            OPENTYPESUBSCRIPT: 2,
+            NUMERATOR: 3,
+            DENOMINATOR: 4,
+        },
+        FigureStyleType = {
+            DEFAULTFIGURESTYLE: 0,
+            TABULAR: 1,
+            PROPORTIONALOLDSTYLE: 2,
+            PROPORTIONAL: 3,
+            TABULAROLDSTYLE: 4,
+        },
+        BaselineDirectionType = {
+            Standard: 1,
+            VerticalRotated: 2,
+            TateChuYoko: 3,
+        },
+        AlternateGlyphsForm = {
+            DEFAULTFORM: 0,
+            TRADITIONAL: 1,
+            EXPERT: 2,
+            JIS78FORM: 3,
+            JIS83FORM: 4,
+            HALFWIDTH: 5,
+            THIRDWIDTH: 6,
+            QUARTERWIDTH: 7,
+            FULLWIDTH: 8,
+            PROPORTIONALWIDTH: 9,
+            JIS90FORM: 10,
+            JIS04FORM: 11,
+        },
+        StyleRunAlignmentType = {
+            bottom: 0,
+            icfBottom: 1,
+            ROMANBASELINE: 2,
+            center: 3,
+            icfTop: 4,
+            top: 5,
+        },
+        WariChuJustificationType = {
+            Left: 0,
+            Right: 1,
+            Center: 2,
+            WARICHUFULLJUSTIFYLASTLINELEFT: 3,
+            WARICHUFULLJUSTIFYLASTLINERIGHT: 4,
+            WARICHUFULLJUSTIFYLASTLINECENTER: 5,
+            WARICHUFULLJUSTIFY: 6,
+            WARICHUAUTOJUSTIFY: 7,
+        },
+        Justification = {
+            LEFT: 0,
+            RIGHT: 1,
+            CENTER: 2,
+            FULLJUSTIFYLASTLINELEFT: 3,
+            FULLJUSTIFYLASTLINERIGHT: 4,
+            FULLJUSTIFYLASTLINECENTER: 5,
+            FULLJUSTIFY: 6
+        },
+        BurasagariTypeEnum = {
+            None: 0,
+            Standard: 1,
+            Forced: 2,
+        },
+        KinsokuOrderEnum = {
+            PUSHIN: 0,
+            PUSHOUTFIRST: 1,
+            PUSHOUTONLY: 2,
+        },
+        AutoLeadingType = {
+            BOTTOMTOBOTTOM: 0,
+            TOPTOTOP: 1,
+        },
+        TextType = {
+            POINTTEXT: 0,
+            AREATEXT: 1,
+            PATHTEXT: 2,
         };
     var path = enumPath.split(".");
     switch (path[0]) {
@@ -104,6 +210,38 @@ function getEnumNumber(enumPath) {
             return TracingColorType[path[1]];
         case "TracingMethodType":
             return TracingMethodType[path[1]];
+        case "TextAntialias":
+            return TextAntialias[path[1]];
+        case "TextOrientation":
+            return TextOrientation[path[1]];
+        case "AutoKernType":
+            return AutoKernType[path[1]];
+        case "FontCapsOption":
+            return FontCapsOption[path[1]];
+        case "FontBaselineOption":
+            return FontBaselineOption[path[1]];
+        case "FontOpenTypePositionOption":
+            return FontOpenTypePositionOption[path[1]];
+        case "FigureStyleType":
+            return FigureStyleType[path[1]];
+        case "BaselineDirectionType":
+            return BaselineDirectionType[path[1]];
+        case "AlternateGlyphsForm":
+            return AlternateGlyphsForm[path[1]];
+        case "StyleRunAlignmentType":
+            return StyleRunAlignmentType[path[1]];
+        case "WariChuJustificationType":
+            return WariChuJustificationType[path[1]];
+        case "Justification":
+            return Justification[path[1]];
+        case "BurasagariTypeEnum":
+            return BurasagariTypeEnum[path[1]];
+        case "KinsokuOrderEnum":
+            return KinsokuOrderEnum[path[1]];
+        case "AutoLeadingType":
+            return AutoLeadingType[path[1]];
+        case "TextType":
+            return TextType[path[1]];
     }
 }
 
@@ -215,7 +353,9 @@ function objectToJsonString(object) {
     var logger = '{';
 
     for (var key in object) {
-        if (key !== "parent") {
+        // if (key !== "parent") {
+        if (key !== "parent" && key !== "story" && key !== "textSelection" && key !== "textRanges") {
+
             try {
                 logger += '"' + key + '"' + ':' + mainItemToJsonString(object[key]) + ',';
 
@@ -297,8 +437,8 @@ function getSelection() {
         if (selection)
             return mainItemToJsonString(selection)
 
-        throw NO_SELECTION
-        // return NO_SELECTION;
+        // throw NO_SELECTION
+        return NO_SELECTION;
     } catch (e) {
         return e;
     }

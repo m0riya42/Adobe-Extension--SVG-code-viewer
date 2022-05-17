@@ -17,7 +17,15 @@ const calculateCircularParams = (shapePathPoints) => {
 
 
 function AdobeColorItemToString(adobeColorItem) {
-
+    /*CMYKColor
+    GradientColor
+    GrayColor
+    LabColor
+    NoColor
+    PatternColor
+    RGBColor
+    SpotColor
+    */
     switch (adobeColorItem.typename) {
         case 'CMYKColor':
             return convertCMYKcolor(adobeColorItem);

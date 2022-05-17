@@ -239,9 +239,9 @@ function getShapeObject(selectedItem, minTL, maxBR) {
 
 
 function getGroupObject(selectedItem, minTL, maxBR) {
-    console.log("page Items:", selectedItem.pageItems);
+    // console.log("page Items:", selectedItem.pageItems);
     if (selectedItem.pageItems.length === 0)
-        return
+        return '<g></g>';
 
     let groupItemString = '<g>'
     let groupObjects = selectedItem.pageItems.items.reduceRight((acc, groupObject) => {
@@ -251,13 +251,6 @@ function getGroupObject(selectedItem, minTL, maxBR) {
     }, "");
     groupItemString += groupObjects + '\n</g>'
     return groupItemString;
-    //foreach page item- getShapeCodeSvg
-    /*
-      selectedItem.pageItems.foreach(pageItem=>{
-
-//in Adobe: add to pageItems and all the same variebles the list of the items inside
-//if pageItems.Length > 0
-*/
 }
 /**
  * Gets he selectionItem and convert it to code
@@ -278,6 +271,13 @@ function getShapeCodeSVG(selectedItem, minTL, maxBR) {
         case "PathItem":
             shapeObject = getShapeObject(selectedItem, minTL, maxBR);
             break;
+        case "TextFrame":
+            console.log('Text Element');
+            break;
+        case "TextRange": //while writing
+            console.log('TextRange');
+            break;
+
     }
     //   const shapeObject = getShapeObject(selectedItem, minTL, maxBR);
 
@@ -306,6 +306,7 @@ function getShapeCodeSVG(selectedItem, minTL, maxBR) {
     }
  */
 function getShapeCoorinates(selection) {
+    console.log('selection', selection)
     //foreach selected item , returns the minimum TL coordinate and the maximum BR coordinate
     //Y is always minus so apperently it should be the ooposite
     return selection.reduce((acc, selectedItem) => {
