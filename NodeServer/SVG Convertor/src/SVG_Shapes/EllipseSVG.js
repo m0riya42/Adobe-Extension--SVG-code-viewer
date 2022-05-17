@@ -9,11 +9,14 @@ class EllipseSVG extends ShapeSVG {
     constructor({ shapePathPointsInfo, selectedItem }) {
         super(selectedItem, shapePathPointsInfo);
         this.initEllipse();
+
         // return this.generateSVG();
     }
 
     initEllipse = () => {
         this.shapeType = "Ellipse";
+        this.generateUID();
+
         this.generateCircularShapeParams();
         this.hRadius = toFixedNumber(this.height / 2, 2);
         this.wRadius = toFixedNumber(this.width / 2, 2);

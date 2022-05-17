@@ -175,7 +175,7 @@ function arrayToJsonString(object) {
     var logger = "[";
     //forEach Item in Array logger it
     for (var i = 0; i < object.length; i++) {
-        logger += mainItemToJsonString(object[i]) + ",";
+        logger += adobeItemToJsonString(object[i]) + ",";
     }
     // logger = logger.slice(0, -1);
     logger = sliceTheComma(logger);
@@ -203,8 +203,6 @@ function adobeItemsObjectToJsonString(object) {
 
 
 function objectToJsonString(object) {
-    object.typename == "GroupItem" ? isDefine(object.pageItems) : null;
-    //   isDefine(object.pageItems) ? null: null; 
 
     if (isAdobeEnum(object.typename)) //enums
         return adobeEnumToJsonString(object);
@@ -217,16 +215,16 @@ function objectToJsonString(object) {
     for (var key in object) {
         if (key !== "parent") {
             try {
-                logger += '"' + key + '"' + ':' + mainItemToJsonString(object[key]) + ',';
+                logger += '"' + key + '"' + ':' + adobeItemToJsonString(object[key]) + ',';
 
             } catch (e) {
-                logger += '"' + key + '"' + ':' + mainItemToJsonString(ERROR_VALUE) + ',';
+                logger += '"' + key + '"' + ':' + adobeItemToJsonString(ERROR_VALUE) + ',';
                 //// zOrderPosition, wrapOffset, wrapInside
                 // $.writeln("ERROR KEY IS: " + key + ", Error: " + e);
             }
         } else {
 
-            logger += '"' + key + '"' + ':' + mainItemToJsonString("[" + object[key].typename + "]") + ',';
+            logger += '"' + key + '"' + ':' + adobeItemToJsonString("[" + object[key].typename + "]") + ',';
 
         }
     }
@@ -247,9 +245,7 @@ function adobeEnumToJsonString(object) {
     return getEnumNumber(object.toString());
 }
 
-/******** Main Function ***********/
-function mainItemToJsonString(object) {
-    // selection[0].pageItems ? null : null;
+function adobeItemToJsonString(object) {
 
     var retVal;
     if (!isDefine(object))
@@ -259,7 +255,6 @@ function mainItemToJsonString(object) {
         return arrayToJsonString(object);
         // retVal = arrayToJsonString(object);
     } else if (isObject(object)) {
-        //TODO: Recognize the hidden variables ||==> pageItems , pathItems, placedItems, pluginItems
         if (isAdobeItemsObject(object.typename))
             return adobeItemsObjectToJsonString(object);
         return objectToJsonString(object);
@@ -280,26 +275,16 @@ function mainItemToJsonString(object) {
 
 }
 
-/**************************************************/
-/*              Adobe Functions                   */
-/**************************************************/
-
-var NO_SELECTION = "NO_SELECTION";
-
-// function openDocument() {
-//     var fileRef = new File("~/Downloads/myFile.jpg");
-//     var docRef = app.open(fileRef);
-//     return "done server";
-// }
-
-function getSelection() {
-    try {
-        if (selection)
-            return mainItemToJsonString(selection)
-
-        throw NO_SELECTION
-        // return NO_SELECTION;
-    } catch (e) {
-        return e;
-    }
+/*
+function b() {
+    $.writeln('hello world')
 }
+var a = [b, {
+    c: "moriya",
+    d: [1, 2, 3],
+    a: 3
+}, "moriya"]
+// adobeItemToJsonString(a)*/
+adobeItemToJsonString(selection)
+
+// function 

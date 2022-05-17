@@ -7,11 +7,14 @@ class PolylineSVG extends ShapeSVG {
     constructor({ shapePathPointsInfo, selectedItem }) {
         super(selectedItem, shapePathPointsInfo);
         this.initPolyline();
+
         // return this.generateSVG();
     }
 
     initPolyline = () => {
         this.shapeType = "Polyline";
+        this.generateUID();
+
         this.points = this.generatePointsForPols();
 
     }

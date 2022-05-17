@@ -7,11 +7,14 @@ class PolygonSVG extends ShapeSVG {
     constructor({ shapePathPointsInfo, selectedItem }) {
         super(selectedItem, shapePathPointsInfo);
         this.initPolygon();
+
         // return this.generateSVG();
     }
 
     initPolygon = () => {
         this.shapeType = "Polygon";
+        this.generateUID();
+
         this.points = this.generatePointsForPols();
     }
 

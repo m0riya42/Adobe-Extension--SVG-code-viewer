@@ -14,9 +14,18 @@ var { uid } = require('uid');
 const StyleSVG = require('./StyleSVG.js');
 
 const EMPTY_SHAPE = 'ShapeSVG';
+const TYPES = {
+    'Rectangle': 'rect',
+    'Circle': 'circle',
+    'Line': 'line',
+    'Polygon': 'polygon',
+    'Polyline': 'polyline',
+    'Ellipse': 'ellipse',
+    'Path': 'path',
+}
 class ShapeSVG {
     constructor(shapeItem, shapePathPointsInfo) {
-        this.id = `"${uid(6)}"`;
+        this.id = null;// `"${uid(6)}"`;
         this.style = null;
         this.shapeItem = shapeItem;
         this.shapePathPointsInfo = shapePathPointsInfo;
@@ -32,10 +41,17 @@ class ShapeSVG {
     getShapeStyle = () => this.style;
     getShapeItem = () => this.shapeItem;
 
+    getShapeNickType = () => {
+        return TYPES[this.shapeType];
+    }
     /*************************************************/
     /*              GENERATE FUNCTIONS               */
     /*************************************************/
 
+    generateUID = () => {
+        this.id = `"${this.getShapeNickType()}_${uid(4)}"`;
+        // return;
+    }
     generateShapeStyle = () => {
         //TODO: add Marker(arrows) and Classes (def- style)
         this.style = new StyleSVG(this.shapeItem).generateStyle();
@@ -133,3 +149,5 @@ class ShapeSVG {
 }
 
 module.exports = ShapeSVG;
+
+

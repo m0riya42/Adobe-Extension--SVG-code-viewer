@@ -13,6 +13,8 @@ class CircleSVG extends ShapeSVG {
 
     initCircle = () => {
         this.shapeType = "Circle";
+        this.generateUID();
+        
         this.generateCircularShapeParams();
         this.radius = toFixedNumber(this.height / 2, 2);
     }

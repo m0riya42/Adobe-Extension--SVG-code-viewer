@@ -7,11 +7,14 @@ class LineSVG extends ShapeSVG {
     constructor({ shapePathPointsInfo, selectedItem }) {
         super(selectedItem, shapePathPointsInfo);
         this.initLine(shapePathPointsInfo.shapeCoordinates);
+
         // return this.generateSVG();
     }
 
     initLine = (lineCoords) => {
         this.shapeType = "Line";
+        this.generateUID();
+
         const [coord1, coord2] = lineCoords;
         this.coord1 = coord1.anchor;
         this.coord2 = coord2.anchor;

@@ -8,11 +8,14 @@ class PathSVG extends ShapeSVG {
     constructor({ selectedItem, shapePathPointsInfo, isClosed }) {
         super(selectedItem, shapePathPointsInfo);
         this.initPath();
+
         // return this.generateSVG();
     }
 
     initPath = () => {
         this.shapeType = "Path";
+        this.generateUID();
+
         this.pathLine = this.generatePathLine(this.shapeItem.closed);
 
     }

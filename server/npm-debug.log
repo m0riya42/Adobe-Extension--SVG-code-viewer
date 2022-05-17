@@ -1,0 +1,41 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'D:\\תוכנות\\תוכנות שמותקנות\\NodeJS\\\\node.exe',
+1 verbose cli   'D:\\תוכנות\\תוכנות שמותקנות\\NodeJS\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'view',
+1 verbose cli   '--json',
+1 verbose cli   'shelljs',
+1 verbose cli   'description',
+1 verbose cli   'dist-tags.latest',
+1 verbose cli   'homepage',
+1 verbose cli   'version' ]
+2 info using npm@1.2.14
+3 info using node@v0.8.22
+4 verbose node symlink D:\תוכנות\תוכנות שמותקנות\NodeJS\\node.exe
+5 verbose url raw shelljs
+6 verbose url resolving [ 'https://registry.npmjs.org/', './shelljs' ]
+7 verbose url resolved https://registry.npmjs.org/shelljs
+8 info trying registry request attempt 1 at 14:11:28
+9 http GET https://registry.npmjs.org/shelljs
+10 info retry will retry, error on last attempt: Error: 21816:error:1407742E:SSL routines:SSL23_GET_SERVER_HELLO:tlsv1 alert protocol version:openssl\ssl\s23_clnt.c:658:
+11 info trying registry request attempt 2 at 14:11:39
+12 http GET https://registry.npmjs.org/shelljs
+13 info retry will retry, error on last attempt: Error: 21816:error:1407742E:SSL routines:SSL23_GET_SERVER_HELLO:tlsv1 alert protocol version:openssl\ssl\s23_clnt.c:658:
+14 info trying registry request attempt 3 at 14:12:39
+15 http GET https://registry.npmjs.org/shelljs
+16 error Error: socket hang up
+16 error     at createHangUpError (http.js:1373:15)
+16 error     at CleartextStream.socketCloseListener (http.js:1424:23)
+16 error     at CleartextStream.EventEmitter.emit (events.js:126:20)
+16 error     at SecurePair.destroy (tls.js:956:22)
+16 error     at process.startup.processNextTick.process._tickCallback (node.js:245:9)
+17 error If you need help, you may report this log at:
+17 error     <http://github.com/isaacs/npm/issues>
+17 error or email it to:
+17 error     <npm-@googlegroups.com>
+18 error System Windows_NT 6.2.9200
+19 error command "D:\\תוכנות\\תוכנות שמותקנות\\NodeJS\\\\node.exe" "D:\\תוכנות\\תוכנות שמותקנות\\NodeJS\\node_modules\\npm\\bin\\npm-cli.js" "view" "--json" "shelljs" "description" "dist-tags.latest" "homepage" "version"
+20 error cwd c:\Users\moriy\AppData\Roaming\Adobe\CEP\extensions\SvgCodeViewer\server
+21 error node -v v0.8.22
+22 error npm -v 1.2.14
+23 error code ECONNRESET
+24 verbose exit [ 1, true ]

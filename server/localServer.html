@@ -103,7 +103,38 @@
 			// 	console.log("Got error: " + e.message);
 			// });
 		}
+		var assign = require('object.assign').getPolyfill(); // returns native method if compliant
+		Object.assign = assign;
+		// console.log(Object.assign)
+		var os = require('os');
+		console.log(os);
+		console.log(os.tmpDir());
+		os.tmpdir = os.tmpDir;
 
+		var fs = require('fs');
+		// fs.writeFileSync('D:\\hello.txt', "hi", {
+		// encoding: 'utf8',
+		// mode: parseInt('600', 8),
+		// });
+
+		// console.log(fs.writeFileSync);
+		// fs.writeFileSync('D:\\hello.txt', 'utf82', 'utf8')
+		//polyfill:
+
+		var lastWriteFileSync = fs.writeFileSync;
+
+		function writeFileSync(path, data, options) {
+			// var options = getOptions(options, { encoding: 'utf8', mode: 0o666, flag: 'w' });
+			// var options = getOptions(options, { encoding: 'utf8', mode: 0o666, flag: 'w' });
+
+			return lastWriteFileSync(path, data, options.encoding);
+		}
+
+		fs.writeFileSync = writeFileSync;
+		// function writeFileSync (path, data, encoding) {
+
+		var shell = require('shelljs');
+		shell.exec('D:\\try.bat');
 
 	</script>
 	<title>Server APP</title>

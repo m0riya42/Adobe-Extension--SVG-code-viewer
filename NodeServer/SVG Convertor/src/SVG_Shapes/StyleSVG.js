@@ -76,9 +76,12 @@ class StyleSVG {
         if (isDefined(fillColor))
             style += `fill:${fillColor}; `
         if (isDefined(stroke)) {
+            // console.log('stroke.strokeDashArray: ', stroke.strokeDashArray.length);
+            // console.log('stroke: ', stroke);
+
             style += `stroke: ${stroke.strokeColor}; `
             stroke.strokeWidth !== 1 ? style += `stroke-width: ${stroke.strokeWidth}; ` : null
-            stroke.strokeDashArray !== [] ? style += `stroke-dasharray: ${stroke.strokeDashArray}; ` : null
+            stroke.strokeDashArray.length !== 0 ? style += `stroke-dasharray: ${stroke.strokeDashArray}; ` : null
             stroke.strokeMiterLimit !== 10 ? style += `stroke-miterlimit:: ${stroke.strokeMiterLimit}; ` : null
             stroke.strokeCap !== 'butt' ? style += `stroke-linecap: ${stroke.strokeCap}; ` : null
             stroke.strokeJoin !== 'miter' ? style += `stroke-linejoin: ${stroke.strokeJoin}; ` : null

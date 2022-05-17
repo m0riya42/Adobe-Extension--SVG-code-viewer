@@ -9,6 +9,10 @@ var intervalRouter = require('./routes/interval');
 
 var app = express();
 
+// var fs = require('fs');
+// console.log('fs.writeFileSync');
+// console.log(fs.getOptions.toString());
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');

@@ -12,10 +12,13 @@ class RectangleSVG extends ShapeSVG {
     constructor({ shapePathPointsInfo, selectedItem, minTL }) {
         super(selectedItem, shapePathPointsInfo);
         this.initRectangle(minTL);
+
     }
 
     initRectangle = (minTL) => {
         this.shapeType = "Rectangle";
+        // this.id = `"rect_${this.generateUID()}"`;
+        this.generateUID();
 
         const [path1, path2, path3] = this.shapePathPointsInfo.shapeCoordinates;
         const ShapeTopLeft = this.shapeItem.geometricBounds.slice(0, 2);
