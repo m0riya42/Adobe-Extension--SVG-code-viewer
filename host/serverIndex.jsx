@@ -440,6 +440,7 @@ function getSelection() {
         // throw NO_SELECTION
         return NO_SELECTION;
     } catch (e) {
-        return e;
+        return NO_SELECTION;
+        // return e;
     }
 }

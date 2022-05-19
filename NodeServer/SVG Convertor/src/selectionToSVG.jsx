@@ -24,6 +24,7 @@ var PathSVG = require("./SVG_Shapes/PathSVG.js");
 var EllipseSVG = require("./SVG_Shapes/EllipseSVG.js");
 var CircleSVG = require("./SVG_Shapes/CircleSVG.js");
 var RectangleSVG = require("./SVG_Shapes/RectangleSVG.js");
+var TextSVG = require("./SVG_Shapes/TextSVG.js");
 var {
     calculateCircularParams
 } = require("./SVG_Shapes/svgShape_utils.js");
@@ -239,6 +240,7 @@ function getShapeObject(selectedItem, minTL, maxBR) {
 
 
 function getGroupObject(selectedItem, minTL, maxBR) {
+
     // console.log("page Items:", selectedItem.pageItems);
     if (selectedItem.pageItems.length === 0)
         return '<g></g>';
@@ -251,6 +253,23 @@ function getGroupObject(selectedItem, minTL, maxBR) {
     }, "");
     groupItemString += groupObjects + '\n</g>'
     return groupItemString;
+}
+
+
+function getTextObject(selectedItem, minTL, maxBR) {
+    //if using it- make it higher for more uses
+    // const shapePathPointsInfo = sortShapePathPoints(
+    //     selectedItem.selectedPathPoints,
+    //     minTL
+    // );
+    return new TextSVG({
+        selectedItem,
+        minTL,
+    }).generateSVG();
+
+    // let x, y, text, style;
+    // return `<text   x="${x}" y="${y}" style="${style}">${text}</text>`
+
 }
 /**
  * Gets he selectionItem and convert it to code
@@ -273,6 +292,7 @@ function getShapeCodeSVG(selectedItem, minTL, maxBR) {
             break;
         case "TextFrame":
             console.log('Text Element');
+            shapeObject = getTextObject(selectedItem, minTL, maxBR);
             break;
         case "TextRange": //while writing
             console.log('TextRange');
@@ -306,7 +326,7 @@ function getShapeCodeSVG(selectedItem, minTL, maxBR) {
     }
  */
 function getShapeCoorinates(selection) {
-    console.log('selection', selection)
+    // console.log('selection', selection)
     //foreach selected item , returns the minimum TL coordinate and the maximum BR coordinate
     //Y is always minus so apperently it should be the ooposite
     return selection.reduce((acc, selectedItem) => {

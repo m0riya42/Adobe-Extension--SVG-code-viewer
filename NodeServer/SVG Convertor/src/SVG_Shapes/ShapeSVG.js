@@ -22,6 +22,7 @@ const TYPES = {
     'Polyline': 'polyline',
     'Ellipse': 'ellipse',
     'Path': 'path',
+    'Text': 'text'
 }
 class ShapeSVG {
     constructor(shapeItem, shapePathPointsInfo) {
