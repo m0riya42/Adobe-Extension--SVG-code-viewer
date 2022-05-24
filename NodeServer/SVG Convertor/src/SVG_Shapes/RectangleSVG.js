@@ -61,7 +61,8 @@ class RectangleSVG extends ShapeSVG {
         const baseInfo = this.generateSVG_BaseInfo();
         let rectangleValues = `width="${width}" height="${height}"`
 
-        if ((x !== 0) && (y !== 0))
+        console.log('rext x,y', x, y)
+        if ((x !== 0) || (y !== 0))
             rectangleValues += ` x="${x}" y="${y}"`;
 
         if ((rotation !== 0) && (rotation % 180 !== 0))

@@ -13,7 +13,8 @@ class TextSVG extends ShapeSVG {
         super(selectedItem);
         this.initText(minTL);
 
-        console.log('Text Object\n'.help, this);
+        // console.log('Text Object\n'.help, this);
+        console.log('Text Shape Item\n'.help, this.shapeItem);
     }
 
     initText = (minTL) => {
@@ -38,6 +39,14 @@ class TextSVG extends ShapeSVG {
         // console.log(`${this.shapeItem.anchor}`.error)
 
         this.bottomLeft = normalCoordinate(ShapeBottomLeft, minTL);
+        this.anchor = normalCoordinate(this.shapeItem.anchor, minTL);
+
+        console.log('***************************')
+        console.log('Text positions:\n')
+        const nor = (x) => normalCoordinate(x, minTL);
+        // console.log('geometricBounds', nor(this.shapeItem.textRange.layer.position))
+        console.log('anchor', this.shapeItem.anchor, nor(this.shapeItem.anchor))
+        console.log('***************************')
         // this.bottomRight = normalCoordinate(ShapeBottomRight, minTL); //**********/
         // this.generateRectRotation();
 
@@ -60,7 +69,8 @@ class TextSVG extends ShapeSVG {
     // }
 
     generateSVG = () => {
-        const [x, y] = this.bottomLeft,
+        const [x] = this.bottomLeft,
+            [, y] = this.anchor,
             // const [x, y] = this.topLeft,
             text = this.text;
         // height = this.height,
@@ -76,7 +86,7 @@ class TextSVG extends ShapeSVG {
         const baseInfo = this.generateSVG_BaseInfo();
         let textValues = "";// = `width="${width}" height="${height}"`
 
-        if ((x !== 0) && (y !== 0))
+        if ((x !== 0) || (y !== 0))
             textValues += `x="${x}" y="${y}"`;
 
         // if ((rotation !== 0) && (rotation % 180 !== 0))
@@ -89,3 +99,7 @@ class TextSVG extends ShapeSVG {
 }
 
 module.exports = TextSVG;
+
+
+
+

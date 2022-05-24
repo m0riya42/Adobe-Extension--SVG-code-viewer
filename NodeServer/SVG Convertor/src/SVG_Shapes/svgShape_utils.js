@@ -33,6 +33,8 @@ function AdobeColorItemToString(adobeColorItem) {
             return convertRGBcolor(adobeColorItem);
         case 'GradientColor':
             return;
+        case 'NoColor':
+            return 'none';
 
     }
 

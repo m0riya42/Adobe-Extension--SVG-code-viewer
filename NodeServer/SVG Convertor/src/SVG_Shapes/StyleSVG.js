@@ -25,8 +25,16 @@ class StyleSVG {
 
     initStyle = () => {
 
-        this.generateFill();
-        this.generateStoke();
+        // console.log('generate style', this.shapeItem)
+
+        if (this.shapeItem.typename === 'TextFrame') {
+            this.generateText();
+        }
+        else {
+
+            this.generateFill();
+            this.generateStoke();
+        }
         // this.generateStokeColor();
 
 
@@ -62,34 +70,75 @@ class StyleSVG {
 
     }
 
+    generateText = () => {
+        //TODO: font family
+        //TODO: font size
+        const fontSize = toFixedNumber(this.shapeItem.textRange.size, 2),
+            fontFamily = this.shapeItem.textRange.textFont.name,
+            strokeWeight = this.shapeItem.textRange.strokeWeight,
+            strokeColor = AdobeColorItemToString(this.shapeItem.textRange.strokeColor),
+            fillColor = AdobeColorItemToString(this.shapeItem.textRange.fillColor);
+        //TODO: fill
+        //TODO: stroke
+        //TODO: B/U/I
+
+        this.textstyle = { fontSize, fontFamily, strokeColor, strokeWeight, fillColor }
+    }
 
 
-    generateStyle = () => {
-        //TODO: use style from Adobe Function
-
+    generateTextStyle = () => {
         let style = '"'
-        const fillColor = this.fillColor,
-            stroke = this.stroke;
+        const { fontSize, fontFamily, strokeColor, strokeWeight, fillColor } = this.textstyle;
 
-        //TODO: if returns values > 2, create Classes
-
-        if (isDefined(fillColor))
-            style += `fill:${fillColor}; `
-        if (isDefined(stroke)) {
-            // console.log('stroke.strokeDashArray: ', stroke.strokeDashArray.length);
-            // console.log('stroke: ', stroke);
-
-            style += `stroke: ${stroke.strokeColor}; `
-            stroke.strokeWidth !== 1 ? style += `stroke-width: ${stroke.strokeWidth}; ` : null
-            stroke.strokeDashArray.length !== 0 ? style += `stroke-dasharray: ${stroke.strokeDashArray}; ` : null
-            stroke.strokeMiterLimit !== 10 ? style += `stroke-miterlimit:: ${stroke.strokeMiterLimit}; ` : null
-            stroke.strokeCap !== 'butt' ? style += `stroke-linecap: ${stroke.strokeCap}; ` : null
-            stroke.strokeJoin !== 'miter' ? style += `stroke-linejoin: ${stroke.strokeJoin}; ` : null
+        style += `font-size: ${fontSize}; font-family: '${fontFamily}'; `
+        if (strokeColor !== 'none') {
+            style += `stroke:${strokeColor}; stroke-width:${strokeWeight};`
         }
+        fillColor !== '#000000' ? style += `fill:${fillColor}; ` : null;
+        /* strokeWeight = this.shapeItem.textRange.strokeWeight,
+            strokeColor = AdobeColorItemToString(this.shapeItem.textRange.strokeColor),
+            fillColor = AdobeColorItemToString(this.shapeItem.textRange.fillColor);
+            */
+        // stroke.strokeJoin !== 'miter' ? style += `stroke-linejoin: ${stroke.strokeJoin}; ` : null
 
 
         style += '"';
         return style
+    }
+
+    generateStyle = () => {
+        //TODO: use style from Adobe Function
+        if (this.shapeItem.typename === 'TextFrame') {
+            return this.generateTextStyle();
+        }
+
+        else {
+            let style = '"'
+            const fillColor = this.fillColor,
+                stroke = this.stroke;
+
+            //TODO: if returns values > 2, create Classes
+
+            if (isDefined(fillColor))
+                style += `fill:${fillColor}; `
+            if (isDefined(stroke)) {
+                // console.log('stroke.strokeDashArray: ', stroke.strokeDashArray.length);
+                // console.log('stroke: ', stroke);
+
+                style += `stroke: ${stroke.strokeColor}; `
+                stroke.strokeWidth !== 1 ? style += `stroke-width: ${stroke.strokeWidth}; ` : null
+                stroke.strokeDashArray.length !== 0 ? style += `stroke-dasharray: ${stroke.strokeDashArray}; ` : null
+                stroke.strokeMiterLimit !== 10 ? style += `stroke-miterlimit:: ${stroke.strokeMiterLimit}; ` : null
+                stroke.strokeCap !== 'butt' ? style += `stroke-linecap: ${stroke.strokeCap}; ` : null
+                stroke.strokeJoin !== 'miter' ? style += `stroke-linejoin: ${stroke.strokeJoin}; ` : null
+            }
+
+
+            style += '"';
+            return style
+        }
+
+
     }
 
 

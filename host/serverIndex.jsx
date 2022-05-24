@@ -1,3 +1,17 @@
+/***************************************/
+/*          PolyFills                  */
+/***************************************/
+
+Array.prototype.forEach = function(callback) {
+    for (var i = 0; i < this.length; i++) callback(this[i], i, this);
+};
+
+Array.prototype.includes = function(item) {
+    for (var i = 0; i < this.length; i++)
+        if (this[i] == item) return true;
+    return false;
+};
+
 /***********************************************************/
 /*                     ENUM VALUES                         */
 /***********************************************************/
@@ -341,7 +355,14 @@ function adobeItemsObjectToJsonString(object) {
 
 
 function objectToJsonString(object) {
+
+    function isTextKeyOut(key) {
+        var textItemExcludeVars = ["story", "textSelection", "textRanges", "characterAttributes", "CharacterStyles", "paragraphAttributes", "paragraphStyles"]
+        return textItemExcludeVars.includes(key)
+    }
+
     object.typename == "GroupItem" ? isDefine(object.pageItems) : null;
+    object.typename == "CompoundPathItem" ? isDefine(object.pathItems) : null;
     //   isDefine(object.pageItems) ? null: null; 
 
     if (isAdobeEnum(object.typename)) //enums
@@ -354,7 +375,7 @@ function objectToJsonString(object) {
 
     for (var key in object) {
         // if (key !== "parent") {
-        if (key !== "parent" && key !== "story" && key !== "textSelection" && key !== "textRanges") {
+        if (key !== "parent" && !isTextKeyOut(key)) { // key !== "story" && key !== "textSelection" && key !== "textRanges") {
 
             try {
                 logger += '"' + key + '"' + ':' + mainItemToJsonString(object[key]) + ',';
