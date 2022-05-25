@@ -103,7 +103,7 @@ const areGradientsAlignsToPage = (m1, m2) => (isDefined(m1) && isDefined(m2)) ? 
  * @param {Array} coord2 coordinate point
  * @return {Array} 
  */
-const middleLine = (coord1, coord2) => [(coord1[0] + coord2[0]) / 2, (coord1[1] + coord2[1]) / 2];
+const middleLine = (coord1, coord2) => [toFixedNumber((coord1[0] + coord2[0]) / 2, 2), toFixedNumber((coord1[1] + coord2[1]) / 2, 2)];
 
 
 /**
