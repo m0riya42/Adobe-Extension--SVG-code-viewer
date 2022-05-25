@@ -295,13 +295,13 @@ function getShapeCodeSVG(selectedItem, minTL, maxBR) {
             shapeObject = getTextObject(selectedItem, minTL, maxBR);
             break;
         case "TextRange": //while writing
-            console.log('TextRange');
+            console.log('TextRange', selectedItem);
             break;
         case "TextPath": //
-            console.log('TextPath');
+            console.log('TextPath', selectedItem);
             break;
         case "CompoundPathItem":
-            console.log('CompoundPathItem', selectedItem);
+            console.log('CompoundPathItem', selectedItem.pathItems);
             break;
 
 

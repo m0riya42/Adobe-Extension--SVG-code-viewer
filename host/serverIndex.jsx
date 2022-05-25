@@ -305,6 +305,10 @@ function isAdobeItemsObject(objName) {
     );
 }
 
+function isText(objName) {
+
+    return objName === 'TextFrame';
+}
 
 
 /***********************************************************/
@@ -391,6 +395,9 @@ function objectToJsonString(object) {
 
         }
     }
+
+
+
     logger = sliceTheComma(logger);
     logger += '}';
     return logger;
@@ -421,8 +428,30 @@ function mainItemToJsonString(object) {
         // retVal = arrayToJsonString(object);
     } else if (isObject(object)) {
         //TODO: Recognize the hidden variables ||==> pageItems , pathItems, placedItems, pluginItems
+        //if Text Frame - add stroke options:
+
+
         if (isAdobeItemsObject(object.typename))
             return adobeItemsObjectToJsonString(object);
+
+        if (isText(object.typename)) {
+            try {
+                var dup = object.duplicate();
+                dup = dup.createOutline();
+
+                //Add Stroke Parameters
+                object.strokeDashes = dup.pageItems[0].pathItems[0].strokeDashes;
+                object.strokeMiterLimit = dup.pageItems[0].pathItems[0].strokeMiterLimit;
+                object.strokeCap = dup.pageItems[0].pathItems[0].strokeCap;
+                object.strokeJoin = dup.pageItems[0].pathItems[0].strokeJoin;
+
+
+                dup.remove();
+
+            } catch (e) {
+                $.writeln('Duplicate Text Error:\n', e)
+            }
+        }
         return objectToJsonString(object);
 
 
@@ -461,6 +490,7 @@ function getSelection() {
         // throw NO_SELECTION
         return NO_SELECTION;
     } catch (e) {
+        $.writeln(e);
         return NO_SELECTION;
         // return e;
     }

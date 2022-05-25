@@ -29,6 +29,8 @@ class StyleSVG {
 
         if (this.shapeItem.typename === 'TextFrame') {
             this.generateText();
+            this.generateStoke();
+
         }
         else {
 
@@ -55,16 +57,30 @@ class StyleSVG {
     }
 
     generateStoke = () => {
-
+        const getStrokeElms = () => {
+            return {
+                strokeDashArray: this.shapeItem.strokeDashes,
+                strokeMiterLimit: this.shapeItem.strokeMiterLimit,
+                strokeCap: getAdobeStrokeCap(this.shapeItem.strokeCap),
+                strokeJoin: getAdobeStrokeJoin(this.shapeItem.strokeJoin)
+            }
+        }
         if (this.shapeItem.stroked) {
 
             const strokeColor = AdobeColorItemToString(this.shapeItem.strokeColor),
                 strokeWidth = toFixedNumber(this.shapeItem.strokeWidth, 2),
-                strokeDashArray = this.shapeItem.strokeDashes,
-                strokeMiterLimit = this.shapeItem.strokeMiterLimit,
-                strokeCap = getAdobeStrokeCap(this.shapeItem.strokeCap),
-                strokeJoin = getAdobeStrokeJoin(this.shapeItem.strokeJoin)
+                // strokeDashArray = this.shapeItem.strokeDashes,
+                // strokeMiterLimit = this.shapeItem.strokeMiterLimit,
+                // strokeCap = getAdobeStrokeCap(this.shapeItem.strokeCap),
+                // strokeJoin = getAdobeStrokeJoin(this.shapeItem.strokeJoin)
+                { strokeDashArray, strokeMiterLimit, strokeCap, strokeJoin } = getStrokeElms();
             this.stroke = { strokeColor, strokeWidth, strokeDashArray, strokeMiterLimit, strokeCap, strokeJoin }
+        }
+        if (this.shapeItem.typename == "TextFrame") {
+            const strokeWeight = this.shapeItem.textRange.strokeWeight,
+                strokeColor = AdobeColorItemToString(this.shapeItem.textRange.strokeColor),
+                { strokeDashArray, strokeMiterLimit, strokeCap, strokeJoin } = getStrokeElms();
+            this.stroke = { strokeColor, strokeWeight, strokeDashArray, strokeMiterLimit, strokeCap, strokeJoin }
         }
 
 
@@ -75,24 +91,32 @@ class StyleSVG {
         //TODO: font size
         const fontSize = toFixedNumber(this.shapeItem.textRange.size, 2),
             fontFamily = this.shapeItem.textRange.textFont.name,
-            strokeWeight = this.shapeItem.textRange.strokeWeight,
-            strokeColor = AdobeColorItemToString(this.shapeItem.textRange.strokeColor),
             fillColor = AdobeColorItemToString(this.shapeItem.textRange.fillColor);
+
+        // strokeWeight = this.shapeItem.textRange.strokeWeight,
+        //     strokeColor = AdobeColorItemToString(this.shapeItem.textRange.strokeColor),
         //TODO: fill
         //TODO: stroke
         //TODO: B/U/I
 
-        this.textstyle = { fontSize, fontFamily, strokeColor, strokeWeight, fillColor }
+        // this.textstyle = { fontSize, fontFamily, strokeColor, strokeWeight, fillColor }
+        this.textstyle = { fontSize, fontFamily, fillColor }
     }
 
 
     generateTextStyle = () => {
         let style = '"'
-        const { fontSize, fontFamily, strokeColor, strokeWeight, fillColor } = this.textstyle;
+        const { fontSize, fontFamily, fillColor } = this.textstyle,
+            { strokeColor, strokeWeight, strokeDashArray, strokeMiterLimit, strokeCap, strokeJoin } = this.stroke
 
         style += `font-size: ${fontSize}; font-family: '${fontFamily}'; `
         if (strokeColor !== 'none') {
-            style += `stroke:${strokeColor}; stroke-width:${strokeWeight};`
+            style += `stroke:${strokeColor}; `
+            strokeWeight !== 1 ? style += `stroke-width:${strokeWeight}; ` : null;
+            strokeDashArray.length !== 0 ? style += `stroke-dasharray: ${strokeDashArray}; ` : null
+            strokeMiterLimit !== 10 ? style += `stroke-miterlimit:: ${strokeMiterLimit}; ` : null
+            strokeCap !== 'butt' ? style += `stroke-linecap: ${strokeCap}; ` : null
+            strokeJoin !== 'miter' ? style += `stroke-linejoin: ${strokeJoin}; ` : null
         }
         fillColor !== '#000000' ? style += `fill:${fillColor}; ` : null;
         /* strokeWeight = this.shapeItem.textRange.strokeWeight,
@@ -116,6 +140,8 @@ class StyleSVG {
             let style = '"'
             const fillColor = this.fillColor,
                 stroke = this.stroke;
+            // this.stroke = { strokeColor, strokeWidth, strokeDashArray, strokeMiterLimit, strokeCap, strokeJoin }
+
 
             //TODO: if returns values > 2, create Classes
 
