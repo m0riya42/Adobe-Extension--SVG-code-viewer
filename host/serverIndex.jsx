@@ -415,6 +415,23 @@ function adobeEnumToJsonString(object) {
     return getEnumNumber(object.toString());
 }
 
+
+function addAdvanceStrokeOptions(object) {
+    try {
+        var dup = object.duplicate();
+        dup = dup.createOutline();
+
+        //Add Stroke Parameters
+        object.strokeDashes = dup.pageItems[0].pathItems[0].strokeDashes;
+        object.strokeMiterLimit = dup.pageItems[0].pathItems[0].strokeMiterLimit;
+        object.strokeCap = dup.pageItems[0].pathItems[0].strokeCap;
+        object.strokeJoin = dup.pageItems[0].pathItems[0].strokeJoin;
+        dup.remove();
+
+    } catch (e) {
+        $.writeln('Advance Stroke Options in Text Error:\n', e)
+    }
+}
 /******** Main Function ***********/
 function mainItemToJsonString(object) {
     // selection[0].pageItems ? null : null;
@@ -435,23 +452,9 @@ function mainItemToJsonString(object) {
             return adobeItemsObjectToJsonString(object);
 
         if (isText(object.typename)) {
-            try {
-                var dup = object.duplicate();
-                dup = dup.createOutline();
-
-                //Add Stroke Parameters
-                object.strokeDashes = dup.pageItems[0].pathItems[0].strokeDashes;
-                object.strokeMiterLimit = dup.pageItems[0].pathItems[0].strokeMiterLimit;
-                object.strokeCap = dup.pageItems[0].pathItems[0].strokeCap;
-                object.strokeJoin = dup.pageItems[0].pathItems[0].strokeJoin;
-
-
-                dup.remove();
-
-            } catch (e) {
-                $.writeln('Duplicate Text Error:\n', e)
-            }
+            addAdvanceStrokeOptions(object);
         }
+
         return objectToJsonString(object);
 
 
