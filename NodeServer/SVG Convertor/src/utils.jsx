@@ -195,11 +195,10 @@ const isCirclePathPoints = (pathPoints) => {
     // return distanceBetweenPaths(path1, path3) && distanceBetweenPaths(path2, path4) && isVertical(pathPoints.map(point => point.anchor));
 }
 
+const degreeToRadians = (degrees) => degrees * (Math.PI / 180);
+const radiansToDegrees = (radians) => radians * (180 / Math.PI);
 
-
-function calcAngleDegrees(x, y) {
-    return Math.atan2(y, x) * 180 / Math.PI;
-}
+const calcAngleDegrees = (x, y) => radiansToDegrees(Math.atan2(y, x)); // * 180 / Math.PI;
 
 
 
@@ -220,6 +219,8 @@ module.exports = {
     toFixedNumber,
     calcAngleDegrees,
     isRectangleAlignToPage,
-    isEllipseAlignToPage
+    isEllipseAlignToPage,
+    degreeToRadians,
+    radiansToDegrees
 
 }

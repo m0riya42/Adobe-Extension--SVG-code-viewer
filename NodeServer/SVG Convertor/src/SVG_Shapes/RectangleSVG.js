@@ -17,7 +17,6 @@ class RectangleSVG extends ShapeSVG {
 
     initRectangle = (minTL) => {
         this.shapeType = "Rectangle";
-        // this.id = `"rect_${this.generateUID()}"`;
         this.generateUID();
 
         const [path1, path2, path3] = this.shapePathPointsInfo.shapeCoordinates;
