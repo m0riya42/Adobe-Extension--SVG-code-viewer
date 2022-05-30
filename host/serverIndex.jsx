@@ -436,6 +436,14 @@ function getEnumNumber(enumPath) {
             POINTTEXT: 0,
             AREATEXT: 1,
             PATHTEXT: 2,
+        },
+        GradientType: {
+            LINEAR: 1,
+            RADIAL: 2,
+        },
+        GradientsPreservePolicy: {
+            AUTOMATICALLYCONVERTGRADIENTS: 4,
+            KEEPGRADIENTSEDITABLE: 3,
         }
     };
 
@@ -489,7 +497,8 @@ function isAdobeItemsObject(objName) {
         objName === "PlacedItems" ||
         objName === "RasterItems" ||
         objName === "SymbolItems" ||
-        objName === "TextFrameItems"
+        objName === "TextFrameItems" ||
+        objName === "GradientStops"
     );
 }
 
@@ -555,6 +564,7 @@ function objectToJsonString(object) {
 
     object.typename == "GroupItem" ? isDefine(object.pageItems) : null;
     object.typename == "CompoundPathItem" ? isDefine(object.pathItems) : null;
+    object.typename == "Gradient" ? isDefine(object.gradientStops) : null;
     //   isDefine(object.pageItems) ? null: null; 
 
     if (isAdobeEnum(object.typename)) //enums

@@ -32,6 +32,7 @@ function AdobeColorItemToString(adobeColorItem) {
         case 'RGBColor':
             return convertRGBcolor(adobeColorItem);
         case 'GradientColor':
+            console.log('gradient', adobeColorItem, adobeColorItem.gradient.gradientStops)
             return;
         case 'NoColor':
             return 'none';
