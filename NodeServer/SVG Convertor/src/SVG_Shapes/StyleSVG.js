@@ -55,9 +55,10 @@ class StyleSVG {
     generateText = () => {
         //TODO: B/U/I
         const fontSize = toFixedNumber(this.shapeItem.textRange.size, 2),
-            fontFamily = this.shapeItem.textRange.textFont.name;
+            fontFamily = this.shapeItem.textRange.textFont.name,
+            letterSpacing = this.shapeItem.textRange.tracking / 1000;
 
-        this.textStyle = { fontSize, fontFamily }
+        this.textStyle = { fontSize, fontFamily, letterSpacing }
     }
 
     generateStyle = () => {
@@ -81,8 +82,9 @@ class StyleSVG {
             strokeJoin !== 'miter' ? style += `stroke-linejoin: ${strokeJoin}; ` : null
         }
         if (this.isText()) {
-            const { fontSize, fontFamily } = this.textStyle;
+            const { fontSize, fontFamily, letterSpacing } = this.textStyle;
             style += `font-size: ${fontSize}; font-family: '${fontFamily}'; `
+            letterSpacing !== 0 ? style += `letter-spacing:${letterSpacing}em; ` : null;
         }
 
         style += '"';
