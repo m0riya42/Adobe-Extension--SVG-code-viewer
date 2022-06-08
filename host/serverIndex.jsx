@@ -308,6 +308,7 @@ function isAdobeItemsObject(objName) {
         objName === "RasterItems" ||
         objName === "SymbolItems" ||
         objName === "TextFrameItems" ||
+        objName === "TextFrames" ||
         objName === "GradientStops"
     );
 }
@@ -315,6 +316,11 @@ function isAdobeItemsObject(objName) {
 function isText(objName) {
 
     return objName === 'TextFrame';
+}
+
+function isTextRange(objName) {
+
+    return objName === 'TextRange';
 }
 
 
@@ -328,6 +334,19 @@ function sliceTheComma(string) {
 
 function textLineBreakReplace(str) {
     return str.replace(/(?:\r\n|\r|\n)/g, '\\n');
+}
+
+
+// function toFixedNumber(num, fixNum) {
+//     return +num.toFixed(fixNum);
+// }
+
+// function normalCoordinate(coord, minTL) {
+//     return [toFixedNumber(coord[0] - minTL[0], 2), toFixedNumber(minTL[1] - coord[1], 2)];
+// }
+
+function radiansToDegrees(radians) {
+    return radians * (180 / Math.PI);
 }
 
 
@@ -445,6 +464,66 @@ function addAdvanceStrokeOptions(object) {
         $.writeln('Advance Stroke Options in Text Error:\n', e)
     }
 }
+
+function addAdvanceMatrixValues(object) {
+    try {
+        // var tDefaultValues = getTranslationMatrix(0, 0),
+        //     dup = object.duplicate();
+        // dup.transform(tDefaultValues);
+        // var matrix = dup.matrix,
+        //     minTL = [matrix.mValueTX, matrix.mValueTY],
+        //     objectMatrix = object.matrix,
+        //     coord = [objectMatrix.mValueTX, objectMatrix.mValueTY];
+
+        // //return the difference between dup and normal TX and TY values
+        // var normal =normalCoordinate(coord, minTL);
+        //     dup.remove();
+
+        var matrix = object.matrix,
+            rotationAngle = radiansToDegrees(Math.asin(matrix.mValueC)),
+            rotatedMatrix = getRotationMatrix(rotationAngle),
+            dup = object.duplicate();
+
+        dup.transform(rotatedMatrix);
+
+
+        //TODO: Create Object wrapping all of this
+        object.rotationAngle = rotationAngle;
+        object.tX = (object.width - dup.width) / 2;
+        object.tY = (object.height - dup.height) / 2;
+
+        //Get Width and Height
+        $.writeln("obj height: ", object.height, ", width: ", object.width);
+        $.writeln("dup height: ", dup.height, ", width: ", dup.width);
+
+
+        //Remove Dup
+        dup.remove();
+
+
+    } catch (e) {
+        $.writeln('Advance Stroke Options in Text Error:\n', e)
+    }
+}
+
+function arrangeTextFrameValues(object) {
+    //TODO: change it so it'll work for textFrames.length >1 
+
+    var textFrameObj = object.story.textFrames[0],
+        textRangeObj = {
+            characterOffset: object.characterOffset,
+            length: object.length,
+            contents: object.contents,
+            typename: object.typename,
+            textFrame: textFrameObj,
+            geometricBounds: textFrameObj.geometricBounds
+        }
+
+    //fix it to be an Array
+    return [textRangeObj]
+}
+
+
 /******** Main Function ***********/
 function mainItemToJsonString(object) {
     // selection[0].pageItems ? null : null;
@@ -453,6 +532,7 @@ function mainItemToJsonString(object) {
     if (!isDefine(object))
         return null;
 
+
     if (isArray(object)) {
         return arrayToJsonString(object);
         // retVal = arrayToJsonString(object);
@@ -460,12 +540,14 @@ function mainItemToJsonString(object) {
         //TODO: Recognize the hidden variables ||==> pageItems , pathItems, placedItems, pluginItems
         //if Text Frame - add stroke options:
 
-
         if (isAdobeItemsObject(object.typename))
             return adobeItemsObjectToJsonString(object);
 
+
+
         if (isText(object.typename)) {
             addAdvanceStrokeOptions(object);
+            addAdvanceMatrixValues(object);
         }
 
         return objectToJsonString(object);
@@ -500,9 +582,14 @@ var NO_SELECTION = "NO_SELECTION";
 
 function getSelection() {
     try {
-        if (selection)
-            return mainItemToJsonString(selection)
+        if (selection) {
+            var selectObj = selection;
 
+            if (isTextRange(selection.typename))
+                selectObj = arrangeTextFrameValues(selection);
+
+            return mainItemToJsonString(selectObj)
+        }
         // throw NO_SELECTION
         return NO_SELECTION;
     } catch (e) {
@@ -511,3 +598,5 @@ function getSelection() {
         // return e;
     }
 }
+
+//  getSelection()

@@ -296,6 +296,7 @@ function getShapeCodeSVG(selectedItem, minTL, maxBR) {
             break;
         case "TextRange": //while writing
             console.log('TextRange', selectedItem);
+            shapeObject = getTextObject(selectedItem.textFrame, minTL, maxBR);
             break;
         case "TextPath": //
             console.log('TextPath', selectedItem);
@@ -333,6 +334,8 @@ function getShapeCodeSVG(selectedItem, minTL, maxBR) {
     }
  */
 function getShapeCoorinates(selection) {
+
+    // console.log('for Text Range: \n', selection, '\n')
     // console.log('selection', selection)
     //foreach selected item , returns the minimum TL coordinate and the maximum BR coordinate
     //Y is always minus so apperently it should be the ooposite

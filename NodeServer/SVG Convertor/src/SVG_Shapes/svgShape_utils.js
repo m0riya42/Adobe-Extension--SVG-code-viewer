@@ -36,6 +36,9 @@ function AdobeColorItemToString(adobeColorItem) {
             return;
         case 'NoColor':
             return 'none';
+        case 'GrayColor':
+            console.log('GrayColor', adobeColorItem.gray)
+            return;
 
     }
 

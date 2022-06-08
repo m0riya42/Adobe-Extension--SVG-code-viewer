@@ -16,7 +16,7 @@ class TextSVG extends ShapeSVG {
         this.initText(minTL);
 
         // console.log('Text Object\n'.help, this);
-        console.log('Text Shape Item\n'.help, this.shapeItem);
+        // console.log('Text Shape Item\n'.help, this.shapeItem);
     }
 
     initText = (minTL) => {
@@ -138,6 +138,7 @@ class TextSVG extends ShapeSVG {
     }
 
     generateSVG = () => {
+        console.log(this.shapeItem.rotationAngle);
         const [x] = this.bottomLeft,
             [, y] = this.anchor,
             text = this.generateTextContent(),
@@ -145,9 +146,12 @@ class TextSVG extends ShapeSVG {
 
             // height = this.height,
             // width = this.width,
-            rotation = this.rotation,
-            x_transform = this.x_transform,
-            y_transform = this.y_transform,
+
+            rotation = toFixedNumber(this.shapeItem.rotationAngle, 2),
+            x_transform = toFixedNumber(this.shapeItem.tX, 2),
+            y_transform = toFixedNumber(this.shapeItem.tY, 2),
+            // x_transform = this.x_transform,
+            // y_transform = this.y_transform,
             center = this.center;
         console.log(`${this.shapeItem.anchor}`.error)
 
