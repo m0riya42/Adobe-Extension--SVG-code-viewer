@@ -5,22 +5,38 @@ var {
     toFixedNumber,
     isRectangleAlignToPage, degreeToRadians,
     radiansToDegrees,
-    calcAngleDegrees
+    calcAngleDegrees,
+    sortShapePathPoints
 } = require('../utils.jsx');
 
 var ShapeSVG = require('./ShapeSVG');
+var PathSVG = require("./PathSVG.js");
+
 // var bar = new Bar();
+const TEXT_TYPE = ["PointType", "AreaType", "PathType"]
 class TextSVG extends ShapeSVG {
     constructor({ selectedItem, minTL }) {
         super(selectedItem);
+        this.getTextType = () => TEXT_TYPE[this.shapeItem.kind];
         this.initText(minTL);
-
         // console.log('Text Object\n'.help, this);
         // console.log('Text Shape Item\n'.help, this.shapeItem);
     }
 
+
+    // switch(this.shapeItem.kind){
+    //     case 0:
+    //         return "PointType"
+    // }
+
+
+    //PointText- default:
+    //AreaText - (text inside a shape)
+    //PathText- ()text on path)
+
     initText = (minTL) => {
         this.shapeType = "Text";
+        this.TextType = this.getTextType();
         this.generateUID();
 
         const shapeGeometricBounds = this.shapeItem.geometricBounds;
@@ -51,7 +67,8 @@ class TextSVG extends ShapeSVG {
         // console.log('anchor', this.shapeItem.anchor, nor(this.shapeItem.anchor))
         // console.log('***************************')
 
-        this.text = this.shapeItem.textRange.contents;
+        this.text = this.generateTextContent(minTL);
+        // this.text = this.shapeItem.textRange.contents;
         this.generateTextRotation();
     }
 
@@ -87,19 +104,27 @@ class TextSVG extends ShapeSVG {
 
     }
 
-    generateTextContent = () => {
-        const textArray = this.text.split('\n'),
+    generatePointTypeText = () => {
+        const text = this.shapeItem.textRange.contents, textArray = text.split('\n'),
             paragraphJust = this.shapeItem.textRange.paragraphAttributes.justification,
             [xLeft] = this.bottomLeft,
             [xRight] = this.bottomRight,
             xCenter = xRight / 2,
             leading = toFixedNumber(this.shapeItem.textRange.leading, 2);
+
         let x = xLeft;
 
         // [x] = this.bottomLeft, 
 
+
+
         if (textArray.length === 1)
-            return this.text;
+            return text;
+
+
+
+
+
 
         //TODO: Get Paragraph Justification
         //Create Spans
@@ -137,11 +162,53 @@ class TextSVG extends ShapeSVG {
 
     }
 
+    generateAreaTypeText = () => { }
+
+    generatePathTypeText = (minTL) => {
+
+        const selectedItem = this.shapeItem.textPath,
+            text = this.shapeItem.textRange.contents;
+
+
+        const shapePathPointsInfo = sortShapePathPoints(
+            selectedItem.selectedPathPoints,
+            minTL
+        );
+
+
+        //TODO:Add Path to Defs
+        this.textPath = new PathSVG({
+            shapePathPointsInfo,
+            selectedItem,
+        });
+
+        console.log(this.textPath.generateSVG(), '\n', this.textPath.id);
+        return `<textPath href="#${this.textPath.id}">\n${text}\n</textPath>\n`
+    }
+
+    generateTextContent = (minTL) => {
+
+        //check for type
+        switch (this.TextType) {
+            case "PointType":
+                return this.generatePointTypeText();
+            case "AreaType":
+                return this.generateAreaTypeText();
+            case "PathType":
+                return this.generatePathTypeText(minTL);
+        }
+
+
+
+
+    }
+
     generateSVG = () => {
         console.log(this.shapeItem.rotationAngle);
         const [x] = this.bottomLeft,
             [, y] = this.anchor,
-            text = this.generateTextContent(),
+            text = this.text,
+            // text = this.generateTextContent(),
             // const [x, y] = this.topLeft,
 
             // height = this.height,

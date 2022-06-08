@@ -9,6 +9,7 @@ var {
     distance,
     toFixedNumber,
     calcAngleDegrees,
+    isDefined,
 } = require('../utils.jsx');
 var { uid } = require('uid');
 const StyleSVG = require('./StyleSVG.js');
@@ -50,7 +51,7 @@ class ShapeSVG {
     /*************************************************/
 
     generateUID = () => {
-        this.id = `"${this.getShapeNickType()}_${uid(4)}"`;
+        this.id = `${this.getShapeNickType()}_${uid(4)}`;
         // return;
     }
     generateShapeStyle = () => {
@@ -141,8 +142,13 @@ class ShapeSVG {
     generateSVG_BaseInfo = () => {
 
         //TODO: CALCULATE WHEN TO USE STYLE AND WHEN CLASS
-        return `id=${this.id} style=${this.style}`;
 
+        let retValue = `id="${this.id}" `;
+
+        this.style.length > 2 ? retValue += `style=${this.style}` : null;
+        // console.log('isSTyleDefines? ', style.length > 2)
+        // return `id="${this.id}" style=${this.style}`;
+        return retValue
 
     }
 

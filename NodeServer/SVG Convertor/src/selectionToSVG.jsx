@@ -257,18 +257,12 @@ function getGroupObject(selectedItem, minTL, maxBR) {
 
 
 function getTextObject(selectedItem, minTL, maxBR) {
-    //if using it- make it higher for more uses
-    // const shapePathPointsInfo = sortShapePathPoints(
-    //     selectedItem.selectedPathPoints,
-    //     minTL
-    // );
+
+   
     return new TextSVG({
         selectedItem,
         minTL,
     }).generateSVG();
-
-    // let x, y, text, style;
-    // return `<text   x="${x}" y="${y}" style="${style}">${text}</text>`
 
 }
 /**
@@ -298,9 +292,9 @@ function getShapeCodeSVG(selectedItem, minTL, maxBR) {
             console.log('TextRange', selectedItem);
             shapeObject = getTextObject(selectedItem.textFrame, minTL, maxBR);
             break;
-        case "TextPath": //
-            console.log('TextPath', selectedItem);
-            break;
+            // case "TextPath": //
+            //     console.log('TextPath', selectedItem);
+            //     break;
         case "CompoundPathItem":
             console.log('CompoundPathItem', selectedItem.pathItems);
             break;
