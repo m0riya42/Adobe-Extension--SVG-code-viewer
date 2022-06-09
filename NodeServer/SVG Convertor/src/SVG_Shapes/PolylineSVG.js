@@ -4,8 +4,8 @@ var {
 var ShapeSVG = require('./ShapeSVG');
 // var bar = new Bar();
 class PolylineSVG extends ShapeSVG {
-    constructor({ shapePathPointsInfo, selectedItem }) {
-        super(selectedItem, shapePathPointsInfo);
+    constructor({ shapePathPointsInfo, selectedItem ,svgDefs}) {
+        super(selectedItem, shapePathPointsInfo,svgDefs);
         this.initPolyline();
 
         // return this.generateSVG();

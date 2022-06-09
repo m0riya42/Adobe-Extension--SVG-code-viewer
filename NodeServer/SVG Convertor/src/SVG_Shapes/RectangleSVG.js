@@ -9,8 +9,8 @@ var {
 var ShapeSVG = require('./ShapeSVG');
 // var bar = new Bar();
 class RectangleSVG extends ShapeSVG {
-    constructor({ shapePathPointsInfo, selectedItem, minTL }) {
-        super(selectedItem, shapePathPointsInfo);
+    constructor({ shapePathPointsInfo, selectedItem, minTL, svgDefs }) {
+        super(selectedItem, shapePathPointsInfo, svgDefs);
         this.initRectangle(minTL);
 
     }

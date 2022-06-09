@@ -4,8 +4,8 @@ var {
 var ShapeSVG = require('./ShapeSVG');
 // var bar = new Bar();
 class PolygonSVG extends ShapeSVG {
-    constructor({ shapePathPointsInfo, selectedItem }) {
-        super(selectedItem, shapePathPointsInfo);
+    constructor({ shapePathPointsInfo, selectedItem, svgDefs }) {
+        super(selectedItem, shapePathPointsInfo, svgDefs);
         this.initPolygon();
 
         // return this.generateSVG();

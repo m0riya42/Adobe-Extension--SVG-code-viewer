@@ -6,7 +6,8 @@ var {
     isRectangleAlignToPage, degreeToRadians,
     radiansToDegrees,
     calcAngleDegrees,
-    sortShapePathPoints
+    sortShapePathPoints,
+    isDefined
 } = require('../utils.jsx');
 
 var ShapeSVG = require('./ShapeSVG');
@@ -15,10 +16,10 @@ var PathSVG = require("./PathSVG.js");
 // var bar = new Bar();
 const TEXT_TYPE = ["PointType", "AreaType", "PathType"]
 class TextSVG extends ShapeSVG {
-    constructor({ selectedItem, minTL }) {
-        super(selectedItem);
+    constructor({ selectedItem, minTL, svgDefs }) {
+        super(selectedItem, null, svgDefs);
         this.getTextType = () => TEXT_TYPE[this.shapeItem.kind];
-        this.initText(minTL);
+        this.initText(minTL, svgDefs);
         // console.log('Text Object\n'.help, this);
         // console.log('Text Shape Item\n'.help, this.shapeItem);
     }
@@ -34,7 +35,7 @@ class TextSVG extends ShapeSVG {
     //AreaText - (text inside a shape)
     //PathText- ()text on path)
 
-    initText = (minTL) => {
+    initText = (minTL, svgDefs) => {
         this.shapeType = "Text";
         this.TextType = this.getTextType();
         this.generateUID();
@@ -67,7 +68,7 @@ class TextSVG extends ShapeSVG {
         // console.log('anchor', this.shapeItem.anchor, nor(this.shapeItem.anchor))
         // console.log('***************************')
 
-        this.text = this.generateTextContent(minTL);
+        this.text = this.generateTextContent(minTL, svgDefs);
         // this.text = this.shapeItem.textRange.contents;
         this.generateTextRotation();
     }
@@ -164,7 +165,7 @@ class TextSVG extends ShapeSVG {
 
     generateAreaTypeText = () => { }
 
-    generatePathTypeText = (minTL) => {
+    generatePathTypeText = (minTL, svgDefs) => {
 
         const selectedItem = this.shapeItem.textPath,
             text = this.shapeItem.textRange.contents;
@@ -182,11 +183,19 @@ class TextSVG extends ShapeSVG {
             selectedItem,
         });
 
+        const textPath = this.textPath.generateSVG();
+        if (isDefined(svgDefs.defs)) {
+            // const def = { classId, style: styleText }
+            svgDefs.defs.push(textPath);
+        } else {
+            svgDefs.defs = [textPath];
+        }
+
         console.log(this.textPath.generateSVG(), '\n', this.textPath.id);
         return `<textPath href="#${this.textPath.id}">\n${text}\n</textPath>\n`
     }
 
-    generateTextContent = (minTL) => {
+    generateTextContent = (minTL, svgDefs) => {
 
         //check for type
         switch (this.TextType) {
@@ -195,7 +204,7 @@ class TextSVG extends ShapeSVG {
             case "AreaType":
                 return this.generateAreaTypeText();
             case "PathType":
-                return this.generatePathTypeText(minTL);
+                return this.generatePathTypeText(minTL, svgDefs);
         }
 
 

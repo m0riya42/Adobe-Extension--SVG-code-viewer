@@ -6,8 +6,8 @@ var {
 var ShapeSVG = require('./ShapeSVG');
 // var bar = new Bar();
 class EllipseSVG extends ShapeSVG {
-    constructor({ shapePathPointsInfo, selectedItem }) {
-        super(selectedItem, shapePathPointsInfo);
+    constructor({ shapePathPointsInfo, selectedItem, svgDefs }) {
+        super(selectedItem, shapePathPointsInfo, svgDefs);
         this.initEllipse();
 
         // return this.generateSVG();

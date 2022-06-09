@@ -4,8 +4,8 @@ var {
 var ShapeSVG = require('./ShapeSVG');
 // var bar = new Bar();
 class LineSVG extends ShapeSVG {
-    constructor({ shapePathPointsInfo, selectedItem }) {
-        super(selectedItem, shapePathPointsInfo);
+    constructor({ shapePathPointsInfo, selectedItem, svgDefs }) {
+        super(selectedItem, shapePathPointsInfo, svgDefs);
         this.initLine(shapePathPointsInfo.shapeCoordinates);
 
         // return this.generateSVG();

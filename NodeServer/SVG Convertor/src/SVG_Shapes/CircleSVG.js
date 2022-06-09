@@ -5,8 +5,8 @@ var {
 var ShapeSVG = require('./ShapeSVG');
 
 class CircleSVG extends ShapeSVG {
-    constructor({ shapePathPointsInfo, selectedItem }) {
-        super(selectedItem, shapePathPointsInfo);
+    constructor({ shapePathPointsInfo, selectedItem, svgDefs }) {
+        super(selectedItem, shapePathPointsInfo, svgDefs);
         this.initCircle();
         // return this.generateSVG();
     }

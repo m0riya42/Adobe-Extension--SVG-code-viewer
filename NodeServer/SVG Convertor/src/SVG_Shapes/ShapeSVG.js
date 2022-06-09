@@ -13,26 +13,34 @@ var {
 } = require('../utils.jsx');
 var { uid } = require('uid');
 const StyleSVG = require('./StyleSVG.js');
+// const { CLASS_ELEMENT } = require('../ENUM.js');
+const {
+    CLASS_ELEMENT,
+    EMPTY_SHAPE,
+    TYPES
+} = require('../ENUM.js');
+const { isEmpty } = require('lodash');
 
-const EMPTY_SHAPE = 'ShapeSVG';
-const TYPES = {
-    'Rectangle': 'rect',
-    'Circle': 'circle',
-    'Line': 'line',
-    'Polygon': 'polygon',
-    'Polyline': 'polyline',
-    'Ellipse': 'ellipse',
-    'Path': 'path',
-    'Text': 'text'
-}
+// const EMPTY_SHAPE = 'ShapeSVG';
+// const TYPES = {
+//     'Rectangle': 'rect',
+//     'Circle': 'circle',
+//     'Line': 'line',
+//     'Polygon': 'polygon',
+//     'Polyline': 'polyline',
+//     'Ellipse': 'ellipse',
+//     'Path': 'path',
+//     'Text': 'text'
+// }
 class ShapeSVG {
-    constructor(shapeItem, shapePathPointsInfo) {
+    constructor(shapeItem, shapePathPointsInfo, svgDefs) {
         this.id = null;// `"${uid(6)}"`;
         this.style = null;
+        this.class = null;
         this.shapeItem = shapeItem;
         this.shapePathPointsInfo = shapePathPointsInfo;
         this.shapeType = EMPTY_SHAPE;
-        this.generateShapeStyle();
+        this.generateShapeStyle(svgDefs);
     }
 
     /*************************************************/
@@ -54,9 +62,16 @@ class ShapeSVG {
         this.id = `${this.getShapeNickType()}_${uid(4)}`;
         // return;
     }
-    generateShapeStyle = () => {
+    generateShapeStyle = (svgDefs) => {
         //TODO: add Marker(arrows) and Classes (def- style)
-        this.style = new StyleSVG(this.shapeItem).generateStyle();
+        this.style = new StyleSVG(this.shapeItem, svgDefs).generateStyle();
+
+        if (this.style.includes(CLASS_ELEMENT)) {
+            this.class = `"${this.style.split('#')[1]}"`
+            this.style = "" //no nead for style, there will be class
+        }
+
+        console.log(this.svgDefs)
     }
 
     generatePointsForPols = () => {
@@ -145,7 +160,9 @@ class ShapeSVG {
 
         let retValue = `id="${this.id}" `;
 
-        this.style.length > 2 ? retValue += `style=${this.style}` : null;
+        !isEmpty(this.style) ? retValue += `style=${this.style}` : null;
+        !isEmpty(this.class) ? retValue += `class=${this.class}` : null;
+        //  isEmpty(this.style.length > 2 ? retValue += `style=${this.style}` : null;
         // console.log('isSTyleDefines? ', style.length > 2)
         // return `id="${this.id}" style=${this.style}`;
         return retValue

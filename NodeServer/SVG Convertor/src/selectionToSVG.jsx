@@ -16,6 +16,12 @@ var {
     calcAngleDegrees,
 } = require("./utils.jsx");
 
+// var {
+//     isEmpty
+// } = 'lodash'
+
+
+//const isEmpty = (obj) => obj && Object.keys(obj).length === 0 && Object.getPrototypeOf(obj) === Object.prototype
 var LineSVG = require("./SVG_Shapes/LineSVG.js");
 var Rectangle = require("./SVG_Shapes/RectangleSVG.js");
 var PolylineSVG = require("./SVG_Shapes/PolylineSVG.js");
@@ -29,7 +35,12 @@ var {
     calculateCircularParams
 } = require("./SVG_Shapes/svgShape_utils.js");
 
-var selectionStyle = {};
+// var selectionStyle = {};
+var svgDefs;
+//  = {
+//     style: [],
+//     defs: []
+// };
 /*************************************************/
 /*               Shape -pecific Function        */
 /*************************************************/
@@ -115,12 +126,14 @@ function renderOpenedShape({
             return new LineSVG({
                 shapePathPointsInfo,
                 selectedItem,
+                svgDefs
             }).generateSVG();
         // } else { //Polyline
 
         return new PolylineSVG({
             shapePathPointsInfo,
             selectedItem,
+            svgDefs
         }).generateSVG();
     } else {
         //Path (one point is a path)
@@ -128,6 +141,7 @@ function renderOpenedShape({
         return new PathSVG({
             shapePathPointsInfo,
             selectedItem,
+            svgDefs
         }).generateSVG();
     }
 }
@@ -138,12 +152,14 @@ function handleCircularShape(shapePathPointsInfo, selectedItem) {
             return new EllipseSVG({
                 shapePathPointsInfo,
                 selectedItem,
+                svgDefs
             }).generateSVG();
             break;
         case "Circle":
             return new CircleSVG({
                 shapePathPointsInfo,
                 selectedItem,
+                svgDefs
             }).generateSVG();
             break;
     }
@@ -186,12 +202,14 @@ function renderClosedShape({
                 shapePathPointsInfo,
                 selectedItem,
                 minTL,
+                svgDefs
             }).generateSVG();
         //Polygon
         else
             return new PolygonSVG({
                 shapePathPointsInfo,
                 selectedItem,
+                svgDefs
             }).generateSVG();
     } else {
         if (isCircularShape(shapePathPointsInfo))
@@ -201,6 +219,7 @@ function renderClosedShape({
         return new PathSVG({
             shapePathPointsInfo,
             selectedItem,
+            svgDefs
         }).generateSVG();
     }
 }
@@ -258,10 +277,11 @@ function getGroupObject(selectedItem, minTL, maxBR) {
 
 function getTextObject(selectedItem, minTL, maxBR) {
 
-   
+
     return new TextSVG({
         selectedItem,
         minTL,
+        svgDefs
     }).generateSVG();
 
 }
@@ -369,6 +389,42 @@ function getShapeCoorinates(selection) {
     }, {});
 }
 
+
+
+function defsToString() {
+
+    let retVal = "";
+    if (svgDefs.style.length !== 0 || svgDefs.defs.length !== 0) {
+        console.log('defSVG: ', svgDefs)
+        retVal += "\n<!-- SVG Definitions  -->\n"
+
+        //<Style>
+        if (svgDefs.style.length > 0) {
+
+            retVal += svgDefs.style.reduce((acc, curr) => {
+                acc += `.${curr.classId}{${curr.style}}\n`
+                return acc;
+            }, `<style type="text/css">\n`)
+            retVal += "</style>\n";
+        }
+
+
+        //<defs>
+        if (svgDefs.defs.length > 0) {
+
+            retVal += svgDefs.defs.reduce((acc, curr) => {
+                acc += `${curr}\n`
+                return acc;
+            }, `<defs>\n`)
+            retVal += "</defs>\n";
+        }
+        retVal += "<!-- Start of Shape  -->"
+    }
+
+    return retVal;
+
+
+}
 /**
  *  Gets Width, Height, Max & Min Coordinates of the SVG
  * @param {Array} selection array of shapes
@@ -395,6 +451,11 @@ function getShapeRatio(selection) {
  */
 function convertSelectionToSVG(selection) {
     //}width, height) {
+
+    svgDefs = {
+        style: [],
+        defs: []
+    };
     const [width, height, minTL, maxBR] = getShapeRatio(selection);
 
     //TODO: Deal with GroupItems
@@ -408,7 +469,9 @@ function convertSelectionToSVG(selection) {
     //TODO: refactor so if there is DEF/ STYLE CLASS/ add to the code
 
     const generator = "<!-- Generator: IDE for SVG 1.0.0  -->\n"; // +add link to github
-    const svg = `${generator}<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="svgCodeViewerServer" width="${width}px" height="${height}px" viewBox="0 0 ${width} ${height}" xml:space="preserve" >${insideShapes}\n</svg>`;
+
+    const defVal = defsToString();
+    const svg = `${generator}<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="svgCodeViewerServer" width="${width}px" height="${height}px" viewBox="0 0 ${width} ${height}" xml:space="preserve" >${defVal}${insideShapes}\n</svg>`;
 
     return svg;
 }
