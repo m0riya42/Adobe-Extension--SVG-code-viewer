@@ -11,11 +11,8 @@ const TYPES = {
     'Text': 'text'
 }
 
-
-
 module.exports = {
     CLASS_ELEMENT,
     EMPTY_SHAPE,
     TYPES
-
 }

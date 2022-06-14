@@ -42,7 +42,7 @@ class EllipseSVG extends ShapeSVG {
         if ((rotation !== 0) && (rotation % 180 !== 0))
             ellipseValues += ` transform="rotate(${rotation} ${cx} ${cy})"`
 
-        return `<ellipse ${baseInfo} ${ellipseValues}/> `
+        return `<ellipse ${baseInfo}${ellipseValues}/> `
 
     }
 }

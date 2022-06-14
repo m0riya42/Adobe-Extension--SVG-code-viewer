@@ -21,7 +21,7 @@ class PolygonSVG extends ShapeSVG {
     generateSVG = () => {
         // TODO: //get Super Return Values;
         const baseInfo = this.generateSVG_BaseInfo();
-        return `<polygon ${baseInfo} points="${this.points}" />`
+        return `<polygon ${baseInfo}points="${this.points}" />`
 
     }
 }

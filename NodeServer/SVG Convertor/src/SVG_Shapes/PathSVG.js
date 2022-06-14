@@ -97,7 +97,7 @@ class PathSVG extends ShapeSVG {
     generateSVG = () => {
         // TODO: //get Super Return Values;
         const baseInfo = this.generateSVG_BaseInfo();
-        return `<path ${baseInfo} d="${this.pathLine}" />`;
+        return `<path ${baseInfo}d="${this.pathLine}" />`;
 
     }
 }

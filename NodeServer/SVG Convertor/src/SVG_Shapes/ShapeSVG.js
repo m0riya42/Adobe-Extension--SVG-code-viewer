@@ -1,5 +1,4 @@
 var {
-    calculateCircularParams,
     AdobeColorItemToString
 } = require('./svgShape_utils.js')
 
@@ -10,10 +9,10 @@ var {
     toFixedNumber,
     calcAngleDegrees,
     isDefined,
+    calculateCircularParams,
 } = require('../utils.jsx');
 var { uid } = require('uid');
 const StyleSVG = require('./StyleSVG.js');
-// const { CLASS_ELEMENT } = require('../ENUM.js');
 const {
     CLASS_ELEMENT,
     EMPTY_SHAPE,
@@ -21,17 +20,6 @@ const {
 } = require('../ENUM.js');
 const { isEmpty } = require('lodash');
 
-// const EMPTY_SHAPE = 'ShapeSVG';
-// const TYPES = {
-//     'Rectangle': 'rect',
-//     'Circle': 'circle',
-//     'Line': 'line',
-//     'Polygon': 'polygon',
-//     'Polyline': 'polyline',
-//     'Ellipse': 'ellipse',
-//     'Path': 'path',
-//     'Text': 'text'
-// }
 class ShapeSVG {
     constructor(shapeItem, shapePathPointsInfo, svgDefs) {
         this.id = null;// `"${uid(6)}"`;
@@ -40,7 +28,8 @@ class ShapeSVG {
         this.shapeItem = shapeItem;
         this.shapePathPointsInfo = shapePathPointsInfo;
         this.shapeType = EMPTY_SHAPE;
-        this.generateShapeStyle(svgDefs);
+        this.svgDefs = svgDefs;
+        this.generateShapeStyle();
     }
 
     /*************************************************/
@@ -62,16 +51,13 @@ class ShapeSVG {
         this.id = `${this.getShapeNickType()}_${uid(4)}`;
         // return;
     }
-    generateShapeStyle = (svgDefs) => {
-        //TODO: add Marker(arrows) and Classes (def- style)
-        this.style = new StyleSVG(this.shapeItem, svgDefs).generateStyle();
-
+    generateShapeStyle = () => {
+        //TODO: add Marker(like arrows)
+        this.style = new StyleSVG(this.shapeItem, this.saveClassObject).generateStyle();
         if (this.style.includes(CLASS_ELEMENT)) {
             this.class = `"${this.style.split('#')[1]}"`
             this.style = "" //no nead for style, there will be class
         }
-
-        console.log(this.svgDefs)
     }
 
     generatePointsForPols = () => {
@@ -146,6 +132,7 @@ class ShapeSVG {
         //calcAngleDegrees)()-90
 
     }
+
     generateCircularShapeParams = () => {
         const [height, width, center] = calculateCircularParams(this.shapePathPointsInfo.shapeCoordinates);
         console.log(height, width, center)
@@ -156,19 +143,29 @@ class ShapeSVG {
 
     generateSVG_BaseInfo = () => {
 
-        //TODO: CALCULATE WHEN TO USE STYLE AND WHEN CLASS
-
         let retValue = `id="${this.id}" `;
-
-        !isEmpty(this.style) ? retValue += `style=${this.style}` : null;
-        !isEmpty(this.class) ? retValue += `class=${this.class}` : null;
-        //  isEmpty(this.style.length > 2 ? retValue += `style=${this.style}` : null;
-        // console.log('isSTyleDefines? ', style.length > 2)
-        // return `id="${this.id}" style=${this.style}`;
+        (!isEmpty(this.style) && this.style.length > 2) ? retValue += `style=${this.style} ` : null;
+        !isEmpty(this.class) ? retValue += `class=${this.class} ` : null;
         return retValue
 
     }
 
+
+    saveDefObject = (object) => {
+        if (isDefined(this.svgDefs.defs)) {
+            this.svgDefs.defs.push(object);
+        } else {
+            this.svgDefs.defs = [object];
+        }
+    }
+
+    saveClassObject = (object) => {
+        if (isDefined(this.svgDefs.style)) {
+            this.svgDefs.style.push(object);
+        } else {
+            this.svgDefs.style = [object];
+        }
+    }
 
 }
 

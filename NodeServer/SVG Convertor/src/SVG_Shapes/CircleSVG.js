@@ -14,7 +14,7 @@ class CircleSVG extends ShapeSVG {
     initCircle = () => {
         this.shapeType = "Circle";
         this.generateUID();
-        
+
         this.generateCircularShapeParams();
         this.radius = toFixedNumber(this.height / 2, 2);
     }
@@ -27,7 +27,7 @@ class CircleSVG extends ShapeSVG {
         // TODO: //get Super Return Values;
         const baseInfo = this.generateSVG_BaseInfo();
 
-        return `<circle ${baseInfo} cx="${cx}" cy="${cy}" r="${r}"/> `
+        return `<circle ${baseInfo}cx="${cx}" cy="${cy}" r="${r}"/> `
 
     }
 }

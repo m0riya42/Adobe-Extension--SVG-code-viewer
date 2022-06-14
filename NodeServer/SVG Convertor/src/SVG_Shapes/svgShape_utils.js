@@ -1,19 +1,6 @@
 
-const { distance, middleLine } = require('../utils.jsx')
 var convert = require('color-convert');
 
-
-
-const calculateCircularParams = (shapePathPoints) => {
-    const [path1, path2, path3, path4] = shapePathPoints;
-    const width = distance(path1.anchor, path3.anchor),
-        height = distance(path2.anchor, path4.anchor),
-        center = middleLine(path1.anchor, path3.anchor);
-
-    console.log(height, width, center)
-
-    return [height, width, center]
-}
 
 
 function AdobeColorItemToString(adobeColorItem) {
@@ -26,6 +13,9 @@ function AdobeColorItemToString(adobeColorItem) {
     RGBColor
     SpotColor
     */
+
+
+    // console.log('in Adobe convert', adobeColorItem)
     switch (adobeColorItem.typename) {
         case 'CMYKColor':
             return convertCMYKcolor(adobeColorItem);
@@ -38,14 +28,19 @@ function AdobeColorItemToString(adobeColorItem) {
             return 'none';
         case 'GrayColor':
             console.log('GrayColor', adobeColorItem.gray)
-            return;
+            return convertGrayColor(adobeColorItem);
 
     }
 
-    // const R= adobeColorItem.red, G=adobeColorItem.green
-    // return 
 }
 
+
+function convertGrayColor(adobeColorItem) {
+    //TODO: Learn how to convert it.
+
+    if (adobeColorItem.gray === 0)
+        return 'none';
+}
 function convertCMYKcolor(adobeColorItem) {
     const { cyan: c, magenta: m, yellow: y, black: k } = adobeColorItem;
     // console.log('convert: *******', convert.cmyk.hex(c, m, y, k));
@@ -83,5 +78,5 @@ function getAdobeStrokeJoin(strokeJoin) {
     }
 }
 
-module.exports = { calculateCircularParams, AdobeColorItemToString, getAdobeStrokeCap, getAdobeStrokeJoin }
+module.exports = { AdobeColorItemToString, getAdobeStrokeCap, getAdobeStrokeJoin }
 

@@ -67,7 +67,7 @@ class RectangleSVG extends ShapeSVG {
         if ((rotation !== 0) && (rotation % 180 !== 0))
             rectangleValues += ` transform="rotate(${rotation} ${center[0]} ${center[1]}) translate(${x_transform} ${y_transform})"`
 
-        return `<rect ${baseInfo} ${rectangleValues}/> `
+        return `<rect ${baseInfo}${rectangleValues}/> `
 
     }
 }

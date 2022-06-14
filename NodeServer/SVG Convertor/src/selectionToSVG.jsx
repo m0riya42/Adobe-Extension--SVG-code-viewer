@@ -14,14 +14,10 @@ var {
     removeArrayItem,
     toFixedNumber,
     calcAngleDegrees,
+    sortShapePathPoints,
+    calculateCircularParams,
 } = require("./utils.jsx");
 
-// var {
-//     isEmpty
-// } = 'lodash'
-
-
-//const isEmpty = (obj) => obj && Object.keys(obj).length === 0 && Object.getPrototypeOf(obj) === Object.prototype
 var LineSVG = require("./SVG_Shapes/LineSVG.js");
 var Rectangle = require("./SVG_Shapes/RectangleSVG.js");
 var PolylineSVG = require("./SVG_Shapes/PolylineSVG.js");
@@ -31,9 +27,9 @@ var EllipseSVG = require("./SVG_Shapes/EllipseSVG.js");
 var CircleSVG = require("./SVG_Shapes/CircleSVG.js");
 var RectangleSVG = require("./SVG_Shapes/RectangleSVG.js");
 var TextSVG = require("./SVG_Shapes/TextSVG.js");
-var {
-    calculateCircularParams
-} = require("./SVG_Shapes/svgShape_utils.js");
+// var {
+//     calculateCircularParams
+// } = require("./SVG_Shapes/svgShape_utils.js");
 
 // var selectionStyle = {};
 var svgDefs;
@@ -53,60 +49,6 @@ function getCircularType(shapeCoordinates) {
 /*************************************************/
 /*              Create Shape Functions           */
 /*************************************************/
-
-/**
- * Counting the Shape total points
- * @param {Array} pathsPointsArray array of shape points
- * @return {object} returns an object which contains the number of the corner points, smooth points, total points and array of the points represented as: {anchor: array, leftDirection: array, rightDirection: array}
- * { corners: int,smooths: int, shapeCoordinates: Array, totalPoints: int }
- */
-function sortShapePathPoints(pathsPointsArray, minTL) {
-    const normalCoordinateToSVG = (coordinate) =>
-        normalCoordinate(coordinate, minTL);
-
-    return pathsPointsArray.reduce(
-        (acc, curr) => {
-            //Example for Corner
-            // anchor: [537, -722],
-            // leftDirection: [537, -722],
-            // rightDirection: [537, -722],
-            const {
-                anchor,
-                leftDirection,
-                rightDirection
-            } = curr;
-
-            //Compare arrays
-            // curr.anchor === curr.leftDirection && curr.anchor === curr.rightDirection ? acc.corners++ : acc.smooths++;
-            // areArraysValuesEqual(anchor, leftDirection) && areArraysValuesEqual(anchor, rightDirection) ? acc.corners++ : acc.smooths++;
-            areTripleArraysEqual(anchor, leftDirection, rightDirection) ?
-                acc.corners++
-                :
-                acc.smooths++;
-            acc.totalPoints++;
-            // acc.anchorPoints.push(curr.anchor);
-            acc.shapeCoordinates.push({
-                anchor: normalCoordinateToSVG(anchor),
-                leftDirection: normalCoordinateToSVG(leftDirection),
-                rightDirection: normalCoordinateToSVG(rightDirection),
-            });
-            acc.documentShapeCoordinates.push({
-                anchor,
-                leftDirection,
-                rightDirection,
-            });
-            // console.log(acc);
-
-            return acc;
-        }, {
-            corners: 0,
-            smooths: 0,
-            shapeCoordinates: [],
-            documentShapeCoordinates: [],
-            totalPoints: 0,
-        }
-    );
-}
 
 function renderOpenedShape({
     isAllCorners,
@@ -392,7 +334,6 @@ function getShapeCoorinates(selection) {
 
 
 function defsToString() {
-
     let retVal = "";
     if (svgDefs.style.length !== 0 || svgDefs.defs.length !== 0) {
         console.log('defSVG: ', svgDefs)
@@ -422,9 +363,8 @@ function defsToString() {
     }
 
     return retVal;
-
-
 }
+
 /**
  *  Gets Width, Height, Max & Min Coordinates of the SVG
  * @param {Array} selection array of shapes
@@ -450,8 +390,6 @@ function getShapeRatio(selection) {
  * @return {String} returns the SVG converted code.
  */
 function convertSelectionToSVG(selection) {
-    //}width, height) {
-
     svgDefs = {
         style: [],
         defs: []
@@ -466,13 +404,9 @@ function convertSelectionToSVG(selection) {
         return acc;
     }, "");
 
-    //TODO: refactor so if there is DEF/ STYLE CLASS/ add to the code
-
     const generator = "<!-- Generator: IDE for SVG 1.0.0  -->\n"; // +add link to github
-
     const defVal = defsToString();
     const svg = `${generator}<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="svgCodeViewerServer" width="${width}px" height="${height}px" viewBox="0 0 ${width} ${height}" xml:space="preserve" >${defVal}${insideShapes}\n</svg>`;
-
     return svg;
 }
 
